@@ -60,7 +60,7 @@ module Plutus
       def accounts_of_the_same_chart?
         chart_ids = (self.credit_accounts + self.debit_accounts).map{|a| a.chart_id}
         if chart_ids.compact.count != chart_ids.count or chart_ids.compact.uniq.count != 1
-          errors[:base] << "Transaction must take place between accounts of the same ChartOfAccounts"
+          errors[:base] << "Transaction must take place between accounts of the same Chart"
         end
       end
 
