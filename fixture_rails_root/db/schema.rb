@@ -13,15 +13,23 @@
 
 ActiveRecord::Schema.define(:version => 20120514173712) do
 
+  create_table "plutus_charts", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+  add_index "plutus_charts", [:name], :name => "index_plutus_charts_on_name"
+
   create_table "plutus_accounts", :force => true do |t|
     t.string   "name"
     t.string   "type"
     t.boolean  "contra"
+    t.integer  "chart_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "plutus_accounts", ["name", "type"], :name => "index_plutus_accounts_on_name_and_type"
+  add_index "plutus_accounts", ["name", "type", "chart_id"], :name => "index_plutus_accounts_on_name_type_chart"
 
   create_table "plutus_amounts", :force => true do |t|
     t.string  "type"
