@@ -1,13 +1,21 @@
 class CreatePlutusTables < ActiveRecord::Migration
   def self.up
+    create_table :plutus_charts do |t|
+      t.string :name
+
+      t.timestamps
+    end
+    add_index :plutus_charts, [:name]
+
     create_table :plutus_accounts do |t|
       t.string :name
       t.string :type
       t.boolean :contra
+      t.references :chart
 
       t.timestamps
     end
-    add_index :plutus_accounts, [:name, :type]
+    add_index :plutus_accounts, [:name, :type, :chart]
 
     create_table :plutus_transactions do |t|
       t.string :description
@@ -30,6 +38,7 @@ class CreatePlutusTables < ActiveRecord::Migration
   end
 
   def self.down
+    drop_table :plutus_charts
     drop_table :plutus_accounts
     drop_table :plutus_transactions
     drop_table :plutus_amounts

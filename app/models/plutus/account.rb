@@ -32,13 +32,14 @@ module Plutus
   class Account < ActiveRecord::Base
     attr_accessible :name, :contra
     
+    belongs_to :chart
     has_many :credit_amounts, :extend => AmountsExtension
     has_many :debit_amounts, :extend => AmountsExtension
     has_many :credit_transactions, :through => :credit_amounts, :source => :transaction
     has_many :debit_transactions, :through => :debit_amounts, :source => :transaction
 
-    validates_presence_of :type, :name
-    validates_uniqueness_of :name
+    validates_presence_of :chart, :type, :name
+    validates_uniqueness_of :name, :scope => :chart
 
     # The credit balance for the account.
     #

@@ -33,6 +33,7 @@ module Plutus
     validates_presence_of :description
     validate :has_credit_amounts?
     validate :has_debit_amounts?
+    validate :accounts_of_the_same_chart?
     validate :amounts_cancel?
     
     # Support construction using 'credits' and 'debits' keys
@@ -54,6 +55,13 @@ module Plutus
 
       def has_debit_amounts?
         errors[:base] << "Transaction must have at least one debit amount" if self.debit_amounts.blank?
+      end
+
+      def accounts_of_the_same_chart?
+        chart_ids = (self.credit_accounts + self.debit_accounts).map{|a| a.chart_id}
+        if chart_ids.compact.count != chart_ids.count or chart_ids.compact.uniq.count != 1
+          errors[:base] << "Transaction must take place between accounts of the same ChartOfAccounts"
+        end
       end
 
       def amounts_cancel?
