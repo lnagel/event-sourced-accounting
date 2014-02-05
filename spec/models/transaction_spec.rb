@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Plutus
+module ESA
   describe Transaction do
     let(:transaction) { FactoryGirl.build(:transaction) }
     subject { transaction }
@@ -74,7 +74,7 @@ module Plutus
       let!(:sales_revenue) { FactoryGirl.create(:revenue, name: "Sales Revenue") }
       let!(:sales_tax_payable) { FactoryGirl.create(:liability, name: "Sales Tax Payable") }
       
-      shared_examples_for 'a built-from-hash Plutus::Transaction' do
+      shared_examples_for 'a built-from-hash ESA::Transaction' do
         its(:credit_amounts) { should_not be_empty }
         its(:debit_amounts) { should_not be_empty }
         it { should be_valid }
@@ -109,7 +109,7 @@ module Plutus
                 ]
             }
           }
-          include_examples 'a built-from-hash Plutus::Transaction'
+          include_examples 'a built-from-hash ESA::Transaction'
         end
 
         context "when given a credit/debits hash with :account_name => String" do
@@ -124,7 +124,7 @@ module Plutus
                 ]
             }
           }
-          include_examples 'a built-from-hash Plutus::Transaction'
+          include_examples 'a built-from-hash ESA::Transaction'
         end
 
         context "when given a credit/debits hash with :account => String" do
@@ -149,7 +149,7 @@ module Plutus
             transaction
           }
           
-          include_examples 'a built-from-hash Plutus::Transaction'
+          include_examples 'a built-from-hash ESA::Transaction'
         end
       end
 
@@ -189,7 +189,7 @@ module Plutus
             transaction
           }
           
-          include_examples 'a built-from-hash Plutus::Transaction'
+          include_examples 'a built-from-hash ESA::Transaction'
         end
         
       end

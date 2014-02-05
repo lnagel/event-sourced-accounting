@@ -6,7 +6,7 @@ require Rails.root.join('db/schema').to_s
 require 'rspec/rails'
 
 $: << File.expand_path(File.dirname(__FILE__) + '/../lib/')
-require 'plutus'
+require 'esa'
 
 Dir[File.expand_path(File.join(File.dirname(__FILE__),'factories','**','*.rb'))].each {|f| require f}
 Dir[File.expand_path(File.join(File.dirname(__FILE__),'support','**','*.rb'))].each {|f| require f}

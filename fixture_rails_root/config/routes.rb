@@ -1,5 +1,5 @@
 FixtureRailsRoot::Application.routes.draw do
-  mount Plutus::Engine => "/plutus", :as => "plutus"
+  mount ESA::Engine => "/esa", :as => "esa"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

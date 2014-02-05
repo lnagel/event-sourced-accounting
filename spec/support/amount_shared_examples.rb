@@ -1,4 +1,4 @@
-shared_examples_for 'a Plutus::Amount subtype' do |elements|
+shared_examples_for 'a ESA::Amount subtype' do |elements|
   let(:amount) { FactoryGirl.build(elements[:kind]) }
   subject { amount }
   

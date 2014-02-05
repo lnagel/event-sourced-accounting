@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-module Plutus
+module ESA
   describe Revenue do
-    it_behaves_like 'a Plutus::Account subtype', kind: :revenue, normal_balance: :credit
+    it_behaves_like 'a ESA::Account subtype', kind: :revenue, normal_balance: :credit
   end
 end

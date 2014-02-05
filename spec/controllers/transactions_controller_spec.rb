@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module Plutus
+module ESA
   describe TransactionsController do
     # Run these tests if you enable routing in your rails app. See README
 

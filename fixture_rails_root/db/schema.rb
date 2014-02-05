@@ -13,14 +13,14 @@
 
 ActiveRecord::Schema.define(:version => 20120514173712) do
 
-  create_table "plutus_charts", :force => true do |t|
+  create_table "esa_charts", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-  add_index "plutus_charts", [:name], :name => "index_plutus_charts_on_name"
+  add_index "esa_charts", [:name], :name => "index_esa_charts_on_name"
 
-  create_table "plutus_accounts", :force => true do |t|
+  create_table "esa_accounts", :force => true do |t|
     t.string   "name"
     t.string   "type"
     t.boolean  "contra"
@@ -29,20 +29,20 @@ ActiveRecord::Schema.define(:version => 20120514173712) do
     t.datetime "updated_at"
   end
 
-  add_index "plutus_accounts", ["name", "type", "chart_id"], :name => "index_plutus_accounts_on_name_type_chart"
+  add_index "esa_accounts", ["name", "type", "chart_id"], :name => "index_esa_accounts_on_name_type_chart"
 
-  create_table "plutus_amounts", :force => true do |t|
+  create_table "esa_amounts", :force => true do |t|
     t.string  "type"
     t.integer "account_id"
     t.integer "transaction_id"
     t.decimal "amount",         :precision => 20, :scale => 10
   end
 
-  add_index "plutus_amounts", ["account_id", "transaction_id"], :name => "index_plutus_amounts_on_account_id_and_transaction_id"
-  add_index "plutus_amounts", ["transaction_id", "account_id"], :name => "index_plutus_amounts_on_transaction_id_and_account_id"
-  add_index "plutus_amounts", ["type"], :name => "index_plutus_amounts_on_type"
+  add_index "esa_amounts", ["account_id", "transaction_id"], :name => "index_esa_amounts_on_account_id_and_transaction_id"
+  add_index "esa_amounts", ["transaction_id", "account_id"], :name => "index_esa_amounts_on_transaction_id_and_account_id"
+  add_index "esa_amounts", ["type"], :name => "index_esa_amounts_on_type"
 
-  create_table "plutus_transactions", :force => true do |t|
+  create_table "esa_transactions", :force => true do |t|
     t.string   "description"
     t.integer  "commercial_document_id"
     t.string   "commercial_document_type"
@@ -50,6 +50,6 @@ ActiveRecord::Schema.define(:version => 20120514173712) do
     t.datetime "updated_at"
   end
 
-  add_index "plutus_transactions", ["commercial_document_id", "commercial_document_type"], :name => "index_transactions_on_commercial_doc"
+  add_index "esa_transactions", ["commercial_document_id", "commercial_document_type"], :name => "index_transactions_on_commercial_doc"
 
 end

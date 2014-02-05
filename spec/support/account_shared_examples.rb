@@ -1,4 +1,4 @@
-shared_examples_for 'a Plutus::Account subtype' do |elements|
+shared_examples_for 'a ESA::Account subtype' do |elements|
   let(:contra) { false }
   let(:account) { FactoryGirl.create(elements[:kind], contra: contra)}
   subject { account }

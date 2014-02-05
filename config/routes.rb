@@ -1,4 +1,4 @@
-Plutus::Engine.routes.draw do
+ESA::Engine.routes.draw do
   root :to => "accounts#index"
 
   resources :accounts
