@@ -75,7 +75,7 @@ module ESA
       unless self.new.class == Account
         raise(NoMethodError, "undefined method 'trial_balance'")
       else
-        Asset.balance - (Liability.balance + Equity.balance + Revenue.balance - Expense.balance)
+        Accounts::Asset.balance - (Accounts::Liability.balance + Accounts::Equity.balance + Accounts::Revenue.balance - Accounts::Expense.balance)
       end
     end
 
