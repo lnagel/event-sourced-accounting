@@ -25,8 +25,8 @@ module ESA
     attr_accessible :description, :commercial_document
 
     belongs_to :commercial_document, :polymorphic => true
-    has_many :credit_amounts, :inverse_of => :transaction, :extend => AmountsExtension
-    has_many :debit_amounts, :inverse_of => :transaction, :extend => AmountsExtension
+    has_many :credit_amounts, :inverse_of => :transaction, :extend => Associations::AmountsExtension
+    has_many :debit_amounts, :inverse_of => :transaction, :extend => Associations::AmountsExtension
     has_many :credit_accounts, :through => :credit_amounts, :source => :account
     has_many :debit_accounts, :through => :debit_amounts, :source => :account
 
