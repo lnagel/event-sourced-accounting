@@ -22,15 +22,20 @@ module ESA
   #
   # @author Michael Bulat
   class Transaction < ActiveRecord::Base
-    attr_accessible :description, :commercial_document
+    include Extendable
 
+    attr_accessible :description, :commercial_document, :time
+
+    belongs_to :flag, :foreign_key => :commercial_document_id
     belongs_to :commercial_document, :polymorphic => true
     has_many :credit_amounts, :inverse_of => :transaction, :extend => Associations::AmountsExtension
     has_many :debit_amounts, :inverse_of => :transaction, :extend => Associations::AmountsExtension
     has_many :credit_accounts, :through => :credit_amounts, :source => :account
     has_many :debit_accounts, :through => :debit_amounts, :source => :account
 
-    validates_presence_of :description
+    after_initialize :default_values
+
+    validates_presence_of :time, :description
     validate :has_credit_amounts?
     validate :has_debit_amounts?
     validate :accounts_of_the_same_chart?
@@ -49,6 +54,11 @@ module ESA
     end
 
     private
+      def default_values
+        self.time ||= Time.zone.now
+        #self.ruleset ||= Ruleset.extension_class(self).fetch
+      end
+
       def has_credit_amounts?
         errors[:base] << "Transaction must have at least one credit amount" if self.credit_amounts.blank?
       end
