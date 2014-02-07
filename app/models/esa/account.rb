@@ -38,7 +38,9 @@ module ESA
     has_many :credit_transactions, :through => :credit_amounts, :source => :transaction
     has_many :debit_transactions, :through => :debit_amounts, :source => :transaction
 
-    validates_presence_of :chart_id, :type, :name
+    after_initialize :default_values
+
+    validates_presence_of :type, :name, :chart
     validates_uniqueness_of :name, :scope => :chart_id
 
     # The credit balance for the account.
@@ -79,5 +81,10 @@ module ESA
       end
     end
 
+    private
+
+    def default_values
+      self.chart ||= Chart.where(:name => 'Chart of Accounts').first_or_create
+    end
   end
 end

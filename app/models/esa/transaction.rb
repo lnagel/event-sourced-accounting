@@ -24,10 +24,10 @@ module ESA
   class Transaction < ActiveRecord::Base
     include Extendable
 
-    attr_accessible :description, :accountable, :time
+    attr_accessible :description, :accountable, :flag, :time
 
-    belongs_to :flag, :foreign_key => :accountable_id
     belongs_to :accountable, :polymorphic => true
+    belongs_to :flag
     has_many :credit_amounts, :inverse_of => :transaction, :class_name => "Amounts::CreditAmount", :extend => Associations::AmountsExtension
     has_many :debit_amounts, :inverse_of => :transaction, :class_name => "Amounts::DebitAmount", :extend => Associations::AmountsExtension
     has_many :credit_accounts, :through => :credit_amounts, :source => :account
@@ -56,7 +56,6 @@ module ESA
     private
       def default_values
         self.time ||= Time.zone.now
-        #self.ruleset ||= Ruleset.extension_class(self).fetch
       end
 
       def has_credit_amounts?

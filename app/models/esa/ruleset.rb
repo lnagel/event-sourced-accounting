@@ -4,9 +4,11 @@ module ESA
 
     attr_accessible :name, :site, :version, :type, :chart
 
-    belongs_to :chart,  :class_name => 'ESA::Chart',     :foreign_key => 'chart_id'
-    has_many   :events, :class_name => 'ESA::Event', :foreign_key => 'ruleset_id'
-    has_many   :flags,  :class_name => 'ESA::Flag',  :foreign_key => 'ruleset_id'
+    belongs_to :chart
+    has_many   :events
+    has_many   :flags
+
+    after_initialize :default_values
 
     validates_presence_of :type, :chart
 
@@ -45,7 +47,8 @@ module ESA
 
       transactions.each do |tx|
         tx[:time] ||= flag.time
-        tx[:accountable] ||= flag
+        tx[:accountable] ||= flag.accountable
+        tx[:flag] ||= flag
       end
 
       # check if we need forward or reverse transactions
@@ -68,6 +71,12 @@ module ESA
     # transactions to be made when flags are set (expected to be overridden)
     def flag_transactions_when_set(flag)
       []
+    end
+
+    private
+
+    def default_values
+      self.chart ||= Chart.where(:name => 'Chart of Accounts').first_or_create
     end
   end
 end

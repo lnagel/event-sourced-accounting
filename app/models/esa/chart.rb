@@ -4,8 +4,10 @@ module ESA
   # @author Lenno Nagel
   class Chart < ActiveRecord::Base
     attr_accessible :name
-    
+
     has_many :accounts
+    has_many :rulesets
+
     validates_presence_of :name
     validates_uniqueness_of :name
   end

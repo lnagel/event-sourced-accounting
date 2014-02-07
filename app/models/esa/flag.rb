@@ -1,26 +1,22 @@
 module ESA
   class Flag < ActiveRecord::Base
     include Extendable
+    extend ::Enumerize
 
-    attr_accessible :flag, :set, :event, :time, :stateful_id, :stateful_type, :type, :ruleset
+    attr_accessible :nature, :set, :event, :time, :accountable, :type, :ruleset
 
-    belongs_to :stateful, :polymorphic => true
-    belongs_to :event, :class_name => 'ESA::Event', :foreign_key => 'event_id'
-    belongs_to :ruleset, :class_name => 'ESA::Ruleset', :foreign_key => 'ruleset_id'
-    has_many   :transactions, :class_name => 'Accounting::Transaction', :foreign_key => 'accountable_id'
+    belongs_to :accountable, :polymorphic => true
+    belongs_to :event
+    belongs_to :ruleset
+    has_many   :transactions
 
-    # enums :flag => { :unknown => 0 }
+    enumerize :nature, in: [:unknown]
 
-    validates_presence_of :flag, :event, :time, :stateful_id, :stateful_type, :ruleset
+    validates_presence_of :nature, :event, :time, :accountable, :ruleset
     validates_inclusion_of :set, :in => [true, false]
 
-    before_validation :check_attrs
+    after_initialize :default_values
     after_create :create_transactions
-
-    def check_attrs
-      self.time ||= Time.zone.now
-      self.ruleset ||= Ruleset.extension_class(self).fetch
-    end
 
     def create_transactions
       if Settings.accounting[:create_transactions]
@@ -115,6 +111,13 @@ module ESA
     def save_produced_transactions
       transactions = self.produce_transactions
       transactions.map(&:save).reduce(true){|a,b| a and b}
+    end
+
+    private
+
+    def default_values
+      self.time ||= Time.zone.now
+      self.ruleset ||= Ruleset.extension_class(self).first_or_create
     end
   end
 end

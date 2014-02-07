@@ -1,28 +1,26 @@
 module ESA
   class Event < ActiveRecord::Base
     include Extendable
+    extend ::Enumerize
 
-    attr_accessible :time, :event, :eventful, :ruleset
+    attr_accessible :time, :nature, :accountable, :ruleset
 
-    belongs_to :eventful, :polymorphic => true
-    belongs_to :ruleset, :class_name => 'ESA::Ruleset', :foreign_key => 'ruleset_id'
-    has_many   :flags, :class_name => 'ESA::Flag', :foreign_key => 'event_id'
+    belongs_to :accountable, :polymorphic => true
+    belongs_to :ruleset
+    has_many   :flags
+    has_many   :transactions, :through => :flags
 
-    #enums :event => { :unknown => 0 }
+    enumerize :nature, in: [:unknown]
 
-    validates_presence_of :time, :event, :eventful, :ruleset
+    validates_presence_of :time, :nature, :accountable, :ruleset
 
-    before_validation :check_attrs
+    after_initialize :default_values
+
     before_create :validate_time
     after_create :create_flags
 
-    def check_attrs 
-      self.time ||= Time.zone.now
-      self.ruleset ||= Ruleset.extension_class(self).fetch
-    end
-
     def validate_time
-      last_event_time = eventful.events.maximum(:time)
+      last_event_time = accountable.esa_events.maximum(:time)
       last_event_time.nil? or last_event_time <= time
     end
 
@@ -37,7 +35,7 @@ module ESA
     def produce_flags
       if self.ruleset.present?
         event_flags = self.ruleset.event_flags(self)
-        Flag.extension_class(self).produce_flags(self.eventful.flags, self, event_flags)
+        Flag.extension_class(self).produce_flags(self.accountable.flags, self, event_flags)
       else
         []
       end
@@ -46,6 +44,13 @@ module ESA
     def save_produced_flags
       flags = self.produce_flags
       flags.map(&:save).reduce(true){|a,b| a and b}
+    end
+
+    private
+
+    def default_values
+      self.time ||= Time.zone.now
+      self.ruleset ||= Ruleset.extension_class(self).first_or_create
     end
   end
 end
