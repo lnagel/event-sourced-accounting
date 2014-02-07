@@ -45,7 +45,7 @@ module ESA
 
       transactions.each do |tx|
         tx[:time] ||= flag.time
-        tx[:commercial_document] ||= flag
+        tx[:accountable] ||= flag
       end
 
       # check if we need forward or reverse transactions

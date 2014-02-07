@@ -44,13 +44,13 @@ ActiveRecord::Schema.define(:version => 20120514173712) do
 
   create_table "esa_transactions", :force => true do |t|
     t.string   "description"
-    t.integer  "commercial_document_id"
-    t.string   "commercial_document_type"
+    t.integer  "accountable_id"
+    t.string   "accountable_type"
     t.datetime "time"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "esa_transactions", ["commercial_document_id", "commercial_document_type"], :name => "index_transactions_on_commercial_doc"
+  add_index "esa_transactions", ["accountable_id", "accountable_type"], :name => "index_transactions_on_commercial_doc"
 
 end

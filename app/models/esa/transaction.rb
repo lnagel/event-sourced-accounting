@@ -24,10 +24,10 @@ module ESA
   class Transaction < ActiveRecord::Base
     include Extendable
 
-    attr_accessible :description, :commercial_document, :time
+    attr_accessible :description, :accountable, :time
 
-    belongs_to :flag, :foreign_key => :commercial_document_id
-    belongs_to :commercial_document, :polymorphic => true
+    belongs_to :flag, :foreign_key => :accountable_id
+    belongs_to :accountable, :polymorphic => true
     has_many :credit_amounts, :inverse_of => :transaction, :class_name => "Amounts::CreditAmount", :extend => Associations::AmountsExtension
     has_many :debit_amounts, :inverse_of => :transaction, :class_name => "Amounts::DebitAmount", :extend => Associations::AmountsExtension
     has_many :credit_accounts, :through => :credit_amounts, :source => :account

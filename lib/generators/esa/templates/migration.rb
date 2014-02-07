@@ -19,13 +19,13 @@ class CreateESATables < ActiveRecord::Migration
 
     create_table :esa_transactions do |t|
       t.string :description
-      t.integer :commercial_document_id
-      t.string :commercial_document_type
+      t.integer :accountable_id
+      t.string :accountable_type
       t.datetime :time
 
       t.timestamps
     end
-    add_index :esa_transactions, [:commercial_document_id, :commercial_document_type], :name => "index_transactions_on_commercial_doc"
+    add_index :esa_transactions, [:accountable_id, :accountable_type], :name => "index_transactions_on_commercial_doc"
 
     create_table :esa_amounts do |t|
       t.string :type

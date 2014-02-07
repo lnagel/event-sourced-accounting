@@ -7,7 +7,7 @@ module ESA
     belongs_to :stateful, :polymorphic => true
     belongs_to :event, :class_name => 'ESA::Event', :foreign_key => 'event_id'
     belongs_to :ruleset, :class_name => 'ESA::Ruleset', :foreign_key => 'ruleset_id'
-    has_many   :transactions, :class_name => 'Accounting::Transaction', :foreign_key => 'commercial_document_id'
+    has_many   :transactions, :class_name => 'Accounting::Transaction', :foreign_key => 'accountable_id'
 
     # enums :flag => { :unknown => 0 }
 

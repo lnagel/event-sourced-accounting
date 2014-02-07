@@ -62,10 +62,10 @@ module ESA
 
     it "should have a polymorphic commercial document associations" do
       mock_document = FactoryGirl.create(:asset) # one would never do this, but it allows us to not require a migration for the test
-      transaction = FactoryGirl.build(:transaction_with_credit_and_debit, commercial_document: mock_document)
+      transaction = FactoryGirl.build(:transaction_with_credit_and_debit, accountable: mock_document)
       transaction.save!
       saved_transaction = Transaction.find(transaction.id)
-      saved_transaction.commercial_document.should == mock_document
+      saved_transaction.accountable.should == mock_document
     end
     
     context "given a set of accounts" do
@@ -87,7 +87,7 @@ module ESA
             let(:saved_transaction) { Transaction.find(transaction.id) }
             subject { saved_transaction }
             it("should have the correct commercial document") {
-              saved_transaction.commercial_document == mock_document
+              saved_transaction.accountable == mock_document
             }
           end
         end
@@ -101,7 +101,7 @@ module ESA
           let(:hash) {
             {
               description: "Sold some widgets",
-              commercial_document: mock_document,
+              accountable: mock_document,
               debits: [{account: accounts_receivable, amount: 50}], 
               credits: [
                 {account: sales_revenue, amount: 45},
@@ -116,7 +116,7 @@ module ESA
           let(:hash) {
             {
               description: "Sold some widgets",
-              commercial_document: mock_document,
+              accountable: mock_document,
               debits: [{account_name: accounts_receivable.name, amount: 50}], 
               credits: [
                 {account_name: sales_revenue.name, amount: 45},
@@ -131,7 +131,7 @@ module ESA
           let(:hash) {
             {
               description: "Sold some widgets",
-              commercial_document: mock_document,
+              accountable: mock_document,
               debits: [{account: accounts_receivable.name, amount: 50}], 
               credits: [
                 {account: sales_revenue.name, amount: 45},
@@ -174,7 +174,7 @@ module ESA
           let(:hash) {
             {
               description: "Sold some widgets",
-              commercial_document: mock_document,
+              accountable: mock_document,
               debits: [{account: accounts_receivable.name, amount: 50}], 
               credits: [
                 {account: sales_revenue.name, amount: 45},

@@ -128,7 +128,7 @@ Let's assume we're using the same transaction from the last example
 
     transaction = ESA::Transaction.new(
                     :description => "Sold some widgets",
-                    :commercial_document => invoice,
+                    :accountable => invoice,
                     :debits => [
                       {:account_name => "Accounts Receivable", :amount => invoice.total_amount}], 
                     :credits => [
