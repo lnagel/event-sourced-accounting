@@ -21,6 +21,7 @@ class CreateESATables < ActiveRecord::Migration
       t.string :description
       t.integer :commercial_document_id
       t.string :commercial_document_type
+      t.datetime :time
 
       t.timestamps
     end

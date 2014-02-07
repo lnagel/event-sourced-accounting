@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(:version => 20120514173712) do
     t.string   "description"
     t.integer  "commercial_document_id"
     t.string   "commercial_document_type"
+    t.datetime "time"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

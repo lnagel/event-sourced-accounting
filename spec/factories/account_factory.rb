@@ -5,31 +5,31 @@ FactoryGirl.define do
     account.association :chart, :factory => :chart
   end
 
-  factory :asset, :class => ESA::Asset do |account|
+  factory :asset, :class => ESA::Accounts::Asset do |account|
     account.name
     account.contra false
     account.association :chart, :factory => :chart
   end
 
-  factory :equity, :class => ESA::Equity do |account|
+  factory :equity, :class => ESA::Accounts::Equity do |account|
     account.name
     account.contra false
     account.association :chart, :factory => :chart
   end
 
-  factory :expense, :class => ESA::Expense do |account|
+  factory :expense, :class => ESA::Accounts::Expense do |account|
     account.name
     account.contra false
     account.association :chart, :factory => :chart
   end
 
-  factory :liability, :class => ESA::Liability do |account|
+  factory :liability, :class => ESA::Accounts::Liability do |account|
     account.name
     account.contra false
     account.association :chart, :factory => :chart
   end
 
-  factory :revenue, :class => ESA::Revenue do |account|
+  factory :revenue, :class => ESA::Accounts::Revenue do |account|
     account.name
     account.contra false
     account.association :chart, :factory => :chart

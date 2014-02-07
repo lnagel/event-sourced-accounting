@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(:version => 20100419190249) do
     t.decimal  "credit_amount"
     t.integer  "debit_account_id"
     t.decimal  "debit_amount"
+    t.datetime "time"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
