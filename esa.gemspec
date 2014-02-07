@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
     "README.markdown"
   ]
   s.add_dependency("rails", "~> 3.1")
+  s.add_dependency("enumerize")
   s.add_development_dependency("sqlite3")
   s.add_development_dependency("rspec", "~> 2.6")
   s.add_development_dependency("rspec-rails", "~> 2.6")
@@ -29,7 +30,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("yard")
   s.add_development_dependency("redcarpet")
   s.files = Dir["{app,config,db,lib}/**/*"] + ["LICENSE", "Rakefile", "README.markdown"]
-  s.homepage = %q{http://github.com/mbulat/esa}
+  s.homepage = %q{http://github.com/lnagel/esa}
   s.require_paths = ["lib"]
   s.required_rubygems_version = ">= 1.3.6"
   s.summary = %q{A Plugin providing a Double Entry Accounting Engine for Rails}
