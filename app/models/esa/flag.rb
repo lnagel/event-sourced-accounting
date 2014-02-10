@@ -12,10 +12,10 @@ module ESA
 
     enumerize :nature, in: [:unknown]
 
+    after_initialize :default_values
     validates_presence_of :nature, :event, :time, :accountable, :ruleset
     validates_inclusion_of :set, :in => [true, false]
 
-    after_initialize :default_values
     after_create :create_transactions
 
     def create_transactions

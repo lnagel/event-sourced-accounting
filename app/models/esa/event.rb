@@ -12,16 +12,19 @@ module ESA
 
     enumerize :nature, in: [:unknown]
 
-    validates_presence_of :time, :nature, :accountable, :ruleset
-
     after_initialize :default_values
+    validates_presence_of :time, :nature, :accountable, :ruleset
+    validate :validate_time
 
-    before_create :validate_time
     after_create :create_flags
 
     def validate_time
-      last_event_time = accountable.esa_events.maximum(:time)
-      last_event_time.nil? or last_event_time <= time
+      if self.new_record? and self.accountable.present?
+        last_event_time = self.accountable.esa_events.maximum(:time)
+        if last_event_time.present? and self.time < last_event_time
+          errors[:time] = "Events can only be appended with a later time"
+        end
+      end
     end
 
     def create_flags
