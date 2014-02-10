@@ -76,7 +76,7 @@ module ESA
     private
 
     def default_values
-      self.chart ||= Chart.where(:name => 'Chart of Accounts').first_or_create
+      self.chart ||= Chart.extension_instance(self)
     end
   end
 end

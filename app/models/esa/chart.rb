@@ -8,7 +8,15 @@ module ESA
     has_many :accounts
     has_many :rulesets
 
+    after_initialize :default_values
+
     validates_presence_of :name
     validates_uniqueness_of :name
+
+    private
+
+    def default_values
+      self.name ||= "Chart of Accounts"
+    end
   end
 end

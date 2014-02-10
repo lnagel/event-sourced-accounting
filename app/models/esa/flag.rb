@@ -117,7 +117,7 @@ module ESA
 
     def default_values
       self.time ||= Time.zone.now
-      self.ruleset ||= Ruleset.extension_class(self).first_or_create
+      self.ruleset ||= Ruleset.extension_instance(self)
     end
   end
 end
