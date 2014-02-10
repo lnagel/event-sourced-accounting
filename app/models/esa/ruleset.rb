@@ -2,14 +2,14 @@ module ESA
   class Ruleset < ActiveRecord::Base
     include Extendable
 
-    attr_accessible :name, :site, :version, :type, :chart
+    attr_accessible :name, :type, :chart
+    attr_readonly   :name, :type, :chart
 
     belongs_to :chart
     has_many   :events
     has_many   :flags
 
     after_initialize :default_values
-
     validates_presence_of :type, :chart
 
     # events that have happened according to the current state (expected to be overridden)

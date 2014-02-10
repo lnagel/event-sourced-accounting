@@ -25,6 +25,7 @@ module ESA
     include Extendable
 
     attr_accessible :description, :accountable, :flag, :time
+    attr_readonly   :description, :accountable, :flag, :time
 
     belongs_to :accountable, :polymorphic => true
     belongs_to :flag

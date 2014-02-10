@@ -4,6 +4,7 @@ module ESA
     extend ::Enumerize
 
     attr_accessible :nature, :set, :event, :time, :accountable, :type, :ruleset
+    attr_readonly   :nature, :set, :event, :time, :accountable, :type, :ruleset
 
     belongs_to :accountable, :polymorphic => true
     belongs_to :event
