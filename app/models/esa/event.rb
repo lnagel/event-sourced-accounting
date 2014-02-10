@@ -17,7 +17,7 @@ module ESA
     validates_presence_of :time, :nature, :accountable, :ruleset
     validate :validate_time
 
-    after_create :create_flags
+    after_create :save_flags
 
     def validate_time
       if self.new_record? and self.accountable.present?
@@ -28,14 +28,6 @@ module ESA
       end
     end
 
-    def create_flags
-      if Settings.accounting[:create_flags]
-        self.save_produced_flags
-      end
-    end
-
-    # the base event has no flags
-    # this must be overridden to produce useful results
     def produce_flags
       if self.ruleset.present?
         event_flags = self.ruleset.event_flags(self)
@@ -45,9 +37,8 @@ module ESA
       end
     end
 
-    def save_produced_flags
-      flags = self.produce_flags
-      flags.map(&:save).reduce(true){|a,b| a and b}
+    def save_flags
+      self.produce_flags.map(&:save).all?
     end
 
     private
