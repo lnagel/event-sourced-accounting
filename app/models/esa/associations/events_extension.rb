@@ -4,7 +4,7 @@ module ESA
       # This function adds an event only if there were no previous events,
       # or the previous event was a different one, avoiding duplicates.
       def maybe(attrs)
-        events = proxy_association.owner.events
+        events = proxy_association.owner.esa_events
         last_event = events.order('time DESC, created_at DESC').first
 
         # make sure that the previous event was not of the same event type
@@ -24,7 +24,7 @@ module ESA
       end
 
       def hashes
-        proxy_association.owner.events.
+        proxy_association.owner.esa_events.
             map{|e| {:event => e.event, :time => e.time}}.
             sort_by{|e| e[:time]}
       end
