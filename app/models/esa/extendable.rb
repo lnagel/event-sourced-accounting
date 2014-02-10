@@ -10,21 +10,39 @@ module ESA
         self.type.split('::').last
       end
 
-      def self.register_extension(accountable, extension)
-        self.extensions[accountable] = extension
+      def self.register_extension(expression, extension)
+        self.extensions[expression] = extension
+      end
+
+      def self.lookup_extension(name)
+        matches = self.extensions.map do |expr,extension|
+          if expr.is_a? Regexp and expr.match(name).present?
+            extension
+          elsif expr.is_a? String and expr == name
+            extension
+          else
+            nil
+          end
+        end.compact
+
+        if matches.present?
+          matches.first
+        else
+          nil
+        end
       end
 
       def self.extension_name(accountable)
         if accountable.is_a? Class
           if accountable.respond_to? :accountable_name
-            self.extensions[accountable.accountable_name]
+            lookup_extension(accountable.accountable_name)
           else
-            self.extensions[accountable.name]
+            lookup_extension(accountable.name)
           end
-        elsif accountable.is_a? Object
+        elsif accountable.is_a? Object and not accountable.is_a? String
           extension_name(accountable.class)
         else
-          self.extensions[accountable]
+          lookup_extension(accountable)
         end
       end
 
@@ -36,19 +54,25 @@ module ESA
         end
       end
 
-      def self.accountable_name(extension=self)
-        if extension.is_a? Class
-          self.extensions.key(extension.name)
+      def self.extension_instance(accountable)
+        if extension_class(accountable).present?
+          extension_class(accountable).first_or_create
         else
-          self.extensions.key(extension)
+          nil
         end
       end
 
-      def self.accountable_class(extension=self)
-        if accountable_name(extension).present?
-          accountable_name(extension).constantize
+      def self.accountable_name(extension=self)
+        registered_keys_for(extension).find{|k| k.is_a? String}
+      end
+
+      def self.registered_keys_for(extension)
+        if extension.is_a? Class
+          self.extensions.select{|k,v| v == extension}.keys
+        elsif extension.is_a? Object and not extension.is_a? String
+          registered_keys_for(extension.class)
         else
-          nil
+          self.extensions.select{|k,v| v == extension}.keys
         end
       end
 
