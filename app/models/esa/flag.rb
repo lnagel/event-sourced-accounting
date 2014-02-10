@@ -3,8 +3,8 @@ module ESA
     include Extendable
     extend ::Enumerize
 
-    attr_accessible :nature, :set, :event, :time, :accountable, :type, :ruleset
-    attr_readonly   :nature, :set, :event, :time, :accountable, :type, :ruleset
+    attr_accessible :nature, :state, :event, :time, :accountable, :type, :ruleset
+    attr_readonly   :nature, :state, :transition, :event, :time, :accountable, :type, :ruleset
 
     belongs_to :accountable, :polymorphic => true
     belongs_to :event
@@ -14,111 +14,56 @@ module ESA
     enumerize :nature, in: [:unknown]
 
     after_initialize :default_values
-    validates_presence_of :nature, :event, :time, :accountable, :ruleset
-    validates_inclusion_of :set, :in => [true, false]
+    validates_presence_of :nature, :state, :transition, :event, :time, :accountable, :ruleset
+    validates_inclusion_of :state, :in => [true, false]
+    validates_inclusion_of :transition, :in => [1, 0, -1]
 
     after_create :create_transactions
 
-    def create_transactions
-      if Settings.accounting[:create_transactions]
-        self.save_produced_transactions
-      end
+    def is_set?
+      self.state == true
     end
 
-    def self.valid_flag?(flag_sym)
-      enums_for(:flag).has_key?(flag_sym)
+    def is_unset?
+      self.state == false
     end
 
-    def self.valid_state?(state)
-      state != nil and [true, false].include?(state)
+    def became_set?
+      self.transition == 1
     end
 
-    def self.flag_sym_to_int(flag_sym)
-      enums = enums_for(:flag)
-      enums[flag_sym] if enums.present?
-    end
-
-    def self.get_state(flag_list, flag_sym, time = Time.zone.now)
-      if valid_flag?(flag_sym)
-        most_recent = flag_list.
-              where('flag = ?', flag_sym_to_int(flag_sym)).
-              where('time <= ?', time).
-              order('time DESC, created_at DESC').first
-
-        if most_recent != nil
-          most_recent.set # return the set bit of this flag
-        else
-          nil
-        end
-      else
-        nil
-      end
-    end
-
-    def self.set_state!(flag_list, flag_sym, new_state, event = nil, time = Time.zone.now)
-      if valid_flag?(flag_sym) and valid_state?(new_state)
-        new_flag = flag_list.new({:flag => flag_sym, :set => new_state, :event => event, :time => time})
-        new_flag.save
-        new_flag # return the ptr
-      else
-        false
-      end
-    end
-
-    def self.is_set?(flag_list, flag_sym, time = Time.zone.now)
-      get_state(flag_list, flag_sym, time).present?
-    end
-
-    def self.would_change?(flag_list, flag_sym, new_state, time = Time.zone.now)
-      if valid_flag?(flag_sym) and valid_state?(new_state)
-        if new_state != is_set?(flag_list, flag_sym, time)
-          true
-        else
-          false
-        end
-      else
-        false
-      end
-    end
-
-    def self.change_state!(flag_list, flag_sym, new_state, event = nil, time = Time.zone.now)
-      if would_change?(flag_list, flag_sym, new_state, time)
-        set_state!(flag_list, flag_sym, new_state, event, time)
-      end
-    end
-
-    # changes = {:flag => true, :flag2 => false, ...}
-    def self.state_diff(flag_list, changes, time = Time.zone.now)
-      Hash[changes.select{ |flag,state| would_change?(flag_list, flag, state, time) }]
-    end
-
-    # gives you back the new flags, unsaved
-    def self.produce_flags(flag_list, event, changes)
-      state_diff(flag_list, changes, event.time).map do |flag,state|
-        flag_list.new(:flag => flag, :set => state, :event => event, :time => event.time)
-      end
+    def became_unset?
+      self.transition == -1
     end
 
     def produce_transactions
       if self.ruleset.present?
-        transactions = self.ruleset.flag_transactions(self)
-
-        transactions.map do |tx|
-          Transaction.extension_class(self).new(tx)
+        transactions = self.ruleset.flag_transactions_as_attributes(self)
+        transactions.map do |attrs|
+          self.accountable.esa_transactions.new(attrs)
         end
+      else
+        []
       end
     end
 
-    def save_produced_transactions
-      transactions = self.produce_transactions
-      transactions.map(&:save).reduce(true){|a,b| a and b}
+    def create_transactions
+      self.produce_transactions.map(&:save).all?
     end
 
     private
 
     def default_values
-      self.time ||= Time.zone.now
-      self.ruleset ||= Ruleset.extension_instance(self)
+      if not self.event.nil?
+        self.event ||= event
+        self.time ||= event.time
+        self.accountable ||= event.accountable
+        self.ruleset ||= event.ruleset
+      end
+
+      if not self.accountable.nil? and not self.nature.nil? and not self.state.nil? and not self.time.nil?
+        self.transition ||= event.accountable.esa_flags.transition(self.nature, self.state, self.time)
+      end
     end
   end
 end

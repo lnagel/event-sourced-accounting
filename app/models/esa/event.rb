@@ -17,7 +17,7 @@ module ESA
     validates_presence_of :time, :nature, :accountable, :ruleset
     validate :validate_time
 
-    after_create :save_flags
+    after_create :create_flags
 
     def validate_time
       if self.new_record? and self.accountable.present?
@@ -30,14 +30,16 @@ module ESA
 
     def produce_flags
       if self.ruleset.present?
-        event_flags = self.ruleset.event_flags(self)
-        Flag.extension_class(self).produce_flags(self.accountable.flags, self, event_flags)
+        flags = self.ruleset.event_flags_as_attributes(self)
+        flags.map do |attrs|
+          self.accountable.esa_flags.new(attrs)
+        end
       else
         []
       end
     end
 
-    def save_flags
+    def create_flags
       self.produce_flags.map(&:save).all?
     end
 
