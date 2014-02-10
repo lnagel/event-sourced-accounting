@@ -15,6 +15,7 @@ module ESA
 
     after_initialize :default_values
     validates_presence_of :time, :nature, :accountable, :ruleset
+    validates_inclusion_of :processed, :in => [true, false]
     validate :validate_time
 
     after_create :create_flags
@@ -40,7 +41,11 @@ module ESA
     end
 
     def create_flags
-      self.produce_flags.map(&:save).all?
+      if not self.changed? and not self.processed
+        self.processed = self.produce_flags.map(&:save).all?
+        self.save if self.changed?
+      end
+      true # do not block the save call
     end
 
     private
@@ -48,6 +53,7 @@ module ESA
     def default_values
       self.time ||= Time.zone.now
       self.ruleset ||= Ruleset.extension_instance(self)
+      self.processed ||= false
     end
   end
 end

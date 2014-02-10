@@ -21,6 +21,7 @@ class CreateEsaTables < ActiveRecord::Migration
       t.string     :type
       t.datetime   :time
       t.string     :nature
+      t.boolean    :processed
       t.references :accountable, :polymorphic => true
       t.references :ruleset
 
@@ -38,6 +39,7 @@ class CreateEsaTables < ActiveRecord::Migration
       t.string     :nature
       t.boolean    :state
       t.integer    :transition, :limit => 1
+      t.boolean    :processed
       t.references :accountable, :polymorphic => true
       t.references :event
       t.references :ruleset
