@@ -12,24 +12,6 @@ module ESA
 
     validates_presence_of :type, :chart
 
-    # get-or-create a ruleset in the DB
-    def self.fetch
-      # TODO: fetch using chart ID, cached
-      ruleset = self.where(type: self.to_s).first # type for STI
-      if ruleset == nil
-        chart_name = Settings.accounting[:chart_of_accounts]
-        chart = ESA::Chart.find_by_name(chart_name)
-        ruleset = self.new(:type => self.to_s, :chart => chart)    # type for STI
-        ruleset.save!
-      end
-      ruleset
-    end
-
-    # get-or-create according to object type
-    def self.fetch_for(obj)
-      extension_class(obj).fetch rescue nil
-    end
-
     # events that have happened according to the current state (expected to be overridden)
     def events_from_object_state(obj)
       []
