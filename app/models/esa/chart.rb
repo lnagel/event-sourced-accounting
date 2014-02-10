@@ -3,6 +3,8 @@ module ESA
   #
   # @author Lenno Nagel
   class Chart < ActiveRecord::Base
+    include Extendable
+
     attr_accessible :name
 
     has_many :accounts

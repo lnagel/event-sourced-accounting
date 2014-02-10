@@ -15,20 +15,24 @@ module ESA
       end
 
       def self.lookup_extension(name)
-        matches = self.extensions.map do |expr,extension|
-          if expr.is_a? Regexp and expr.match(name).present?
-            extension
-          elsif expr.is_a? String and expr == name
-            extension
+        if self.extensions.present?
+          matches = self.extensions.map do |expr,extension|
+            if expr.is_a? Regexp and expr.match(name).present?
+              extension
+            elsif expr.is_a? String and expr == name
+              extension
+            else
+              nil
+            end
+          end.compact
+
+          if matches.present?
+            matches.first
           else
             nil
           end
-        end.compact
-
-        if matches.present?
-          matches.first
         else
-          nil
+          self.name
         end
       end
 
@@ -66,9 +70,9 @@ module ESA
         registered_keys_for(extension).find{|k| k.is_a? String}
       end
 
-      def self.registered_keys_for(extension)
+      def self.registered_keys_for(extension=self)
         if extension.is_a? Class
-          self.extensions.select{|k,v| v == extension}.keys
+          self.extensions.select{|k,v| v == extension.name}.keys
         elsif extension.is_a? Object and not extension.is_a? String
           registered_keys_for(extension.class)
         else
