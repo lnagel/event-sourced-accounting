@@ -41,11 +41,11 @@ module ESA
     end
 
     def create_flags
-      if not self.changed? and not self.processed
+      if not self.processed and not self.processed_was
         self.processed = self.produce_flags.map(&:save).all?
         self.save if self.changed?
       end
-      true # do not block the save call
+      true # do not block the commit
     end
 
     private

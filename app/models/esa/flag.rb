@@ -49,11 +49,11 @@ module ESA
     end
 
     def create_transactions
-      if not self.changed? and not self.processed and self.transition.present?
+      if not self.processed and not self.processed_was and self.transition.present?
         self.processed = self.produce_transactions.map(&:save).all?
         self.save if self.changed?
       end
-      true # do not block the save call
+      true # do not block the commit
     end
 
     private
@@ -69,6 +69,7 @@ module ESA
         self.transition = event.accountable.esa_flags.transition_for(self)
         self.save if self.changed?
       end
+      true # do not block the commit
     end
 
     def default_values
