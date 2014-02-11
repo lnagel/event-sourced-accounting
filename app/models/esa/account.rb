@@ -30,8 +30,9 @@ module ESA
   #
   # @author Michael Bulat
   class Account < ActiveRecord::Base
-    attr_accessible :name, :contra
-    
+    attr_accessible :chart, :type, :name, :contra
+    attr_readonly   :chart
+
     belongs_to :chart
     has_many :credit_amounts, :class_name => "Amounts::Credit", :extend => Associations::AmountsExtension
     has_many :debit_amounts, :class_name => "Amounts::Debit", :extend => Associations::AmountsExtension
@@ -63,6 +64,18 @@ module ESA
     # @return [BigDecimal] The decimal value credit balance
     def debits_balance
       debit_amounts.balance
+    end
+
+    def self.valid_type?(type)
+      type.in? ["Asset", "Liability", "Equity", "Revenue", "Expense"]
+    end
+
+    def self.namespaced_type(type)
+      if valid_type?(type)
+        "ESA::Accounts::#{type}".constantize
+      else
+        type
+      end
     end
 
     # The trial balance of all accounts in the system. This should always equal zero,

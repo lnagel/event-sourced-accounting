@@ -71,6 +71,14 @@ module ESA
       end
     end
 
+    def find_account(type, name)
+      if self.chart.present? and Account.valid_type?(type)
+        self.chart.accounts.
+          where(:type => Account.namespaced_type(type), :name => name).
+          first_or_create
+      end
+    end
+
     private
 
     def default_values
