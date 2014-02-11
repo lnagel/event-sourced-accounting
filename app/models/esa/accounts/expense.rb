@@ -34,7 +34,7 @@ module ESA
       # Contra accounts are automatically subtracted from the balance.
       #
       # @example
-      #   >> ESA::Expense.balance
+      #   >> ESA::Accounts::Expense.balance
       #   => #<BigDecimal:1030fcc98,'0.82875E5',8(20)>
       #
       # @return [BigDecimal] The decimal value balance
