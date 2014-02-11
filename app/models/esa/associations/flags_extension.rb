@@ -1,9 +1,15 @@
 module ESA
   module Associations
     module FlagsExtension
-      def is_set?(nature, time=Time.zone.now)
-        most_recent = where(nature: nature).
-              where('time <= ?', time).
+      def is_set?(nature, time=Time.zone.now, exclude=nil)
+        query = where(nature: nature).
+              where('time <= ?', time)
+
+        if exclude.present?
+          query = query.where('esa_flags.id not in (?)', exclude)
+        end
+
+        most_recent = query.
               order('time DESC, created_at DESC').first
 
         if most_recent.present?
@@ -13,10 +19,10 @@ module ESA
         end
       end
 
-      def transition(nature, state, time)
-        if state and not is_set?(nature, time)
+      def transition_for(flag)
+        if flag.state and not is_set?(flag.nature, flag.time, flag.id)
           1
-        elsif not state and is_set?(nature, time)
+        elsif flag.not state and is_set?(flag.nature, flag.time, flag.id)
           -1
         else
           0

@@ -66,7 +66,7 @@ module ESA
 
     def record_transition
       if not self.accountable.nil? and not self.nature.nil? and not self.state.nil? and not self.time.nil?
-        self.transition = event.accountable.esa_flags.transition(self.nature, self.state, self.time)
+        self.transition = event.accountable.esa_flags.transition_for(self)
         self.save if self.changed?
       end
     end
