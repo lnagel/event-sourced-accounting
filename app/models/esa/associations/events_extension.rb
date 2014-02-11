@@ -25,7 +25,7 @@ module ESA
 
       def hashes
         proxy_association.owner.esa_events.
-            map{|e| {:event => e.event, :time => e.time}}.
+            map{|e| {:nature => e.nature, :time => e.time}}.
             sort_by{|e| e[:time]}
       end
     end
