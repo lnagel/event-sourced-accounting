@@ -38,7 +38,7 @@ module ESA
     end
 
     def produce_transactions
-      if self.ruleset.present?
+      if self.ruleset.present? and self.transition.present?
         transactions = self.ruleset.flag_transactions_as_attributes(self)
         transactions.map do |attrs|
           self.accountable.esa_transactions.new(attrs)
