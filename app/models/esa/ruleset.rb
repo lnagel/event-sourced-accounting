@@ -17,7 +17,11 @@ module ESA
     end
 
     def accountable_events_as_attributes(accountable)
-      accountable_events(accountable)
+      accountable_events(accountable).map do |event|
+        event[:accountable] ||= accountable
+        event[:ruleset] ||= self
+        event
+      end
     end
 
     def event_flags(event)
