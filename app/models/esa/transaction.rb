@@ -10,8 +10,8 @@ module ESA
   #   cash = ESA::Asset.find_by_name('Cash')
   #   accounts_receivable = ESA::Asset.find_by_name('Accounts Receivable')
   #
-  #   debit_amount = ESA::DebitAmount.new(:account => cash, :amount => 1000)
-  #   credit_amount = ESA::CreditAmount.new(:account => accounts_receivable, :amount => 1000)
+  #   debit_amount = ESA::Amounts::Debit.new(:account => cash, :amount => 1000)
+  #   credit_amount = ESA::Amounts::Credit.new(:account => accounts_receivable, :amount => 1000)
   #
   #   transaction = ESA::Transaction.new(:description => "Receiving payment on an invoice")
   #   transaction.debit_amounts << debit_amount
@@ -29,8 +29,8 @@ module ESA
 
     belongs_to :accountable, :polymorphic => true
     belongs_to :flag
-    has_many :credit_amounts, :inverse_of => :transaction, :class_name => "Amounts::CreditAmount", :extend => Associations::AmountsExtension
-    has_many :debit_amounts, :inverse_of => :transaction, :class_name => "Amounts::DebitAmount", :extend => Associations::AmountsExtension
+    has_many :credit_amounts, :inverse_of => :transaction, :class_name => "Amounts::Credit", :extend => Associations::AmountsExtension
+    has_many :debit_amounts, :inverse_of => :transaction, :class_name => "Amounts::Debit", :extend => Associations::AmountsExtension
     has_many :credit_accounts, :through => :credit_amounts, :source => :account
     has_many :debit_accounts, :through => :debit_amounts, :source => :account
 
