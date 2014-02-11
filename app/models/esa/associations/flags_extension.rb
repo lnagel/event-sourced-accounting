@@ -22,7 +22,7 @@ module ESA
       def transition_for(flag)
         if flag.state and not is_set?(flag.nature, flag.time, flag.id)
           1
-        elsif flag.not state and is_set?(flag.nature, flag.time, flag.id)
+        elsif not flag.state and is_set?(flag.nature, flag.time, flag.id)
           -1
         else
           0
