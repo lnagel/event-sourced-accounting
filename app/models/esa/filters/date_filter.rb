@@ -1,7 +1,7 @@
 module ESA
   module Filters
-    module TransactionDate
-      module AmountConcern
+    module DateFilter
+      module TransactionDate
         extend ActiveSupport::Concern
 
         included do
@@ -9,7 +9,7 @@ module ESA
         end
       end
 
-      module TransactionConcern
+      module ObjectDate
         extend ActiveSupport::Concern
 
         included do
@@ -20,5 +20,7 @@ module ESA
   end
 end
 
-ESA::Amount.send :include, ESA::Filters::TransactionDate::AmountConcern
-ESA::Transaction.send :include, ESA::Filters::TransactionDate::TransactionConcern
+ESA::Amount.send :include, ESA::Filters::DateFilter::TransactionDate
+ESA::Event.send :include, ESA::Filters::DateFilter::ObjectDate
+ESA::Flag.send :include, ESA::Filters::DateFilter::ObjectDate
+ESA::Transaction.send :include, ESA::Filters::DateFilter::ObjectDate
