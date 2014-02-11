@@ -3,20 +3,20 @@ module ESA
     extend ActiveSupport::Concern
 
     included do |base|
-      cattr_accessor :extensions
-      self.extensions = {}
+      cattr_accessor :esa_extensions
+      self.esa_extensions = {}
 
       def simple_type
         self.type.split('::').last
       end
 
       def self.register_extension(expression, extension)
-        self.extensions[expression] = extension
+        self.esa_extensions[expression] = extension
       end
 
       def self.lookup_extension(name)
-        if self.extensions.present?
-          matches = self.extensions.map do |expr,extension|
+        if self.esa_extensions.present?
+          matches = self.esa_extensions.map do |expr,extension|
             if expr.is_a? Regexp and expr.match(name).present?
               extension
             elsif expr.is_a? String and expr == name
@@ -76,16 +76,16 @@ module ESA
 
       def self.registered_keys_for(extension=self)
         if extension.is_a? Class
-          self.extensions.select{|k,v| v == extension.name}.keys
+          self.esa_extensions.select{|k,v| v == extension.name}.keys
         elsif extension.is_a? Object and not extension.is_a? String
           registered_keys_for(extension.class)
         else
-          self.extensions.select{|k,v| v == extension}.keys
+          self.esa_extensions.select{|k,v| v == extension}.keys
         end
       end
 
       def self.list_extensions
-        self.extensions.each do |accountable, extension|
+        self.esa_extensions.each do |accountable, extension|
           puts "#{accountable} --> #{extension}"
         end
         nil
