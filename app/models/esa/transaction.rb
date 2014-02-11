@@ -55,27 +55,28 @@ module ESA
     end
 
     private
-      def default_values
-        self.time ||= Time.zone.now
-      end
 
-      def has_credit_amounts?
-        errors[:base] << "Transaction must have at least one credit amount" if self.credit_amounts.blank?
-      end
+    def default_values
+      self.time ||= Time.zone.now
+    end
 
-      def has_debit_amounts?
-        errors[:base] << "Transaction must have at least one debit amount" if self.debit_amounts.blank?
-      end
+    def has_credit_amounts?
+      errors[:base] << "Transaction must have at least one credit amount" if self.credit_amounts.blank?
+    end
 
-      def accounts_of_the_same_chart?
-        chart_ids = (self.credit_amounts + self.debit_amounts).map{|a| a.account.chart_id}
-        if chart_ids.compact.count != chart_ids.count or chart_ids.compact.uniq.count != 1
-          errors[:base] << "Transaction must take place between accounts of the same Chart " + chart_ids.to_s
-        end
-      end
+    def has_debit_amounts?
+      errors[:base] << "Transaction must have at least one debit amount" if self.debit_amounts.blank?
+    end
 
-      def amounts_cancel?
-        errors[:base] << "The credit and debit amounts are not equal" if credit_amounts.balance != debit_amounts.balance
+    def accounts_of_the_same_chart?
+      chart_ids = (self.credit_amounts + self.debit_amounts).map{|a| a.account.chart_id}
+      if chart_ids.compact.count != chart_ids.count or chart_ids.compact.uniq.count != 1
+        errors[:base] << "Transaction must take place between accounts of the same Chart " + chart_ids.to_s
       end
+    end
+
+    def amounts_cancel?
+      errors[:base] << "The credit and debit amounts are not equal" if credit_amounts.balance != debit_amounts.balance
+    end
   end
 end
