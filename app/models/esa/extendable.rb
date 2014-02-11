@@ -6,10 +6,6 @@ module ESA
       cattr_accessor :esa_extensions
       self.esa_extensions = {}
 
-      def simple_type
-        self.type.split('::').last
-      end
-
       def self.register_extension(expression, extension)
         self.esa_extensions[expression] = extension
       end
