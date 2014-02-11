@@ -111,46 +111,6 @@ module ESA
           }
           include_examples 'a built-from-hash ESA::Transaction'
         end
-
-        context "when given a credit/debits hash with :account_name => String" do
-          let(:hash) {
-            {
-              description: "Sold some widgets",
-              accountable: mock_document,
-              debits: [{account_name: accounts_receivable.name, amount: 50}], 
-              credits: [
-                {account_name: sales_revenue.name, amount: 45},
-                {account_name: sales_tax_payable.name, amount: 5}
-                ]
-            }
-          }
-          include_examples 'a built-from-hash ESA::Transaction'
-        end
-
-        context "when given a credit/debits hash with :account => String" do
-          let(:hash) {
-            {
-              description: "Sold some widgets",
-              accountable: mock_document,
-              debits: [{account: accounts_receivable.name, amount: 50}], 
-              credits: [
-                {account: sales_revenue.name, amount: 45},
-                {account: sales_tax_payable.name, amount: 5}
-                ]
-            }
-          }
-          
-          before { ::ActiveSupport::Deprecation.silenced = true }
-          after { ::ActiveSupport::Deprecation.silenced = false }
-          
-          it("should be deprecated") {
-            # one deprecation per account looked up
-            ::ActiveSupport::Deprecation.should_receive(:warn).exactly(3).times
-            transaction
-          }
-          
-          include_examples 'a built-from-hash ESA::Transaction'
-        end
       end
 
       describe ".build" do
@@ -169,29 +129,6 @@ module ESA
             transaction
           }
         end
-
-        context "when given a credit/debits hash with :account => String" do
-          let(:hash) {
-            {
-              description: "Sold some widgets",
-              accountable: mock_document,
-              debits: [{account: accounts_receivable.name, amount: 50}], 
-              credits: [
-                {account: sales_revenue.name, amount: 45},
-                {account: sales_tax_payable.name, amount: 5}
-                ]
-            }
-          }
-          
-          it("should be deprecated") {
-            # one deprecation for build, plus three for accounts as strings
-            ::ActiveSupport::Deprecation.should_receive(:warn).exactly(4).times
-            transaction
-          }
-          
-          include_examples 'a built-from-hash ESA::Transaction'
-        end
-        
       end
 
     end
