@@ -60,10 +60,14 @@ module ESA
 
       def self.extension_instance(accountable)
         if extension_class(accountable).present?
-          extension_class(accountable).first_or_create
+          extension_class(accountable).instance_for(accountable)
         else
           nil
         end
+      end
+
+      def self.instance_for(accountable)
+        self.first_or_create
       end
 
       def self.accountable_name(extension=self)
