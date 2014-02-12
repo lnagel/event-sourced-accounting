@@ -5,8 +5,7 @@ module ESA
         extend ActiveSupport::Concern
 
         included do
-          scope :with_account, lambda { |account| joins(:flags => {:transactions => :amounts}).where(esa_amounts: {account_id: account.id}) }
-          scope :with_account_id, lambda { |id| joins(:flags => {:transactions => :amounts}).where(esa_amounts: {account_id: id}) }
+          scope :with_account, lambda { |account| joins(:flags => {:transactions => :amounts}).where(esa_amounts: {account_id: account}) }
         end
       end
 
@@ -14,8 +13,7 @@ module ESA
         extend ActiveSupport::Concern
 
         included do
-          scope :with_account, lambda { |account| joins(:transactions => :amounts).where(esa_amounts: {account_id: account.id}) }
-          scope :with_account_id, lambda { |id| joins(:transactions => :amounts).where(esa_amounts: {account_id: id}) }
+          scope :with_account, lambda { |account| joins(:transactions => :amounts).where(esa_amounts: {account_id: account}) }
         end
       end
 
@@ -23,8 +21,7 @@ module ESA
         extend ActiveSupport::Concern
 
         included do
-          scope :with_account, lambda { |account| joins(:amounts).where(esa_amounts: {account_id: account.id}) }
-          scope :with_account_id, lambda { |id| joins(:amounts).where(esa_amounts: {account_id: id}) }
+          scope :with_account, lambda { |account| joins(:amounts).where(esa_amounts: {account_id: account}) }
         end
       end
 
@@ -32,8 +29,7 @@ module ESA
         extend ActiveSupport::Concern
 
         included do
-          scope :with_account, lambda { |account| where(account_id: account.id) }
-          scope :with_account_id, lambda { |id| where(account_id: id) }
+          scope :with_account, lambda { |account| where(account_id: account) }
         end
       end
     end
