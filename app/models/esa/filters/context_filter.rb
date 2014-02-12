@@ -5,6 +5,7 @@ module ESA
 
       included do
         scope :with_context, lambda { |context| context.apply(self) }
+        scope :with_contexts, lambda { |contexts| contexts.inject(self){|relation,context| context.apply(relation)}}
       end
     end
   end
