@@ -10,6 +10,11 @@ module ESA
     has_many :accounts
     has_many :rulesets
 
+    has_many :events, :through => :rulesets
+    has_many :flags, :through => :rulesets
+    has_many :transactions, :through => :accounts
+    has_many :amounts, :through => :accounts
+
     after_initialize :default_values
 
     validates_presence_of :name
