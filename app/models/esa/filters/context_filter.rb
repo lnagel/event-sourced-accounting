@@ -4,8 +4,13 @@ module ESA
       extend ActiveSupport::Concern
 
       included do
-        scope :with_context, lambda { |context| context.apply(self) }
-        scope :with_contexts, lambda { |contexts| contexts.inject(self){|relation,context| context.apply(relation)}}
+        scope :with_context, lambda { |*contexts|
+          contexts.flatten.uniq.
+          select{|ctx| ctx.respond_to? :apply}.
+          inject(where([])) do |relation,context|
+            context.apply(relation)
+          end
+        }
       end
     end
   end
