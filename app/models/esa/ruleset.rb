@@ -1,6 +1,6 @@
 module ESA
   class Ruleset < ActiveRecord::Base
-    include Extendable
+    include Traits::Extendable
 
     attr_accessible :name, :type, :chart
     attr_readonly   :name, :type, :chart

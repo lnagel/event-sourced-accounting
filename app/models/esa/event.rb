@@ -1,6 +1,6 @@
 module ESA
   class Event < ActiveRecord::Base
-    include Extendable
+    include Traits::Extendable
     extend ::Enumerize
 
     attr_accessible :time, :nature, :accountable, :ruleset

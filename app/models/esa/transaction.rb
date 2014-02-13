@@ -22,7 +22,7 @@ module ESA
   #
   # @author Michael Bulat
   class Transaction < ActiveRecord::Base
-    include Extendable
+    include Traits::Extendable
 
     attr_accessible :description, :accountable, :flag, :time
     attr_readonly   :description, :accountable, :flag, :time

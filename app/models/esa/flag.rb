@@ -1,6 +1,6 @@
 module ESA
   class Flag < ActiveRecord::Base
-    include Extendable
+    include Traits::Extendable
     extend ::Enumerize
 
     attr_accessible :nature, :state, :event, :time, :accountable, :type, :ruleset

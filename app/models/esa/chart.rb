@@ -3,7 +3,7 @@ module ESA
   #
   # @author Lenno Nagel
   class Chart < ActiveRecord::Base
-    include Extendable
+    include Traits::Extendable
 
     attr_accessible :name
 
