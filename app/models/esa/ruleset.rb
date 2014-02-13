@@ -73,9 +73,8 @@ module ESA
 
     def find_account(type, name)
       if self.chart.present? and Account.valid_type?(type)
-        self.chart.accounts.
-          where(:type => Account.namespaced_type(type), :name => name).
-          first_or_create
+        # .first_or_create doesnt seem to be reliable: it creates duplicates
+        Account.where(chart_id: self.chart, type: Account.namespaced_type(type), name: name).first
       end
     end
 
