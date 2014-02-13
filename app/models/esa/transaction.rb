@@ -29,7 +29,7 @@ module ESA
 
     belongs_to :accountable, :polymorphic => true
     belongs_to :flag
-    has_many :amounts, :extend => Associations::AmountsExtension
+    has_many :amounts
     has_many :credit_amounts, :inverse_of => :transaction, :class_name => "Amounts::Credit", :extend => Associations::AmountsExtension
     has_many :debit_amounts, :inverse_of => :transaction, :class_name => "Amounts::Debit", :extend => Associations::AmountsExtension
     has_many :accounts, :through => :amounts, :source => :account, :uniq => true

@@ -34,7 +34,7 @@ module ESA
     attr_readonly   :chart
 
     belongs_to :chart
-    has_many :amounts, :extend => Associations::AmountsExtension
+    has_many :amounts
     has_many :credit_amounts, :class_name => "Amounts::Credit", :extend => Associations::AmountsExtension
     has_many :debit_amounts, :class_name => "Amounts::Debit", :extend => Associations::AmountsExtension
     has_many :transactions, :through => :amounts, :source => :transaction
