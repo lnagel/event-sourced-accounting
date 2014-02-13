@@ -71,8 +71,9 @@ module ESA
     end
 
     def accounts_of_the_same_chart?
-      if self.accounts.pluck(:chart_id).compact.uniq.count != 1
-        errors[:base] << "Transaction must take place between accounts of the same Chart"
+      chart_ids = (self.credit_amounts + self.debit_amounts).map{|a| a.account.chart_id}
+      if chart_ids.compact.count != chart_ids.count or chart_ids.compact.uniq.count != 1
+        errors[:base] << "Transaction must take place between accounts of the same Chart " + chart_ids.to_s
       end
     end
 
