@@ -88,13 +88,15 @@ class CreateEsaTables < ActiveRecord::Migration
       t.string     :type
       t.references :chart
       t.references :account
-      t.date       :date
+      t.date       :start_date
+      t.date       :end_date
 
       t.timestamps
     end
     add_index :esa_contexts, [:type, :chart_id]
     add_index :esa_contexts, :account_id
-    add_index :esa_contexts, :date
+    add_index :esa_contexts, :start_date
+    add_index :esa_contexts, :end_date
   end
 
   def self.down
