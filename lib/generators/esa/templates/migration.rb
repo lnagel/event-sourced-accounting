@@ -87,6 +87,7 @@ class CreateEsaTables < ActiveRecord::Migration
     create_table :esa_contexts do |t|
       t.string     :type
       t.references :chart
+      t.references :parent
       t.references :account
       t.date       :start_date
       t.date       :end_date
@@ -94,6 +95,7 @@ class CreateEsaTables < ActiveRecord::Migration
       t.timestamps
     end
     add_index :esa_contexts, [:type, :chart_id]
+    add_index :esa_contexts, :parent_id
     add_index :esa_contexts, :account_id
     add_index :esa_contexts, :start_date
     add_index :esa_contexts, :end_date
