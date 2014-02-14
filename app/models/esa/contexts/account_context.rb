@@ -6,7 +6,7 @@ module ESA
 
       belongs_to :account
 
-      validate_presence_of :account
+      validates_presence_of :account
 
       protected
 
