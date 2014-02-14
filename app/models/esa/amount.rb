@@ -12,5 +12,13 @@ module ESA
     belongs_to :account
 
     validates_presence_of :type, :amount, :transaction, :account
+
+    def is_credit?
+      self.is_a? Amounts::Credit
+    end
+
+    def is_debit?
+      self.is_a? Amounts::Debit
+    end
   end
 end
