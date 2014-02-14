@@ -1,9 +1,12 @@
 module ESA
   module Contexts
     class AccountContext < ESA::Context
-      def initialize(account)
-        filter = lambda { |relation| relation.with_account(account) }
-        super([filter])
+      attr_accessible :account
+
+      protected
+
+      def default_values
+        @filters = [lambda { |relation| relation.with_account(self.account) }]
       end
     end
   end

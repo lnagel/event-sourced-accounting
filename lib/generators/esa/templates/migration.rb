@@ -83,6 +83,18 @@ class CreateEsaTables < ActiveRecord::Migration
     add_index :esa_amounts, :type
     add_index :esa_amounts, [:account_id, :transaction_id]
     add_index :esa_amounts, [:transaction_id, :account_id]
+
+    create_table :esa_contexts do |t|
+      t.string     :type
+      t.references :chart
+      t.references :account
+      t.date       :date
+
+      t.timestamps
+    end
+    add_index :esa_contexts, [:type, :chart_id]
+    add_index :esa_contexts, :account_id
+    add_index :esa_contexts, :date
   end
 
   def self.down
@@ -93,5 +105,6 @@ class CreateEsaTables < ActiveRecord::Migration
     drop_table :esa_transactions
     drop_table :esa_rulesets
     drop_table :esa_amounts
+    drop_table :esa_contexts
   end
 end
