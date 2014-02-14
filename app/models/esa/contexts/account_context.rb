@@ -6,6 +6,8 @@ module ESA
 
       belongs_to :account
 
+      validate_presence_of :account
+
       protected
 
       def default_values
