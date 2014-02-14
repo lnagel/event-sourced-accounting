@@ -2,6 +2,9 @@ module ESA
   module Contexts
     class AccountContext < ESA::Context
       attr_accessible :account
+      attr_readonly   :account
+
+      belongs_to :account
 
       protected
 

@@ -2,6 +2,7 @@ module ESA
   module Contexts
     class DateContext < ESA::Context
       attr_accessible :date
+      attr_readonly   :date
 
       protected
 
