@@ -9,25 +9,6 @@ module ESA
     #
     # @author Michael Bulat
     class Liability < ESA::Account
-
-      # Balance of all Liability accounts
-      #
-      # @example
-      #   >> ESA::Accounts::Liability.balance
-      #   => #<BigDecimal:1030fcc98,'0.82875E5',8(20)>
-      def self.balance
-        accounts_balance = BigDecimal.new('0')
-        accounts = self.find(:all)
-        accounts.each do |liability|
-          unless liability.contra
-            accounts_balance += liability.balance
-          else
-            accounts_balance -= liability.balance
-          end
-        end
-        accounts_balance
-      end
-
       # The normal balance for the account. Must be overridden in implementations.
       def update_normal_balance
         unless self.contra

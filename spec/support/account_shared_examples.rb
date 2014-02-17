@@ -3,16 +3,6 @@ shared_examples_for 'a ESA::Account subtype' do |elements|
   let(:account) { FactoryGirl.create(elements[:kind], contra: contra)}
   subject { account }
 
-  describe "class methods" do
-    subject { account.class }
-    its(:balance) { should be_kind_of(BigDecimal) }
-    describe "trial_balance" do
-      it "should raise NoMethodError" do
-        lambda { subject.trial_balance }.should raise_error NoMethodError
-      end
-    end
-  end
-
   describe "instance methods" do
     its(:balance) { should be_kind_of(BigDecimal) }
     its(:normal_balance) { should be_kind_of(Enumerize::Value) }

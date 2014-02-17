@@ -102,22 +102,6 @@ module ESA
       end
     end
 
-    # The trial balance of all accounts in the system. This should always equal zero,
-    # otherwise there is an error in the system.
-    #
-    # @example
-    #   >> Account.trial_balance.to_i
-    #   => 0
-    #
-    # @return [BigDecimal] The decimal value balance of all accounts
-    def self.trial_balance
-      unless self.new.class == Account
-        raise(NoMethodError, "undefined method 'trial_balance'")
-      else
-        Accounts::Asset.balance - (Accounts::Liability.balance + Accounts::Equity.balance + Accounts::Revenue.balance - Accounts::Expense.balance)
-      end
-    end
-
     private
 
     def default_values

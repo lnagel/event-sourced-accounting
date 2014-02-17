@@ -20,6 +20,18 @@ module ESA
     validates_presence_of :name
     validates_uniqueness_of :name
 
+    # The trial balance of all accounts in the system. This should always equal zero,
+    # otherwise there is an error in the system.
+    #
+    # @example
+    #   >> chart.trial_balance.to_i
+    #   => 0
+    #
+    # @return [BigDecimal] The decimal value balance of all accounts
+    def trial_balance
+      self.amounts.balance
+    end
+
     private
 
     def default_values

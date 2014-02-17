@@ -9,30 +9,6 @@ module ESA
     #
     # @author Michael Bulat
     class Revenue < ESA::Account
-
-      # This class method is used to return
-      # the balance of all Revenue accounts.
-      #
-      # Contra accounts are automatically subtracted from the balance.
-      #
-      # @example
-      #   >> ESA::Accounts::Revenue.balance
-      #   => #<BigDecimal:1030fcc98,'0.82875E5',8(20)>
-      #
-      # @return [BigDecimal] The decimal value balance
-      def self.balance
-        accounts_balance = BigDecimal.new('0')
-        accounts = self.find(:all)
-        accounts.each do |revenue|
-          unless revenue.contra
-            accounts_balance += revenue.balance
-          else
-            accounts_balance -= revenue.balance
-          end
-        end
-        accounts_balance
-      end
-
       # The normal balance for the account. Must be overridden in implementations.
       def update_normal_balance
         unless self.contra
