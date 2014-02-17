@@ -36,7 +36,7 @@ module ESA
     attr_readonly   :chart
 
     belongs_to :chart
-    has_many :amounts
+    has_many :amounts, :extend => Associations::AmountsExtension
     has_many :credit_amounts, :class_name => "Amounts::Credit", :extend => Associations::AmountsExtension
     has_many :debit_amounts, :class_name => "Amounts::Debit", :extend => Associations::AmountsExtension
     has_many :transactions, :through => :amounts, :source => :transaction
@@ -54,23 +54,23 @@ module ESA
     # The credit balance for the account.
     #
     # @example
-    #   >> asset.credits_balance
+    #   >> asset.credits_total
     #   => #<BigDecimal:103259bb8,'0.1E4',4(12)>
     #
     # @return [BigDecimal] The decimal value credit balance
-    def credits_balance
-      credit_amounts.balance
+    def credits_total
+      credit_amounts.total
     end
 
     # The debit balance for the account.
     #
     # @example
-    #   >> asset.debits_balance
+    #   >> asset.debits_total
     #   => #<BigDecimal:103259bb8,'0.3E4',4(12)>
     #
     # @return [BigDecimal] The decimal value credit balance
-    def debits_balance
-      debit_amounts.balance
+    def debits_total
+      debit_amounts.total
     end
 
     def self.valid_type?(type)

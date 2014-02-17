@@ -13,7 +13,7 @@ module ESA
     has_many :events, :through => :rulesets
     has_many :flags, :through => :rulesets
     has_many :transactions, :through => :accounts
-    has_many :amounts, :through => :accounts
+    has_many :amounts, :through => :accounts, :extend => Associations::AmountsExtension
 
     after_initialize :default_values
 

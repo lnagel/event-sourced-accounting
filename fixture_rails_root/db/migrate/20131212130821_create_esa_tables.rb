@@ -12,6 +12,7 @@ class CreateESATables < ActiveRecord::Migration
       t.string :type
       t.boolean :contra
       t.references :chart
+      t.string :normal_balance
 
       t.timestamps
     end

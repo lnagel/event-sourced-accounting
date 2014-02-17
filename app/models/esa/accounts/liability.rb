@@ -22,9 +22,9 @@ module ESA
       # @return [BigDecimal] The decimal value balance
       def balance
         unless contra
-          credits_balance - debits_balance
+          credits_total - debits_total
         else
-          debits_balance - credits_balance
+          debits_total - credits_total
         end
       end
 

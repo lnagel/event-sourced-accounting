@@ -16,8 +16,8 @@
     <td><%=link_to(account.id, account_path(account.id)) %></td>
     <td><%=h account.name %></td>
     <td><%=h account.type.sub('ESA::','') %></td>
-    <td><%=h account.credits_balance %></td>
-    <td><%=h account.debits_balance %></td>
+    <td><%=h account.credits_total %></td>
+    <td><%=h account.debits_total %></td>
     <td><%=h account.balance %></td>
   </tr>
 <% end %>

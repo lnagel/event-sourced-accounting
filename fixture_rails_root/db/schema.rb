@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(:version => 20120514173712) do
     t.string   "type"
     t.boolean  "contra"
     t.integer  "chart_id"
+    t.string   "normal_balance"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -29,7 +29,7 @@ module ESA
 
     belongs_to :accountable, :polymorphic => true
     belongs_to :flag
-    has_many :amounts
+    has_many :amounts, :extend => Associations::AmountsExtension
     has_many :credit_amounts, :inverse_of => :transaction, :class_name => "Amounts::Credit", :extend => Associations::AmountsExtension
     has_many :debit_amounts, :inverse_of => :transaction, :class_name => "Amounts::Debit", :extend => Associations::AmountsExtension
     has_many :accounts, :through => :amounts, :source => :account, :uniq => true
@@ -84,7 +84,7 @@ module ESA
     end
 
     def amounts_cancel?
-      errors[:base] << "The credit and debit amounts are not equal" if credit_amounts.balance != debit_amounts.balance
+      errors[:base] << "The credit and debit amounts are not equal" if credit_amounts.iterated_total != debit_amounts.iterated_total
     end
   end
 end
