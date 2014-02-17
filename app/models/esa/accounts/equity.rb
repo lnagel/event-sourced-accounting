@@ -10,24 +10,6 @@ module ESA
     # @author Michael Bulat
     class Equity < ESA::Account
 
-      # The balance of the account.
-      #
-      # Equity accounts have normal credit balances, so the debits are subtracted from the credits
-      # unless this is a contra account, in which credits are subtracted from debits
-      #
-      # @example
-      #   >> asset.balance
-      #   => #<BigDecimal:103259bb8,'0.2E4',4(12)>
-      #
-      # @return [BigDecimal] The decimal value balance
-      def balance
-        unless contra
-          credits_total - debits_total
-        else
-          debits_total - credits_total
-        end
-      end
-
       # This class method is used to return
       # the balance of all Equity accounts.
       #

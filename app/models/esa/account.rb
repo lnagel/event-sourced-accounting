@@ -73,6 +73,23 @@ module ESA
       debit_amounts.total
     end
 
+    # The balance of the account.
+    #
+    # @example
+    #   >> account.balance
+    #   => #<BigDecimal:103259bb8,'0.2E4',4(12)>
+    #
+    # @return [BigDecimal] The decimal value balance
+    def balance
+      if self.normal_balance.debit?
+        self.debits_total - self.credits_total
+      elsif self.normal_balance.credit?
+        self.credits_total - self.debits_total
+      else
+        nil
+      end
+    end
+
     def self.valid_type?(type)
       type.in? ["Asset", "Liability", "Equity", "Revenue", "Expense"]
     end
@@ -105,6 +122,7 @@ module ESA
 
     def default_values
       self.chart ||= Chart.where(:name => 'Chart of Accounts').first_or_create
+      self.normal_balance ||= :none
     end
 
     # The normal balance for the account. Must be overridden in implementations.

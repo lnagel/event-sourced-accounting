@@ -10,24 +10,6 @@ module ESA
     # @author Michael Bulat
     class Asset < ESA::Account
 
-      # The balance of the account.
-      #
-      # Assets have normal debit balances, so the credits are subtracted from the debits
-      # unless this is a contra account, in which debits are subtracted from credits
-      #
-      # @example
-      #   >> asset.balance
-      #   => #<BigDecimal:103259bb8,'0.2E4',4(12)>
-      #
-      # @return [BigDecimal] The decimal value balance
-      def balance
-        unless contra
-          debits_total - credits_total
-        else
-          credits_total - debits_total
-        end
-      end
-
       # This class method is used to return
       # the balance of all Asset accounts.
       #

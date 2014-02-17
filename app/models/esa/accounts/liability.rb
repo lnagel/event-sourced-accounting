@@ -10,24 +10,6 @@ module ESA
     # @author Michael Bulat
     class Liability < ESA::Account
 
-      # The balance of the account.
-      #
-      # Liability accounts have normal credit balances, so the debits are subtracted from the credits
-      # unless this is a contra account, in which credits are subtracted from debits
-      #
-      # @example
-      #   >> liability.balance
-      #   => #<BigDecimal:103259bb8,'0.2E4',4(12)>
-      #
-      # @return [BigDecimal] The decimal value balance
-      def balance
-        unless contra
-          credits_total - debits_total
-        else
-          debits_total - credits_total
-        end
-      end
-
       # Balance of all Liability accounts
       #
       # @example
