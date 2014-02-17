@@ -30,6 +30,8 @@ module ESA
   #
   # @author Michael Bulat
   class Account < ActiveRecord::Base
+    extend ::Enumerize
+
     attr_accessible :chart, :type, :name, :contra
     attr_readonly   :chart
 
@@ -41,9 +43,12 @@ module ESA
     has_many :credit_transactions, :through => :credit_amounts, :source => :transaction
     has_many :debit_transactions, :through => :debit_amounts, :source => :transaction
 
+    enumerize :normal_balance, in: [:none, :debit, :credit]
+
     after_initialize :default_values
 
-    validates_presence_of :type, :name, :chart
+    before_validation :update_normal_balance
+    validates_presence_of :type, :name, :chart, :normal_balance
     validates_uniqueness_of :name, :scope => :chart_id
 
     # The credit balance for the account.
@@ -100,6 +105,11 @@ module ESA
 
     def default_values
       self.chart ||= Chart.where(:name => 'Chart of Accounts').first_or_create
+    end
+
+    # The normal balance for the account. Must be overridden in implementations.
+    def update_normal_balance
+      self.normal_balance = :none
     end
   end
 end

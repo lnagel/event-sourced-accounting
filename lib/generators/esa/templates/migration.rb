@@ -11,11 +11,13 @@ class CreateEsaTables < ActiveRecord::Migration
       t.string     :name
       t.string     :type
       t.boolean    :contra
+      t.string     :normal_balance
       t.references :chart
 
       t.timestamps
     end
     add_index :esa_accounts, [:name, :type, :chart_id]
+    add_index :esa_accounts, :normal_balance
 
     create_table :esa_events, :force => true do |t|
       t.string     :type

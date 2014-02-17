@@ -50,6 +50,15 @@ module ESA
         end
         accounts_balance
       end
+
+      # The normal balance for the account. Must be overridden in implementations.
+      def update_normal_balance
+        unless self.contra
+          self.normal_balance = :debit
+        else
+          self.normal_balance = :credit
+        end
+      end
     end
   end
 end
