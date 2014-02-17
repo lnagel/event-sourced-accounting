@@ -51,28 +51,6 @@ module ESA
     validates_presence_of :type, :name, :chart, :normal_balance
     validates_uniqueness_of :name, :scope => :chart_id
 
-    # The credit balance for the account.
-    #
-    # @example
-    #   >> asset.credits_total
-    #   => #<BigDecimal:103259bb8,'0.1E4',4(12)>
-    #
-    # @return [BigDecimal] The decimal value credit balance
-    def credits_total
-      credit_amounts.total
-    end
-
-    # The debit balance for the account.
-    #
-    # @example
-    #   >> asset.debits_total
-    #   => #<BigDecimal:103259bb8,'0.3E4',4(12)>
-    #
-    # @return [BigDecimal] The decimal value credit balance
-    def debits_total
-      debit_amounts.total
-    end
-
     # The balance of the account.
     #
     # @example
@@ -82,9 +60,9 @@ module ESA
     # @return [BigDecimal] The decimal value balance
     def balance
       if self.normal_balance.debit?
-        self.debits_total - self.credits_total
+        self.amounts.balance
       elsif self.normal_balance.credit?
-        self.credits_total - self.debits_total
+        - self.amounts.balance
       else
         nil
       end
