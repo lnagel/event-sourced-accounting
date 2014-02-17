@@ -10,6 +10,7 @@ module ESA
     belongs_to :event
     belongs_to :ruleset
     has_many   :transactions
+    has_many   :amounts, :through => :transactions, :extend => Associations::AmountsExtension
 
     enumerize :nature, in: [:unknown]
 

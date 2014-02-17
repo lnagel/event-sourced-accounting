@@ -10,7 +10,7 @@ module ESA
     has_many :unscoped_events, :through => :rulesets, :source => :events
     has_many :unscoped_flags, :through => :rulesets, :source => :flags
     has_many :unscoped_transactions, :through => :accounts, :source => :transactions
-    has_many :unscoped_amounts, :through => :accounts, :source => :amounts
+    has_many :unscoped_amounts, :through => :accounts, :source => :amounts, :extend => Associations::AmountsExtension
 
     belongs_to :parent, :class_name => "Context"
     has_many :subcontexts, :class_name => "Context", :foreign_key => "parent_id"
