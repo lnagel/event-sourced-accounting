@@ -10,10 +10,10 @@ module ESA
     has_many :accounts
     has_many :rulesets
 
-    has_many :events, :through => :rulesets
-    has_many :flags, :through => :rulesets
-    has_many :transactions, :through => :accounts
-    has_many :amounts, :through => :accounts, :extend => Associations::AmountsExtension
+    has_many :events, :through => :rulesets, :uniq => true
+    has_many :flags, :through => :rulesets, :uniq => true
+    has_many :transactions, :through => :accounts, :uniq => true
+    has_many :amounts, :through => :accounts, :uniq => true, :extend => Associations::AmountsExtension
 
     after_initialize :default_values
 
