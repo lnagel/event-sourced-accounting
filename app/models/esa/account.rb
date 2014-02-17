@@ -96,7 +96,7 @@ module ESA
 
     def self.namespaced_type(type)
       if valid_type?(type)
-        "ESA::Accounts::#{type}".constantize
+        "ESA::Accounts::#{type}"
       else
         type
       end
