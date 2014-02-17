@@ -49,12 +49,6 @@ module ESA
     alias_method :credits=, :credit_amounts_attributes=
     alias_method :debits=, :debit_amounts_attributes=
     attr_accessible :credits, :debits
-    
-    # Support the deprecated .build method
-    def self.build(hash)
-      ActiveSupport::Deprecation.warn("ESA::Transaction.build() is deprecated (use new instead)", caller)
-      new(hash)
-    end
 
     private
 

@@ -112,25 +112,6 @@ module ESA
           include_examples 'a built-from-hash ESA::Transaction'
         end
       end
-
-      describe ".build" do
-        let(:transaction) { Transaction.build(hash) }
-        subject { transaction }
-        
-        before { ::ActiveSupport::Deprecation.silenced = true }
-        after { ::ActiveSupport::Deprecation.silenced = false }
-
-        context "when used at all" do
-          let(:hash) { Hash.new }
-          
-          it("should be deprecated") {
-            # .build is the only thing deprecated
-            ::ActiveSupport::Deprecation.should_receive(:warn).once
-            transaction
-          }
-        end
-      end
-
     end
 
 
