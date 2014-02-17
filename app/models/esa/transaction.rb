@@ -83,7 +83,8 @@ module ESA
     end
 
     def amounts_cancel?
-      errors[:base] << "The credit and debit amounts are not equal" if self.amounts.iterated_balance != 0
+      balance = self.amounts.iterated_balance
+      errors[:base] << "The credit and debit amounts are not equal" if balance.nil? or balance != 0
     end
   end
 end
