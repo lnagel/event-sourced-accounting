@@ -39,11 +39,11 @@ module ESA
         da4 = FactoryGirl.build(:debit_amount, :account => contra_equity, :amount => 2)
         da5 = FactoryGirl.build(:debit_amount, :account => contra_revenue, :amount => 333)
 
-        FactoryGirl.create(:transaction, :credit_amounts => [ca1], :debit_amounts => [da1])
-        FactoryGirl.create(:transaction, :credit_amounts => [ca2], :debit_amounts => [da2]) 
-        FactoryGirl.create(:transaction, :credit_amounts => [ca3], :debit_amounts => [da3])
-        FactoryGirl.create(:transaction, :credit_amounts => [ca4], :debit_amounts => [da4])
-        FactoryGirl.create(:transaction, :credit_amounts => [ca5], :debit_amounts => [da5])
+        FactoryGirl.create(:transaction, :amounts => [ca1, da1])
+        FactoryGirl.create(:transaction, :amounts => [ca2, da2]) 
+        FactoryGirl.create(:transaction, :amounts => [ca3, da3])
+        FactoryGirl.create(:transaction, :amounts => [ca4, da4])
+        FactoryGirl.create(:transaction, :amounts => [ca5, da5])
       }
       
       its(:trial_balance) { should == 0 }

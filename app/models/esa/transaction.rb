@@ -30,11 +30,7 @@ module ESA
     belongs_to :accountable, :polymorphic => true
     belongs_to :flag
     has_many :amounts, :extend => Associations::AmountsExtension
-    has_many :credit_amounts, :inverse_of => :transaction, :class_name => "Amounts::Credit", :extend => Associations::AmountsExtension
-    has_many :debit_amounts, :inverse_of => :transaction, :class_name => "Amounts::Debit", :extend => Associations::AmountsExtension
     has_many :accounts, :through => :amounts, :source => :account, :uniq => true
-    has_many :credit_accounts, :through => :credit_amounts, :source => :account
-    has_many :debit_accounts, :through => :debit_amounts, :source => :account
 
     after_initialize :default_values
 
@@ -43,12 +39,22 @@ module ESA
     validate :has_debit_amounts?
     validate :accounts_of_the_same_chart?
     validate :amounts_cancel?
-    
-    # Support construction using 'credits' and 'debits' keys
-    accepts_nested_attributes_for :credit_amounts, :debit_amounts
-    alias_method :credits=, :credit_amounts_attributes=
-    alias_method :debits=, :debit_amounts_attributes=
+
     attr_accessible :credits, :debits
+
+    def credits=(*attributes)
+      attributes.flatten.each do |attrs|
+        attrs[:transaction] = self
+        self.amounts << Amounts::Credit.new(attrs)
+      end
+    end
+
+    def debits=(*attributes)
+      attributes.flatten.each do |attrs|
+        attrs[:transaction] = self
+        self.amounts << Amounts::Debit.new(attrs)
+      end
+    end
 
     private
 
@@ -57,17 +63,16 @@ module ESA
     end
 
     def has_credit_amounts?
-      errors[:base] << "Transaction must have at least one credit amount" if self.credit_amounts.blank?
+      errors[:base] << "Transaction must have at least one credit amount" if self.amounts.find{|a| a.is_credit?}.nil?
     end
 
     def has_debit_amounts?
-      errors[:base] << "Transaction must have at least one debit amount" if self.debit_amounts.blank?
+      errors[:base] << "Transaction must have at least one debit amount" if self.amounts.find{|a| a.is_debit?}.nil?
     end
 
     def accounts_of_the_same_chart?
       if self.new_record?
-        amounts = self.debit_amounts + self.credit_amounts
-        chart_ids = amounts.map{|a| if a.account.present? then a.account.chart_id else nil end}
+        chart_ids = self.amounts.map{|a| if a.account.present? then a.account.chart_id else nil end}
       else
         chart_ids = self.accounts.pluck(:chart_id)
       end
@@ -78,7 +83,7 @@ module ESA
     end
 
     def amounts_cancel?
-      errors[:base] << "The credit and debit amounts are not equal" if credit_amounts.iterated_total != debit_amounts.iterated_total
+      errors[:base] << "The credit and debit amounts are not equal" if self.amounts.iterated_balance != 0
     end
   end
 end

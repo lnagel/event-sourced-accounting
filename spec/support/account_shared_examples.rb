@@ -7,8 +7,7 @@ shared_examples_for 'a ESA::Account subtype' do |elements|
     its(:balance) { should be_kind_of(BigDecimal) }
     its(:normal_balance) { should be_kind_of(Enumerize::Value) }
 
-    it { should respond_to(:credit_transactions) }
-    it { should respond_to(:debit_transactions) }
+    it { should respond_to(:transactions) }
   end
 
   it "requires a name" do

@@ -47,15 +47,32 @@ module ESA
 
       # Returns a sum of the referenced Amount objects.
       def iterated_total
-        total = BigDecimal.new('0')
-        each do |amount_record|
-          if amount_record.amount
-            total += amount_record.amount
+        amounts = map(&:amount)
+
+        if amounts.all?
+          amounts.inject(BigDecimal(0)){|x,y| x + y}
+        else
+          return nil
+        end
+      end
+
+      # Returns a sum of the referenced Amount objects.
+      def iterated_balance
+        amounts = map do |a|
+          if a.is_debit?
+            a.amount
+          elsif a.is_credit? and not a.amount.nil?
+            - a.amount
           else
-            total = nil
+            nil
           end
         end
-        return total
+        
+        if amounts.all?
+          amounts.inject(BigDecimal(0)){|x,y| x + y}
+        else
+          return nil
+        end
       end
     end
   end

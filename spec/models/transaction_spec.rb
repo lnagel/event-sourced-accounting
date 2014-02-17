@@ -19,13 +19,13 @@ module ESA
 
     context "with a debit" do
       before {
-        transaction.debit_amounts << FactoryGirl.build(:debit_amount, transaction: transaction)
+        transaction.amounts << FactoryGirl.build(:debit_amount, transaction: transaction)
       }
       it { should_not be_valid }
 
       context "with an invalid credit" do
         before {
-          transaction.credit_amounts << FactoryGirl.build(:credit_amount, transaction: transaction, amount: nil)
+          transaction.amounts << FactoryGirl.build(:credit_amount, transaction: transaction, amount: nil)
         }
         it { should_not be_valid }
       end
@@ -33,29 +33,29 @@ module ESA
 
     context "with a credit" do
       before {
-        transaction.credit_amounts << FactoryGirl.build(:credit_amount, transaction: transaction)
+        transaction.amounts << FactoryGirl.build(:credit_amount, transaction: transaction)
       }
       it { should_not be_valid }
 
       context "with an invalid debit" do
         before {
-          transaction.debit_amounts << FactoryGirl.build(:debit_amount, transaction: transaction, amount: nil)
+          transaction.amounts << FactoryGirl.build(:debit_amount, transaction: transaction, amount: nil)
         }
         it { should_not be_valid }
       end
     end
 
     it "should require the debit and credit amounts to cancel" do
-      transaction.credit_amounts << FactoryGirl.build(:credit_amount, :amount => 100, :transaction => transaction)
-      transaction.debit_amounts << FactoryGirl.build(:debit_amount, :amount => 200, :transaction => transaction)
+      transaction.amounts << FactoryGirl.build(:credit_amount, :amount => 100, :transaction => transaction)
+      transaction.amounts << FactoryGirl.build(:debit_amount, :amount => 200, :transaction => transaction)
       transaction.should_not be_valid
       transaction.errors['base'].should == ["The credit and debit amounts are not equal"]
     end
 
     it "should require the debit and credit amounts to cancel even with fractions" do
       transaction = FactoryGirl.build(:transaction)
-      transaction.credit_amounts << FactoryGirl.build(:credit_amount, :amount => 100.1, :transaction => transaction)
-      transaction.debit_amounts << FactoryGirl.build(:debit_amount, :amount => 100.2, :transaction => transaction)
+      transaction.amounts << FactoryGirl.build(:credit_amount, :amount => 100.1, :transaction => transaction)
+      transaction.amounts << FactoryGirl.build(:debit_amount, :amount => 100.2, :transaction => transaction)
       transaction.should_not be_valid
       transaction.errors['base'].should == ["The credit and debit amounts are not equal"]
     end
@@ -75,8 +75,7 @@ module ESA
       let!(:sales_tax_payable) { FactoryGirl.create(:liability, name: "Sales Tax Payable") }
       
       shared_examples_for 'a built-from-hash ESA::Transaction' do
-        its(:credit_amounts) { should_not be_empty }
-        its(:debit_amounts) { should_not be_empty }
+        its(:amounts) { should_not be_empty }
         it { should be_valid }
         
         context "when saved" do
