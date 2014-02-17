@@ -13,8 +13,8 @@ module ESA
 
     validates_presence_of :type, :amount, :transaction, :account
 
-    scope :credits, lambda { where(type: ESA::Amounts::Credit) }
-    scope :debits, lambda { where(type: ESA::Amounts::Debit) }
+    scope :credits, lambda { where(type: Amounts::Credit) }
+    scope :debits, lambda { where(type: Amounts::Debit) }
 
     def is_credit?
       self.is_a? Amounts::Credit
