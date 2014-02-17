@@ -15,8 +15,6 @@ module ESA
     belongs_to :parent, :class_name => "Context"
     has_many :subcontexts, :class_name => "Context", :foreign_key => "parent_id"
 
-    # has_many :planets, :conditions => Planet.life_supporting.where_values,
-    # :order => Planet.life_supporting.order_values
     after_initialize :default_values
     validates_presence_of :chart
     validate :validate_parent
@@ -42,7 +40,9 @@ module ESA
         relation = self.parent.apply(relation)
       end
 
-      @filters.inject(relation){|r,filter| filter.(r)}
+      @filters.
+        select{|f| f.is_a? Proc}.
+        inject(relation){|r,filter| filter.(r)}
     end
 
     protected
