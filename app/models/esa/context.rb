@@ -15,7 +15,7 @@ module ESA
     belongs_to :parent, :class_name => "Context"
     has_many :subcontexts, :class_name => "Context", :foreign_key => "parent_id"
 
-    after_initialize :default_values
+    after_initialize :default_values, :initialize_filters
     validates_presence_of :chart
     validate :validate_parent
 
@@ -54,6 +54,10 @@ module ESA
     end
 
     def default_values
+      self.chart ||= self.parent.chart unless self.parent.nil?
+    end
+
+    def initialize_filters
       @filters = []
     end
   end

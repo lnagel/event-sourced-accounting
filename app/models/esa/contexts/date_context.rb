@@ -33,7 +33,7 @@ module ESA
         end
       end
 
-      def default_values
+      def initialize_filters
         @filters = []
 
         if self.start_date.present? and self.end_date.present?

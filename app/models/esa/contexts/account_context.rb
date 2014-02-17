@@ -10,7 +10,7 @@ module ESA
 
       protected
 
-      def default_values
+      def initialize_filters
         @filters = [lambda { |relation| relation.with_account(self.account) }]
       end
     end
