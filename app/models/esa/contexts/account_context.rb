@@ -16,3 +16,5 @@ module ESA
     end
   end
 end
+
+ESA::Context.send :include, ESA::Contexts::AccountContextProvider
