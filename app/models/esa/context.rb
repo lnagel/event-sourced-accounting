@@ -45,6 +45,12 @@ module ESA
         inject(relation){|r,filter| filter.(r)}
     end
 
+    def check_freshness
+      if self.respond_to? :check_subcontexts
+        self.check_subcontexts
+      end
+    end
+
     protected
 
     def validate_parent
