@@ -88,6 +88,7 @@ class CreateEsaTables < ActiveRecord::Migration
 
     create_table :esa_contexts do |t|
       t.string     :type
+      t.string     :name
       t.references :chart
       t.references :parent
       t.references :account

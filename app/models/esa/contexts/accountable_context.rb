@@ -10,6 +10,10 @@ module ESA
 
       protected
 
+      def create_name
+        "#{self.accountable_type} \##{self.accountable_id}" unless self.accountable_type.nil?
+      end
+
       def initialize_filters
         @filters = []
 

@@ -1,6 +1,6 @@
 module ESA
   class Context < ActiveRecord::Base
-    attr_accessible :chart, :parent, :type
+    attr_accessible :chart, :parent, :type, :name
     attr_readonly   :chart, :parent
 
     belongs_to :chart
@@ -16,7 +16,7 @@ module ESA
     has_many :subcontexts, :class_name => "Context", :foreign_key => "parent_id"
 
     after_initialize :default_values, :initialize_filters
-    validates_presence_of :chart
+    validates_presence_of :chart, :name
     validate :validate_parent
 
     def events
@@ -55,6 +55,15 @@ module ESA
 
     def default_values
       self.chart ||= self.parent.chart unless self.parent.nil?
+      self.name ||= self.create_name
+    end
+
+    def create_name
+      if self.type.nil?
+        self.chart.name unless self.chart.nil?
+      else
+        "#{self.type.demodulize} \##{self.id}"
+      end
     end
 
     def initialize_filters

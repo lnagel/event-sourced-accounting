@@ -33,6 +33,16 @@ module ESA
         end
       end
 
+      def create_name
+        if self.start_date.present? and self.end_date.present?
+          "#{self.start_date.to_s} - #{self.end_date.to_s}"
+        elsif self.start_date.present?
+          "#{self.start_date.to_s} - ..."
+        elsif self.end_date.present?
+          "... - #{self.end_date.to_s}"
+        end
+      end
+
       def initialize_filters
         @filters = []
 

@@ -10,6 +10,10 @@ module ESA
 
       protected
 
+      def create_name
+        self.account.name unless self.account.nil?
+      end
+
       def initialize_filters
         @filters = [lambda { |relation| relation.with_account(self.account_id) }]
       end
