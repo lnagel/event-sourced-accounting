@@ -1,8 +1,8 @@
 module ESA
   module Contexts
     class AccountContext < ESA::Context
-      attr_accessible :account_id
-      attr_readonly   :account_id
+      attr_accessible :account, :account_id
+      attr_readonly   :account, :account_id
 
       belongs_to :account
 
