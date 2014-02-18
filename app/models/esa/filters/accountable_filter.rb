@@ -5,7 +5,8 @@ module ESA
         extend ActiveSupport::Concern
 
         included do
-          scope :with_accountable, lambda { |accountable| joins(:transaction).where(esa_transactions: {accountable_id: accountable}) }
+          scope :with_accountable, lambda { |accountable,type| joins(:transaction).where(esa_transactions: {accountable_id: accountable, accountable_type: type}) }
+          scope :with_accountable_type, lambda { |type| joins(:transaction).where(esa_transactions: {accountable_type: type}) }
         end
       end
 
@@ -13,7 +14,8 @@ module ESA
         extend ActiveSupport::Concern
 
         included do
-          scope :with_accountable, lambda { |accountable| where(accountable_id: accountable) }
+          scope :with_accountable, lambda { |accountable,type| where(accountable_id: accountable, accountable_type: type) }
+          scope :with_accountable_type, lambda { |type| where(accountable_type: type) }
         end
       end
     end

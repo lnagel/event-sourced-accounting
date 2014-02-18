@@ -91,6 +91,7 @@ class CreateEsaTables < ActiveRecord::Migration
       t.references :chart
       t.references :parent
       t.references :account
+      t.references :accountable, :polymorphic => true
       t.date       :start_date
       t.date       :end_date
 
@@ -99,6 +100,7 @@ class CreateEsaTables < ActiveRecord::Migration
     add_index :esa_contexts, [:type, :chart_id]
     add_index :esa_contexts, :parent_id
     add_index :esa_contexts, :account_id
+    add_index :esa_contexts, [:accountable_id, :accountable_type], :name => "index_contexts_on_accountable"
     add_index :esa_contexts, :start_date
     add_index :esa_contexts, :end_date
   end
