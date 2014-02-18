@@ -35,7 +35,11 @@ module ESA
 
       def create_name
         if self.start_date.present? and self.end_date.present?
-          "#{self.start_date.to_s} - #{self.end_date.to_s}"
+          if self.start_date == self.end_date
+            "#{self.start_date.to_s}"
+          else
+            "#{self.start_date.to_s} - #{self.end_date.to_s}"
+          end
         elsif self.start_date.present?
           "#{self.start_date.to_s} - ..."
         elsif self.end_date.present?
