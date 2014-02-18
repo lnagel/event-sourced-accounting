@@ -6,9 +6,22 @@ module ESA
       included do
         scope :with_context, lambda { |*contexts|
           contexts.flatten.uniq.
-          select{|ctx| ctx.respond_to? :apply}.
-          inject(where([])) do |relation,context|
-            context.apply(relation)
+          map do |ctx|
+            if ctx.is_a? Integer or ctx.is_a? String
+              ESA::Context.find(ctx.to_i) rescue nil
+            else
+              ctx
+            end
+          end.
+          inject(where([])) do |relation,ctx|
+            if not ctx.nil? and ctx.respond_to? :apply
+              # good, the context can be applied directly
+              ctx.apply(relation)
+            else
+              # context not found, or cannot be applied
+              # either way, make sure we dont return results
+              relation.where("1=0")
+            end
           end
         }
       end
