@@ -9,7 +9,7 @@ module ESA
         end
 
         def existing_date_subcontexts
-          self.subcontexts.where(type: DateContext).
+          self.subcontexts.where(type: ESA::Contexts::DateContext).
           where("esa_contexts.start_date is not null and esa_contexts.end_date is not null").
           where("esa_contexts.start_date = esa_contexts.end_date").
           all
@@ -21,7 +21,7 @@ module ESA
           new_dates = self.contained_dates - existing_subcontexts.map(&:start_date).uniq
 
           new_subcontexts = new_dates.map do |date|
-            DateContext.create(parent: self, start_date: date, end_date: date)
+            ESA::Contexts::DateContext.create(parent: self, start_date: date, end_date: date)
           end
 
           existing_subcontexts + new_subcontexts

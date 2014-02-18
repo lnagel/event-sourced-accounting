@@ -4,7 +4,7 @@ module ESA
       attr_accessible :accountable, :accountable_id, :accountable_type
       attr_readonly   :accountable, :accountable_id, :accountable_type
 
-      belongs_to :accountable
+      belongs_to :accountable, :polymorphic => true
 
       validates_presence_of :accountable
 

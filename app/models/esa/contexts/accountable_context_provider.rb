@@ -9,7 +9,7 @@ module ESA
         end
 
         def existing_accountable_subcontexts
-          self.subcontexts.where(type: AccountableContext).all
+          self.subcontexts.where(type: ESA::Contexts::AccountableContext).all
         end
 
         def contained_accountable_contexts
@@ -18,7 +18,7 @@ module ESA
           new_ids_types = self.contained_accountable_ids_types - existing_subcontexts.map{|tx| [tx.accountable_id, tx.accountable_type]}.uniq
 
           new_subcontexts = new_ids_types.map do |id,type|
-            AccountableContext.create(parent: self, accountable_id: id, accountable_type: type)
+            ESA::Contexts::AccountableContext.create(parent: self, accountable_id: id, accountable_type: type)
           end
 
           existing_subcontexts + new_subcontexts
