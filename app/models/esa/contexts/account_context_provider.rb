@@ -13,8 +13,8 @@ module ESA
         end
 
         def contained_account_contexts
-          self.contained_accounts.map do |account|
-            AccountContext.new(parent: self, account: account)
+          self.contained_account_ids.map do |id|
+            AccountContext.new(parent: self, account_id: id)
           end
         end
       end
