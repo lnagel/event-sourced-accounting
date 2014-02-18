@@ -19,6 +19,17 @@ module ESA
     validates_presence_of :chart, :name
     validate :validate_parent
 
+    scope :roots, lambda { where(parent_id: nil) }
+    scope :subs,  lambda { where("esa_contexts.parent_id is not null") }
+
+    def is_root?
+      self.parent_id.nil?
+    end
+
+    def is_subcontext?
+      self.parent_id.present?
+    end
+
     def events
       self.apply(self.unscoped_events)
     end

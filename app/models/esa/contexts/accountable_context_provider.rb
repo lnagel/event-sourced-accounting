@@ -8,20 +8,20 @@ module ESA
           self.transactions.pluck([:accountable_id, :accountable_type]).uniq
         end
 
-        def contained_accountable_types
-          self.transactions.pluck(:accountable_type).uniq
+        def existing_accountable_subcontexts
+          self.subcontexts.where(type: AccountableContext).all
         end
 
         def contained_accountable_contexts
-          self.contained_accountable_ids_types.map do |id,type|
-            AccountableContext.new(parent: self, accountable_id: id, accountable_type: type)
-          end
-        end
+          existing_subcontexts = self.existing_accountable_subcontexts
 
-        def contained_accountable_type_contexts
-          self.contained_accountable_types.map do |type|
-            AccountableContext.new(parent: self, accountable_type: type)
+          new_ids_types = self.contained_accountable_ids_types - existing_subcontexts.map{|tx| [tx.accountable_id, tx.accountable_type]}.uniq
+
+          new_subcontexts = new_ids_types.map do |id,type|
+            AccountableContext.create(parent: self, accountable_id: id, accountable_type: type)
           end
+
+          existing_subcontexts + new_subcontexts
         end
       end
     end

@@ -5,37 +5,26 @@ module ESA
 
       included do
         def contained_dates
-          self.transactions.pluck('date(time)').uniq
+          self.transactions.pluck("date(esa_transactions.time)").uniq
+        end
+
+        def existing_date_subcontexts
+          self.subcontexts.where(type: DateContext).
+          where("esa_contexts.start_date is not null and esa_contexts.end_date is not null").
+          where("esa_contexts.start_date = esa_contexts.end_date").
+          all
         end
 
         def contained_date_contexts
-          contained_dates = self.contained_dates
+          existing_subcontexts = self.existing_date_subcontexts
 
-          date_subcontexts = self.subcontexts.where(type: DateContext).all
+          new_dates = self.contained_dates - existing_subcontexts.map(&:start_date).uniq
 
-          subcontext_dates = date_subcontexts.select do |ctx|
-            ctx.start_date.present? and ctx.end_date.present? and ctx.start_date = ctx.end_date
-          end.map do |ctx|
-            ctx.start_date
-          end.uniq
-
-          remaining_dates = contained_dates - subcontext_dates
-
-          new_subcontexts = remaining_dates.map do |date|
-            DateContext.new(parent: self, start_date: date, end_date: date)
+          new_subcontexts = new_dates.map do |date|
+            DateContext.create(parent: self, start_date: date, end_date: date)
           end
 
-          date_subcontexts + new_subcontexts
-        end
-
-        def create_date_contexts
-          self.contained_date_contexts.map do |ctx|
-            if ctx.new_record?
-              ctx.save
-            else
-              true
-            end
-          end.all?
+          existing_subcontexts + new_subcontexts
         end
       end
     end

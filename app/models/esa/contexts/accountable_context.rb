@@ -6,12 +6,12 @@ module ESA
 
       belongs_to :accountable
 
-      validates_presence_of :accountable_type
+      validates_presence_of :accountable
 
       protected
 
       def create_name
-        "#{self.accountable_type} \##{self.accountable_id}" unless self.accountable_type.nil?
+        "#{self.accountable_type} #{self.accountable_id}" unless self.accountable_type.nil?
       end
 
       def initialize_filters
@@ -19,8 +19,6 @@ module ESA
 
         if self.accountable_id.present? and self.accountable_type.present?
           @filters << lambda { |relation| relation.with_accountable(self.accountable_id, self.accountable_type) }
-        elsif self.accountable_type.present?
-          @filters << lambda { |relation| relation.with_accountable_type(self.accountable_type) }
         end
       end
     end
