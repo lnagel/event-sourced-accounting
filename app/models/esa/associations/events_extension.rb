@@ -8,7 +8,7 @@ module ESA
         last_event = events.order('time DESC, created_at DESC').first
 
         # make sure that the previous event was not of the same event type
-        if last_event.nil? or last_event.event != attrs[:event]
+        if last_event.nil? or last_event.nature != attrs[:nature]
           if attrs[:time].present? and last_event.present? and last_event.time.present? and last_event.time > attrs[:time]
             # we cannot input past events, so let's make it most recent
             attrs[:time] = last_event.time
