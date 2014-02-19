@@ -74,11 +74,10 @@ module ESA
     end
 
     def default_values
-      if not self.event.nil?
-        self.event ||= event
-        self.time ||= event.time
-        self.accountable ||= event.accountable
-        self.ruleset ||= event.ruleset
+      if not self.event_id.nil?
+        self.time ||= self.event.time if self.time.nil?
+        self.accountable ||= self.event.accountable if self.accountable_id.nil?
+        self.ruleset ||= self.event.ruleset if self.ruleset_id.nil?
       end
 
       self.processed ||= false

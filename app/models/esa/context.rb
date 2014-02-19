@@ -71,8 +71,8 @@ module ESA
     end
 
     def default_values
-      self.chart ||= self.parent.chart unless self.parent.nil?
-      self.name ||= self.create_name
+      self.chart ||= self.parent.chart if self.chart_id.nil? and not self.parent_id.nil?
+      self.name ||= self.create_name if self.name.nil?
     end
 
     def create_name

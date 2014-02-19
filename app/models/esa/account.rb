@@ -79,7 +79,7 @@ module ESA
     private
 
     def default_values
-      self.chart ||= Chart.where(:name => 'Chart of Accounts').first_or_create
+      self.chart ||= Chart.where(:name => 'Chart of Accounts').first_or_create if self.chart_id.nil?
       self.normal_balance ||= :none
     end
 

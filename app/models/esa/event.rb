@@ -52,8 +52,8 @@ module ESA
     private
 
     def default_values
-      self.time ||= Time.zone.now
-      self.ruleset ||= Ruleset.extension_instance(self)
+      self.time ||= Time.zone.now if self.time.nil?
+      self.ruleset ||= Ruleset.extension_instance(self.accountable) if self.ruleset_id.nil? and not self.accountable_id.nil?
       self.processed ||= false
     end
   end

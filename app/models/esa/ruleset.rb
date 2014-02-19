@@ -82,7 +82,7 @@ module ESA
     private
 
     def default_values
-      self.chart ||= Chart.extension_instance(self)
+      self.chart ||= Chart.extension_instance(self) if self.chart_id.nil?
     end
   end
 end
