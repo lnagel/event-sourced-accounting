@@ -1,5 +1,3 @@
-require 'thread'
-
 module ESA
   module BlockingProcessor
     def self.enqueue(accountable)
