@@ -19,7 +19,7 @@ module ESA
     validates_inclusion_of :processed, :in => [true, false]
     validate :validate_time
 
-    after_create :create_flags
+    after_create :enqueue_accountable
 
     def validate_time
       if self.new_record? and self.accountable.present?
@@ -31,22 +31,34 @@ module ESA
     end
 
     def produce_flags
+      flags = self.flags.all
       if self.ruleset.present?
-        flags = self.ruleset.event_flags_as_attributes(self)
-        flags.map do |attrs|
-          self.accountable.esa_flags.new(attrs)
+        required_flags = self.ruleset.event_flags_as_attributes(self)
+        required_flags.map do |attrs|
+          existing = flags.find{|f| f.nature == attrs[:nature].to_s and f.state == attrs[:state]}
+          if existing.present?
+            existing
+          else
+            flag = self.accountable.esa_flags.new(attrs)
+            self.flags << flag
+            flag
+          end
         end
       else
-        []
+        flags
       end
     end
 
     def create_flags
       if not self.processed and not self.processed_was
-        self.processed = self.produce_flags.map(&:save).all?
-        self.save if self.changed?
+        self.produce_flags.map(&:save).all?
+      else
+        true
       end
-      true # do not block the commit
+    end
+
+    def enqueue_accountable
+      Config.processor.enqueue(self.accountable)
     end
 
     private

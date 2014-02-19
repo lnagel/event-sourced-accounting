@@ -20,8 +20,6 @@ module ESA
     validates_inclusion_of :processed, :in => [true, false]
     validate :validate_transition
 
-    after_create :record_transition, :create_transactions
-
     def is_set?
       self.state == true
     end
@@ -39,22 +37,32 @@ module ESA
     end
 
     def produce_transactions
+      transactions = self.transactions.all
       if self.ruleset.present? and self.transition.present?
-        transactions = self.ruleset.flag_transactions_as_attributes(self)
-        transactions.map do |attrs|
-          self.accountable.esa_transactions.new(attrs)
+        required_transactions = self.ruleset.flag_transactions_as_attributes(self)
+        required_transactions.map do |attrs|
+          existing = transactions.find{|f| f.description == attrs[:description]}
+          if existing.present?
+            existing
+          else
+            self.accountable.esa_transactions.new(attrs)
+          end
         end
       else
-        []
+        transactions
       end
     end
 
     def create_transactions
-      if not self.processed and not self.processed_was and self.transition.present?
-        self.processed = self.produce_transactions.map(&:save).all?
-        self.save if self.changed?
+      if not self.processed and not self.processed_was
+        if self.transition.present?
+          self.produce_transactions.map(&:save).all?
+        else
+          false
+        end
+      else
+        true
       end
-      true # do not block the commit
     end
 
     private
@@ -63,14 +71,6 @@ module ESA
       if self.processed and not self.transition.in? [-1, 0, 1]
         errors[:processed] = "The transition must be in? [-1, 0, 1] before processed can be set to true"
       end
-    end
-
-    def record_transition
-      if not self.accountable.nil? and not self.nature.nil? and not self.state.nil? and not self.time.nil?
-        self.transition = event.accountable.esa_flags.transition_for(self)
-        self.save if self.changed?
-      end
-      true # do not block the commit
     end
 
     def default_values
