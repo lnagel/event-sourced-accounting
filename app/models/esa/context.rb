@@ -14,7 +14,7 @@ module ESA
     has_many :unscoped_amounts, :through => :accounts, :source => :amounts, :uniq => true, :extend => Associations::AmountsExtension
 
     belongs_to :parent, :class_name => "Context"
-    has_many :subcontexts, :class_name => "Context", :foreign_key => "parent_id"
+    has_many :subcontexts, :class_name => "Context", :foreign_key => "parent_id", :dependent => :destroy
 
     after_initialize :default_values, :initialize_filters
     before_validation :update_name
@@ -62,6 +62,8 @@ module ESA
       if self.respond_to? :check_subcontexts
         self.check_subcontexts
       end
+      self.update_name
+      self.save if self.changed?
     end
 
     protected
