@@ -6,6 +6,8 @@ module ESA
       end
 
       def self.contained_subcontexts(context, namespace, existing, options = {})
+        existing = existing.select{|sub| sub.type == "ESA::Contexts::AccountableContext"}
+
         contained_ids = contained_accountable_ids(context)
         existing_ids = existing.map{|sub| [sub.accountable_id, sub.accountable_type]}
 
