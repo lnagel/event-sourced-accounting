@@ -3,7 +3,17 @@ module ESA
     class DateContextProvider < ESA::ContextProvider
       def self.contained_pairs(context, options = {})
         dates = context.transactions.pluck("date(esa_transactions.time)").uniq
-        dates.zip dates
+
+        if options[:period].present? and options[:period] == :month
+          dates.group_by{|d| [d.year, d.month]}.keys.
+          map do |year,month|
+            start_date = Date.new(year, month, 1)
+            end_date = start_date.end_of_month
+            [start_date, end_date]
+          end
+        else
+          dates.zip dates
+        end
       end
 
       def self.contained_subcontexts(context, namespace, existing, options = {})
