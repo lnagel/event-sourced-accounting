@@ -1,5 +1,5 @@
 module ESA
-  module BlockingProcessor
+  class BlockingProcessor
     def self.enqueue(accountable)
       if accountable.present? and accountable.class.ancestors.include? ESA::Traits::Accountable
         process_accountable(accountable)
