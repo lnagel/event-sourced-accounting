@@ -20,5 +20,3 @@ module ESA
     end
   end
 end
-
-require 'esa/contexts/account_context_provider'

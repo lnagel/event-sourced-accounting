@@ -22,5 +22,3 @@ module ESA
     end
   end
 end
-
-require 'esa/contexts/accountable_type_context_provider'

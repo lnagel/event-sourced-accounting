@@ -1,6 +1,6 @@
 module ESA
   class Context < ActiveRecord::Base
-    attr_accessible :chart, :parent, :type, :name
+    attr_accessible :chart, :parent, :type, :name, :namespace
     attr_accessible :chart, :chart_id, :parent, :parent_id, :type, :name, :start_date, :end_date, :as => :admin
     attr_readonly   :chart, :parent
 
@@ -59,11 +59,18 @@ module ESA
     end
 
     def check_freshness
-      if self.respond_to? :check_subcontexts
-        self.check_subcontexts
+      Config.context_checkers.each do |checker|
+        if checker.respond_to? :check_freshness
+          checker.check_freshness(self)
+        end
       end
+
       self.update_name
       self.save if self.changed?
+    end
+
+    def subcontext_namespaces
+      self.subcontexts.pluck(:namespace).compact.uniq
     end
 
     protected
