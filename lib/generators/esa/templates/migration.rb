@@ -97,6 +97,12 @@ class CreateEsaTables < ActiveRecord::Migration
       t.date       :start_date
       t.date       :end_date
 
+      t.datetime   :freshness
+      t.decimal    :debits_total,    :precision => 20, :scale => 10
+      t.decimal    :credits_total,   :precision => 20, :scale => 10
+      t.decimal    :opening_balance, :precision => 20, :scale => 10
+      t.decimal    :closing_balance, :precision => 20, :scale => 10
+
       t.timestamps
     end
     add_index :esa_contexts, [:type, :chart_id]
@@ -106,6 +112,7 @@ class CreateEsaTables < ActiveRecord::Migration
     add_index :esa_contexts, :namespace
     add_index :esa_contexts, :start_date
     add_index :esa_contexts, :end_date
+    add_index :esa_contexts, :freshness
   end
 
   def self.down
