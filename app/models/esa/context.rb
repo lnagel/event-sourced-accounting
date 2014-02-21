@@ -49,13 +49,9 @@ module ESA
     end
 
     def apply(relation)
-      if self.parent.present? and self.parent.respond_to? :apply
-        relation = self.parent.apply(relation)
+      self.parents_and_self.inject(relation) do |r,context|
+        context.inject_filters(r)
       end
-
-      @filters.
-        select{|f| f.is_a? Proc}.
-        inject(relation){|r,filter| filter.(r)}
     end
 
     def check_freshness
@@ -71,6 +67,17 @@ module ESA
 
     def subcontext_namespaces
       self.subcontexts.pluck(:namespace).compact.uniq
+    end
+
+    def parents_and_self
+      contexts = [self]
+      while contexts.last.parent_id.present? and 
+            not contexts.last.parent_id.in? contexts.map(&:id) and
+            contexts.count < 16 do
+        # found a valid parent
+        contexts << contexts.last.parent
+      end
+      contexts.reverse
     end
 
     protected
@@ -99,6 +106,13 @@ module ESA
 
     def initialize_filters
       @filters = []
+    end
+
+    def inject_filters(relation)
+      @filters.select{|f| f.is_a? Proc}.
+      inject(relation) do |r,filter|
+        filter.call(r)
+      end
     end
   end
 end
