@@ -54,11 +54,15 @@ module ESA
       end
     end
 
-    def check_freshness
+    def check_freshness(depth=0)
       if self.is_update_needed?
         self.update_freshness
-      else
-        true
+      end
+
+      if depth > 0
+        self.subcontexts.each do |sub|
+          sub.check_freshness(depth - 1)
+        end
       end
     end
 
