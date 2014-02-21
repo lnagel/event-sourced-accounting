@@ -98,6 +98,10 @@ class CreateEsaTables < ActiveRecord::Migration
       t.date       :end_date
 
       t.datetime   :freshness
+      t.decimal    :event_count,       :precision => 16
+      t.decimal    :flag_count,        :precision => 16
+      t.decimal    :transaction_count, :precision => 16
+      t.decimal    :amount_count,      :precision => 16
       t.decimal    :debits_total,    :precision => 20, :scale => 10
       t.decimal    :credits_total,   :precision => 20, :scale => 10
       t.decimal    :opening_balance, :precision => 20, :scale => 10
