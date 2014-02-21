@@ -49,7 +49,7 @@ module ESA
     end
 
     def apply(relation)
-      self.parents_and_self.inject(relation) do |r,context|
+      self.applicable_contexts.inject(relation) do |r,context|
         context.inject_filters(r)
       end
     end
@@ -69,23 +69,33 @@ module ESA
       self.subcontexts.pluck(:namespace).compact.uniq
     end
 
-    def parents_and_self
-      contexts = [self]
-      while contexts.last.parent_id.present? and 
-            not contexts.last.parent_id.in? contexts.map(&:id) and
-            contexts.count < 16 do
-        # found a valid parent
-        contexts << contexts.last.parent
-      end
-      contexts.reverse
+    def applicable_contexts
+      self.parents_and_self
     end
 
     def effective_start_date
-      self.parents_and_self.map(&:start_date).compact.max
+      self.applicable_contexts.map(&:start_date).compact.max
     end
 
     def effective_end_date
-      self.parents_and_self.map(&:end_date).compact.min
+      self.applicable_contexts.map(&:end_date).compact.min
+    end
+
+    def opening_context
+      if self.effective_start_date.present?
+        end_date = self.effective_start_date - 1.day
+        Contexts::OpenCloseContext.new(chart: self.chart, parent: self, end_date: end_date, namespace: 'opening')
+      else
+        Contexts::EmptyContext.new(chart: self.chart, parent: self, namespace: 'opening')
+      end
+    end
+
+    def closing_context
+      if self.effective_end_date.present?
+        Contexts::OpenCloseContext.new(chart: self.chart, parent: self, end_date: self.effective_end_date, namespace: 'closing')
+      else
+        Contexts::OpenCloseContext.new(chart: self.chart, parent: self, namespace: 'closing')
+      end
     end
 
     protected
@@ -121,6 +131,17 @@ module ESA
       inject(relation) do |r,filter|
         filter.call(r)
       end
+    end
+
+    def parents_and_self
+      contexts = [self]
+      while contexts.last.parent_id.present? and 
+            not contexts.last.parent_id.in? contexts.map(&:id) and
+            contexts.count < 16 do
+        # found a valid parent
+        contexts << contexts.last.parent
+      end
+      contexts.reverse
     end
   end
 end
