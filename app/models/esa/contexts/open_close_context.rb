@@ -1,7 +1,7 @@
 module ESA
   module Contexts
     class OpenCloseContext < DateContext
-      def applicable_contexts
+      def effective_contexts
         self.parents_and_self.reject{|ctx| ctx.type == DateContext.to_s}
       end
 

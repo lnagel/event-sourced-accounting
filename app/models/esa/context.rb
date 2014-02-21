@@ -49,7 +49,7 @@ module ESA
     end
 
     def apply(relation)
-      self.applicable_contexts.inject(relation) do |r,context|
+      self.effective_contexts.inject(relation) do |r,context|
         context.inject_filters(r)
       end
     end
@@ -111,16 +111,16 @@ module ESA
       self.subcontexts.pluck(:namespace).compact.uniq
     end
 
-    def applicable_contexts
+    def effective_contexts
       self.parents_and_self
     end
 
     def effective_start_date
-      self.applicable_contexts.map(&:start_date).compact.max
+      self.effective_contexts.map(&:start_date).compact.max
     end
 
     def effective_end_date
-      self.applicable_contexts.map(&:end_date).compact.min
+      self.effective_contexts.map(&:end_date).compact.min
     end
 
     def opening_context

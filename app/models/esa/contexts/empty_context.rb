@@ -1,7 +1,7 @@
 module ESA
   module Contexts
     class EmptyContext < ESA::Context
-      def applicable_contexts
+      def effective_contexts
         [self]
       end
 
