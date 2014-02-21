@@ -80,6 +80,14 @@ module ESA
       contexts.reverse
     end
 
+    def effective_start_date
+      self.parents_and_self.map(&:start_date).compact.max
+    end
+
+    def effective_end_date
+      self.parents_and_self.map(&:end_date).compact.min
+    end
+
     protected
 
     def validate_parent
