@@ -130,6 +130,14 @@ module ESA
       end
     end
 
+    def change_total
+      if self.debits_total.present? and self.credits_total.present?
+        self.debits_total - self.credits_total
+      else
+        nil
+      end
+    end
+
     protected
 
     def validate_parent
