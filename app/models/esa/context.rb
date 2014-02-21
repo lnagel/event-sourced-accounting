@@ -55,6 +55,34 @@ module ESA
     end
 
     def check_freshness
+      if self.is_update_needed?
+        self.update_freshness
+      else
+        true
+      end
+    end
+
+    def is_update_needed?
+      last_event_time = self.events.maximum(:time)
+
+      if self.freshness.present?
+        if last_event_time.present?
+          last_event_time >= self.freshness
+        else
+          false
+        end
+      else
+        if last_event_time.present?
+          true
+        else
+          false
+        end
+      end
+    end
+
+    def update_freshness
+      self.freshness = Time.zone.now
+
       Config.context_checkers.each do |checker|
         if checker.respond_to? :check_freshness
           checker.check_freshness(self)
@@ -62,7 +90,7 @@ module ESA
       end
 
       self.update_name
-      self.save if self.changed?
+      self.save
     end
 
     def subcontext_namespaces
