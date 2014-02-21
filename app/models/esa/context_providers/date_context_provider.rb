@@ -27,7 +27,7 @@ module ESA
           ESA::Contexts::DateContext.new(parent: context, namespace: namespace, start_date: start_date, end_date: end_date)
         end
 
-        new_subcontexts + existing.select{|sub| sub.date.in? contained_pairs}
+        new_subcontexts + existing.select{|sub| [sub.start_date, sub.end_date].in? contained_pairs}
       end
     end
   end
