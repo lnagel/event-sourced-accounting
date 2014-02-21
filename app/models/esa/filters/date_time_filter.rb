@@ -17,6 +17,8 @@ module ESA
           scope :with_time_gt,  lambda { |time| joins(:transaction).where(ESA::Transaction.arel_table[:time].gt( time)) }
           scope :with_time_lte, lambda { |time| joins(:transaction).where(ESA::Transaction.arel_table[:time].lteq(time)) }
           scope :with_time_gte, lambda { |time| joins(:transaction).where(ESA::Transaction.arel_table[:time].gteq(time)) }
+
+          scope :created_before, lambda { |time| joins(:transaction).where(ESA::Transaction.arel_table[:created_at].lt(time)) }
         end
       end
 
@@ -36,6 +38,8 @@ module ESA
           scope :with_time_gt,  lambda { |time| where(arel_table[:time].gt( time)) }
           scope :with_time_lte, lambda { |time| where(arel_table[:time].lteq(time)) }
           scope :with_time_gte, lambda { |time| where(arel_table[:time].gteq(time)) }
+
+          scope :created_before, lambda { |time| where(arel_table[:created_at].lt(time)) }
         end
       end
     end

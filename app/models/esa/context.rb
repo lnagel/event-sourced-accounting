@@ -55,7 +55,7 @@ module ESA
     end
 
     def last_event_time
-      self.events.maximum(:time)
+      self.events.maximum(:created_at)
     end
 
     def check_freshness(depth=0, last_event_time=nil)
