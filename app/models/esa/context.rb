@@ -54,39 +54,39 @@ module ESA
       end
     end
 
-    def last_event_time
-      self.events.maximum(:created_at)
+    def last_transaction_time
+      self.transactions.maximum(:created_at)
     end
 
-    def check_freshness(depth=0, last_event_time=nil)
-      if last_event_time.nil?
-        last_event_time = self.last_event_time
+    def check_freshness(depth=0, last_transaction_time=nil)
+      if last_transaction_time.nil?
+        last_transaction_time = self.last_transaction_time
       end
 
-      if self.is_update_needed?(last_event_time)
+      if self.is_update_needed?(last_transaction_time)
         self.update_freshness
       end
 
       if depth > 0
         self.subcontexts.each do |sub|
-          sub.check_freshness(depth - 1, last_event_time)
+          sub.check_freshness(depth - 1, last_transaction_time)
         end
       end
     end
 
-    def is_update_needed?(last_event_time=nil)
-      if last_event_time.nil?
-        last_event_time = self.last_event_time
+    def is_update_needed?(last_transaction_time=nil)
+      if last_transaction_time.nil?
+        last_transaction_time = self.last_transaction_time
       end
 
       if self.freshness.present?
-        if last_event_time.present?
-          last_event_time >= self.freshness
+        if last_transaction_time.present?
+          last_transaction_time >= self.freshness
         else
           false
         end
       else
-        if last_event_time.present?
+        if last_transaction_time.present?
           true
         else
           false
