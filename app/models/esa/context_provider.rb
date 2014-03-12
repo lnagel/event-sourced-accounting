@@ -20,5 +20,9 @@ module ESA
     def self.contained_subcontexts(context, namespace, existing, options = {})
       []
     end
+
+    def self.affected_root_contexts(context)
+      []
+    end
   end
 end
