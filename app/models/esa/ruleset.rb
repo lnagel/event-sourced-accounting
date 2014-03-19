@@ -12,16 +12,35 @@ module ESA
     after_initialize :default_values
     validates_presence_of :type, :chart
 
-    def accountable_events(accountable)
+    def stateful_events(accountable)
       []
     end
 
-    def accountable_events_as_attributes(accountable)
-      accountable_events(accountable).map do |event|
-        event[:accountable] ||= accountable
-        event[:ruleset] ||= self
-        event
-      end
+    def stateful_events_as_attributes(accountable)
+      stateful_events(accountable).
+        sort_by{|event| event[:time]}.
+        map do |event|
+          event[:accountable] ||= accountable
+          event[:ruleset] ||= self
+          event
+        end
+    end
+
+    def unrecorded_events(accountable)
+      stateful = stateful_events_as_attributes(accountable)
+
+      recorded = accountable.esa_events.pluck([:nature, :time]).
+            map{|nature,time| [nature, time.to_i]}
+
+      stateful.reject{|s| [s[:nature].to_s, s[:time].to_i].in? recorded}
+    end
+
+    def produce_unrecorded_events(accountable)
+      accountable.esa_events.new(unrecorded_events(accountable))
+    end
+
+    def create_unrecorded_events(accountable)
+      produce_unrecorded_events(accountable).map(&:save).all?
     end
 
     def event_flags(event)
