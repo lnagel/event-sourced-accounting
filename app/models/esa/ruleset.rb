@@ -43,6 +43,10 @@ module ESA
       produce_unrecorded_events(accountable).map(&:save).all?
     end
 
+    def create_unrecorded_events!(accountable)
+      produce_unrecorded_events(accountable).map(&:save!).all?
+    end
+
     def event_flags(event)
       {}
     end
