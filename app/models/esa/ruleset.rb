@@ -12,6 +12,10 @@ module ESA
     after_initialize :default_values
     validates_presence_of :type, :chart
 
+    def accountables_updated_at(timespec)
+      []
+    end
+
     def stateful_events(accountable)
       []
     end
