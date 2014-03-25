@@ -34,6 +34,7 @@ class CreateEsaTables < ActiveRecord::Migration
     add_index :esa_events, :nature
     add_index :esa_events, [:accountable_id, :accountable_type], :name => "index_events_on_accountable"
     add_index :esa_events, :ruleset_id
+    add_index :esa_events, [:time, :nature, :accountable_id, :accountable_type], :unique => true, :name => "unique_contents"
 
     create_table :esa_flags, :force => true do |t|
       t.string     :type
@@ -54,6 +55,7 @@ class CreateEsaTables < ActiveRecord::Migration
     add_index :esa_flags, [:accountable_id, :accountable_type], :name => "index_flags_on_accountable"
     add_index :esa_flags, :event_id
     add_index :esa_flags, :ruleset_id
+    add_index :esa_flags, [:time, :nature, :accountable_id, :accountable_type], :unique => true, :name => "unique_contents"
 
     create_table :esa_transactions do |t|
       t.string     :type
@@ -65,6 +67,7 @@ class CreateEsaTables < ActiveRecord::Migration
       t.timestamps
     end
     add_index :esa_transactions, [:accountable_id, :accountable_type], :name => "index_transactions_on_accountable"
+    add_index :esa_transactions, [:time, :description, :accountable_id, :accountable_type], :unique => true, :name => "unique_contents"
 
     create_table :esa_rulesets, :force => true do |t|
       t.string     :type
@@ -85,6 +88,7 @@ class CreateEsaTables < ActiveRecord::Migration
     add_index :esa_amounts, :type
     add_index :esa_amounts, [:account_id, :transaction_id]
     add_index :esa_amounts, [:transaction_id, :account_id]
+    add_index :esa_amounts, [:type, :account_id, :transaction_id, :amount], :unique => true, :name => "unique_contents"
 
     create_table :esa_contexts do |t|
       t.string     :type
