@@ -2,8 +2,8 @@ module ESA
   class BalanceChecker
     def self.check_freshness(context)
       if not context.freshness.nil?
-        context.event_count = context.events.created_before(context.freshness).count
-        context.flag_count = context.flags.created_before(context.freshness).count
+        #context.event_count = context.events.created_before(context.freshness).count
+        #context.flag_count = context.flags.created_before(context.freshness).count
         context.transaction_count = context.transactions.created_before(context.freshness).count
         context.amount_count = context.amounts.created_before(context.freshness).count
 
