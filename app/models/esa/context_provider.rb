@@ -10,9 +10,9 @@ module ESA
       end
 
       removed = existing - contained
-      removed.each(&:destroy) unless options[:remove].present? and not options[:remove]
+      removed.each(&:destroy) unless :remove.in? options and not options[:remove]
 
-      if options[:freshness].present? and options[:freshness]
+      if :freshness.in? options and options[:freshness]
         contained.each(&:check_freshness)
       end
 
