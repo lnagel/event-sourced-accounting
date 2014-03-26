@@ -6,7 +6,7 @@ module ESA
 
         included do
           scope :with_accountable, lambda { |accountable,type|
-            if accountable.is_a? ActiveRecord::Relation then accountable = accountable.pluck(accountable.primary_key) end
+            if accountable.is_a? ActiveRecord::Relation then accountable = accountable.pluck("`#{accountable.table_name}`.`#{accountable.primary_key}`") end
             joins(:transaction).where(esa_transactions: {accountable_id: accountable, accountable_type: type})
           }
           scope :with_accountable_type, lambda { |type| joins(:transaction).where(esa_transactions: {accountable_type: type}) }
@@ -18,7 +18,7 @@ module ESA
 
         included do
           scope :with_accountable, lambda { |accountable,type|
-            if accountable.is_a? ActiveRecord::Relation then accountable = accountable.pluck(accountable.primary_key) end
+            if accountable.is_a? ActiveRecord::Relation then accountable = accountable.pluck("`#{accountable.table_name}`.`#{accountable.primary_key}`") end
             where(accountable_id: accountable, accountable_type: type)
           }
           scope :with_accountable_type, lambda { |type| where(accountable_type: type) }
