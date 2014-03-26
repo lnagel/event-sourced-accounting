@@ -84,6 +84,8 @@ class CreateEsaTables < ActiveRecord::Migration
       t.references :account
       t.references :transaction
       t.decimal    :amount, :precision => 20, :scale => 10
+
+      t.timestamps
     end 
     add_index :esa_amounts, :type
     add_index :esa_amounts, [:account_id, :transaction_id]
