@@ -28,7 +28,7 @@ module ESA
 
         new_pairs = contained_pairs - existing_pairs
         new_subcontexts = new_pairs.map do |start_date,end_date|
-          ESA::Contexts::DateContext.new(parent: context, namespace: namespace, start_date: start_date, end_date: end_date)
+          ESA::Contexts::DateContext.new(chart_id: context.chart_id, parent_id: context.id, namespace: namespace, start_date: start_date, end_date: end_date)
         end
 
         new_subcontexts + existing.select{|sub| [sub.start_date, sub.end_date].in? contained_pairs}

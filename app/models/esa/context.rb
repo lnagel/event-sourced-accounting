@@ -1,7 +1,7 @@
 module ESA
   class Context < ActiveRecord::Base
-    attr_accessible :chart, :parent, :type, :name, :namespace
-    attr_accessible :chart, :chart_id, :parent, :parent_id, :type, :name, :start_date, :end_date, :as => :admin
+    attr_accessible :chart, :chart_id, :parent, :parent_id, :type, :name, :namespace
+    attr_accessible :chart, :chart_id, :parent, :parent_id, :type, :name, :namespace, :start_date, :end_date, :as => :admin
     attr_readonly   :chart, :parent
 
     belongs_to :chart

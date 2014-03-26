@@ -16,7 +16,7 @@ module ESA
         new_types = new_types - options[:blacklist] if options[:blacklist].present?
 
         new_subcontexts = new_types.map do |type|
-          ESA::Contexts::AccountableTypeContext.new(parent: context, namespace: namespace, accountable_type: type)
+          ESA::Contexts::AccountableTypeContext.new(chart_id: context.chart_id, parent_id: context.id, namespace: namespace, accountable_type: type)
         end
 
         new_subcontexts + existing.select{|sub| sub.accountable_type.in? contained_types}

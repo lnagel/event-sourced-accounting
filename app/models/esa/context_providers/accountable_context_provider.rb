@@ -13,7 +13,7 @@ module ESA
 
         new_ids = contained_ids - existing_ids
         new_subcontexts = new_ids.map do |id,type|
-          ESA::Contexts::AccountableContext.new(parent: context, namespace: namespace, accountable_id: id, accountable_type: type)
+          ESA::Contexts::AccountableContext.new(chart_id: context.chart_id, parent_id: context.id, namespace: namespace, accountable_id: id, accountable_type: type)
         end
 
         new_subcontexts + existing.select{|sub| [sub.accountable_id, sub.accountable_type].in? contained_ids}

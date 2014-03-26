@@ -10,11 +10,21 @@ module ESA
       end
 
       removed = existing - contained
-      removed.each(&:destroy)
+      removed.each(&:destroy) unless options[:remove].present? and not options[:remove]
+
+      if options[:freshness].present? and options[:freshness]
+        contained.each(&:check_freshness)
+      end
+
+      contained
     end
 
     def self.existing_subcontexts(context, namespace)
-      context.subcontexts.where(namespace: namespace).all
+      if context.persisted?
+        context.subcontexts.where(namespace: namespace).all
+      else
+        ESA::Context.where(parent_id: context.id, namespace: namespace).all
+      end
     end
 
     def self.contained_subcontexts(context, namespace, existing, options = {})
