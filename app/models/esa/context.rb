@@ -99,8 +99,8 @@ module ESA
       self.freshness = Time.zone.now
 
       Config.context_checkers.each do |checker|
-        if checker.respond_to? :check_freshness
-          checker.check_freshness(self)
+        if checker.respond_to? :check
+          checker.check(self)
         end
       end
 

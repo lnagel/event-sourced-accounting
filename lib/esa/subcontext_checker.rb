@@ -1,6 +1,6 @@
 module ESA
   class SubcontextChecker
-    def self.check_freshness(context)
+    def self.check(context)
       ESA::Config.context_providers_for_path(context.effective_path).each do |namespace,provider|
         if provider.is_a? Class and provider.respond_to? :check_subcontexts
           provider.check_subcontexts(context, namespace)
