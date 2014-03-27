@@ -7,8 +7,10 @@ module ESA
       created = contained - existing
       created.each do |sub|
         sub.save if sub.new_record? or sub.changed?
-        context.subcontexts << sub
       end
+
+      unregistered = contained - context.subcontexts
+      context.subcontexts += unregistered
 
       removed = existing - contained
       removed.each(&:destroy) unless :remove.in? options and not options[:remove]
