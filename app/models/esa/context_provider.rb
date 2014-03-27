@@ -13,11 +13,7 @@ module ESA
       context.subcontexts += unregistered
 
       removed = existing - contained
-      removed.each(&:destroy) unless :remove.in? options and not options[:remove]
-
-      if :freshness.in? options and options[:freshness]
-        contained.each(&:check_freshness)
-      end
+      removed.select(&:is_subcontext?).each(&:destroy)
 
       contained
     end
