@@ -7,6 +7,7 @@ module ESA
       created = contained - existing
       created.each do |sub|
         sub.save if sub.new_record? or sub.changed?
+        context.subcontexts << sub
       end
 
       removed = existing - contained
