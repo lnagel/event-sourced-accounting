@@ -15,17 +15,13 @@ module ESA
       removed = existing - contained
       context.subcontexts -= removed
 
-      removed.each(&:destroy) if context.persisted?
+      removed.each(&:destroy) if context.can_be_persisted?
 
       contained
     end
 
     def self.existing_subcontexts(context, namespace)
-      if context.persisted?
-        context.subcontexts.where(namespace: namespace).all
-      else
-        ESA::Context.where(parent_id: context.id, namespace: namespace).all
-      end
+      context.subcontexts.where(namespace: namespace).all
     end
 
     def self.contained_subcontexts(context, namespace, existing, options = {})
