@@ -13,7 +13,9 @@ module ESA
       context.subcontexts += unregistered
 
       removed = existing - contained
-      removed.select(&:is_subcontext?).each(&:destroy)
+      context.subcontexts -= removed
+
+      removed.each(&:destroy) if context.persisted?
 
       contained
     end
