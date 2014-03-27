@@ -1,7 +1,6 @@
 module ESA
   module Contexts
     class CreatedAtContext < ESA::Context
-      after_initialize :set_namespace
       before_save :prevent_save
 
       def created_at
@@ -22,10 +21,6 @@ module ESA
       end
 
       protected
-
-      def set_namespace
-        self.namespace = "created_at"
-      end
 
       def prevent_save
         raise "#{self.type} objects are not intended to be persisted"
