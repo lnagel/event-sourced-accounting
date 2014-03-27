@@ -115,6 +115,10 @@ module ESA
       self.parents_and_self
     end
 
+    def effective_path
+      self.effective_contexts.map{|ctx| ctx.namespace || ""}
+    end
+
     def effective_start_date
       self.effective_contexts.map(&:start_date).compact.max
     end
