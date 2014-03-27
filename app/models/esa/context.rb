@@ -148,7 +148,7 @@ module ESA
     end
 
     def can_be_persisted?
-      true
+      self.type.present?
     end
 
     protected
@@ -161,7 +161,7 @@ module ESA
 
     def default_values
       self.chart ||= self.parent.chart if self.chart_id.nil? and not self.parent_id.nil?
-      self.namespace ||= self.type.demodulize.underscore.gsub(/_context$/, '')
+      self.namespace ||= self.class.name.demodulize.underscore.gsub(/_context$/, '')
     end
 
     def update_name
@@ -200,7 +200,7 @@ module ESA
 
     def enforce_persistence_rule
       if not self.can_be_persisted?
-        raise "#{self.type} objects are not intended to be persisted"
+        raise "#{self.class.name} objects are not intended to be persisted"
       end
     end
   end
