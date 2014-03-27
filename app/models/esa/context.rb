@@ -20,6 +20,7 @@ module ESA
     before_validation :update_name
     validates_presence_of :chart, :name
     validate :validate_parent
+    before_save :enforce_persistence_rule
 
     scope :roots, lambda { where(parent_id: nil) }
     scope :subs,  lambda { where("esa_contexts.parent_id is not null") }
@@ -104,7 +105,7 @@ module ESA
       end
 
       self.update_name
-      self.save
+      self.save if self.can_be_persisted?
     end
 
     def subcontext_namespaces
@@ -152,6 +153,10 @@ module ESA
       end
     end
 
+    def can_be_persisted?
+      true
+    end
+
     protected
 
     def validate_parent
@@ -197,6 +202,12 @@ module ESA
         contexts << contexts.last.parent
       end
       contexts.reverse
+    end
+
+    def enforce_persistence_rule
+      if not self.can_be_persisted?
+        raise "#{self.type} objects are not intended to be persisted"
+      end
     end
   end
 end

@@ -1,8 +1,6 @@
 module ESA
   module Contexts
     class CreatedAtContext < ESA::Context
-      before_save :prevent_save
-
       def created_at
         @created_at
       end
@@ -20,10 +18,8 @@ module ESA
         end
       end
 
-      protected
-
-      def prevent_save
-        raise "#{self.type} objects are not intended to be persisted"
+      def can_be_persisted?
+        false
       end
     end
   end
