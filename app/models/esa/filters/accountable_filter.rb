@@ -32,7 +32,6 @@ module ESA
 
         included do
           scope :with_accountable, lambda { |accountable,type|
-            if accountable.is_a? ActiveRecord::Relation then accountable = accountable.pluck("`#{accountable.table_name}`.`#{accountable.primary_key}`") end
             joins(:transaction).where(esa_transactions: {accountable_id: accountable, accountable_type: type})
           }
           scope :with_accountable_def, lambda { |definitions| joins(:transaction).joins("INNER JOIN (#{ESA::Filters::AccountableFilter.make_union_query(definitions)}) `accountables-#{(hash ^ definitions.hash).to_s(36)}` ON `esa_transactions`.`accountable_id` = `accountables-#{(hash ^ definitions.hash).to_s(36)}`.`id` AND `esa_transactions`.`accountable_type` = `accountables-#{(hash ^ definitions.hash).to_s(36)}`.`type`") }
@@ -45,7 +44,6 @@ module ESA
 
         included do
           scope :with_accountable, lambda { |accountable,type|
-            if accountable.is_a? ActiveRecord::Relation then accountable = accountable.pluck("`#{accountable.table_name}`.`#{accountable.primary_key}`") end
             where(accountable_id: accountable, accountable_type: type)
           }
           scope :with_accountable_def, lambda { |definitions| joins("INNER JOIN (#{ESA::Filters::AccountableFilter.make_union_query(definitions)}) `accountables-#{(hash ^ definitions.hash).to_s(36)}` ON `#{table_name}`.`accountable_id` = `accountables-#{(hash ^ definitions.hash).to_s(36)}`.`id` AND `#{table_name}`.`accountable_type` = `accountables-#{(hash ^ definitions.hash).to_s(36)}`.`type`") }
