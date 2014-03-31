@@ -1,13 +1,15 @@
 module ESA
   module ContextProviders
     class AccountableContextProvider < ESA::ContextProvider
+      def self.provided_types
+        ["ESA::Contexts::AccountableContext"]
+      end
+
       def self.contained_accountable_ids(context)
         context.transactions.pluck([:accountable_id, :accountable_type]).uniq
       end
 
       def self.contained_subcontexts(context, namespace, existing, options = {})
-        existing = existing.select{|sub| sub.type == "ESA::Contexts::AccountableContext"}
-
         contained_ids = contained_accountable_ids(context)
         existing_ids = existing.map{|sub| [sub.accountable_id, sub.accountable_type]}
 

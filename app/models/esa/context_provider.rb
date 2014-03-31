@@ -1,5 +1,9 @@
 module ESA
   class ContextProvider
+    def self.provided_types
+      []
+    end
+
     def self.check_subcontexts(context, namespace, options = {})
       existing = existing_subcontexts(context, namespace)
       contained = contained_subcontexts(context, namespace, existing, options)
@@ -21,7 +25,7 @@ module ESA
     end
 
     def self.existing_subcontexts(context, namespace)
-      context.subcontexts.where(namespace: namespace).all
+      context.subcontexts.where(type: provided_types, namespace: namespace).all
     end
 
     def self.contained_subcontexts(context, namespace, existing, options = {})

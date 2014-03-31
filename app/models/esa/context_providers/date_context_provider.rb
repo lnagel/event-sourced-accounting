@@ -1,6 +1,10 @@
 module ESA
   module ContextProviders
     class DateContextProvider < ESA::ContextProvider
+      def self.provided_types
+        ["ESA::Contexts::DateContext"]
+      end
+
       def self.contained_dates(context)
         context.transactions.pluck("date(esa_transactions.time)").uniq.sort
       end
@@ -21,8 +25,6 @@ module ESA
       end
 
       def self.contained_subcontexts(context, namespace, existing, options = {})
-        existing = existing.select{|sub| sub.type == "ESA::Contexts::DateContext"}
-
         contained_pairs = contained_pairs(context, options)
         existing_pairs = existing.map{|sub| [sub.start_date, sub.end_date]}
 
