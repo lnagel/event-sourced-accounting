@@ -20,11 +20,6 @@ module ESA
 
         new_subcontexts + existing.select{|sub| sub.account_id.in? contained_ids}
       end
-
-      def self.affected_root_contexts(context)
-        contained_ids = contained_account_ids(context)
-        ESA::Contexts::AccountContext.roots.where(account_id: contained_ids)
-      end
     end
   end
 end

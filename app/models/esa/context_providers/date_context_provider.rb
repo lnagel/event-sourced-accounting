@@ -35,16 +35,6 @@ module ESA
 
         new_subcontexts + existing.select{|sub| [sub.start_date, sub.end_date].in? contained_pairs}
       end
-
-      def self.affected_root_contexts(context)
-        dates = contained_dates(context)
-        dates.map do |date|
-          ESA::Contexts::DateContext.roots.
-              where(ESA::Context.arel_table[:start_date].lteq(date)).
-              where(ESA::Context.arel_table[:end_date].gteq(date)).
-              all
-        end.flatten
-      end
     end
   end
 end
