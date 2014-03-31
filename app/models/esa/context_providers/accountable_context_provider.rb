@@ -5,20 +5,17 @@ module ESA
         ["ESA::Contexts::AccountableContext"]
       end
 
-      def self.contained_accountable_ids(context)
+      def self.context_id(context, options = {})
+        [context.accountable_id, context.accountable_type]
+      end
+
+      def self.contained_ids(context, options = {})
         context.transactions.pluck([:accountable_id, :accountable_type]).uniq
       end
 
-      def self.contained_subcontexts(context, namespace, existing, options = {})
-        contained_ids = contained_accountable_ids(context)
-        existing_ids = existing.map{|sub| [sub.accountable_id, sub.accountable_type]}
-
-        new_ids = contained_ids - existing_ids
-        new_subcontexts = new_ids.map do |id,type|
-          ESA::Contexts::AccountableContext.new(chart_id: context.chart_id, parent_id: context.id, namespace: namespace, accountable_id: id, accountable_type: type)
-        end
-
-        new_subcontexts + existing.select{|sub| [sub.accountable_id, sub.accountable_type].in? contained_ids}
+      def self.instantiate(parent, namespace, id, options = {})
+        accountable_id, accountable_type = id
+        ESA::Contexts::AccountableContext.new(chart_id: parent.chart_id, parent_id: parent.id, namespace: namespace, accountable_id: accountable_id, accountable_type: accountable_type)
       end
     end
   end

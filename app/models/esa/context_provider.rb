@@ -24,16 +24,29 @@ module ESA
       contained
     end
 
-    def self.existing_subcontexts(context, namespace)
+    def self.context_id(context, options = {})
+      []
+    end
+
+    def self.contained_ids(context, options = {})
+      []
+    end
+
+    def self.existing_subcontexts(context, namespace, options = {})
       context.subcontexts.where(type: provided_types, namespace: namespace).all
     end
 
     def self.contained_subcontexts(context, namespace, existing, options = {})
-      []
-    end
+      contained_ids = contained_ids(context, options)
+      existing_ids = existing.map{|sub| context_id(sub, options)}
 
-    def self.affected_root_contexts(context)
-      []
+      new_ids = contained_ids - existing_ids
+
+      new_subcontexts = new_ids.map do |id|
+        instantiate(context, namespace, id, options)
+      end
+
+      new_subcontexts + existing.select{|sub| context_id(sub).in? contained_ids}
     end
   end
 end

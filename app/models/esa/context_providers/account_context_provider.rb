@@ -5,20 +5,16 @@ module ESA
         ["ESA::Contexts::AccountContext"]
       end
 
-      def self.contained_account_ids(context)
+      def self.context_id(context, options = {})
+        context.account_id
+      end
+
+      def self.contained_ids(context, options = {})
         context.amounts.pluck(:account_id).uniq
       end
 
-      def self.contained_subcontexts(context, namespace, existing, options = {})
-        contained_ids = contained_account_ids(context)
-        existing_ids = existing.map{|sub| sub.account_id}
-
-        new_ids = contained_ids - existing_ids
-        new_subcontexts = new_ids.map do |id|
-          ESA::Contexts::AccountContext.new(chart_id: context.chart_id, parent_id: context.id, namespace: namespace, account_id: id)
-        end
-
-        new_subcontexts + existing.select{|sub| sub.account_id.in? contained_ids}
+      def self.instantiate(parent, namespace, id, options = {})
+        ESA::Contexts::AccountContext.new(chart_id: parent.chart_id, parent_id: parent.id, namespace: namespace, account_id: id)
       end
     end
   end

@@ -5,12 +5,12 @@ module ESA
         ["ESA::Contexts::DateContext"]
       end
 
-      def self.contained_dates(context)
-        context.transactions.pluck("date(esa_transactions.time)").uniq.sort
+      def self.context_id(context, options = {})
+        [context.start_date, context.end_date]
       end
 
-      def self.contained_pairs(context, options = {})
-        dates = contained_dates(context)
+      def self.contained_ids(context, options = {})
+        dates = context.transactions.pluck("date(esa_transactions.time)").uniq.sort
 
         if options[:period].present? and options[:period] == :month
           dates.group_by{|d| [d.year, d.month]}.keys.
@@ -24,16 +24,9 @@ module ESA
         end
       end
 
-      def self.contained_subcontexts(context, namespace, existing, options = {})
-        contained_pairs = contained_pairs(context, options)
-        existing_pairs = existing.map{|sub| [sub.start_date, sub.end_date]}
-
-        new_pairs = contained_pairs - existing_pairs
-        new_subcontexts = new_pairs.map do |start_date,end_date|
-          ESA::Contexts::DateContext.new(chart_id: context.chart_id, parent_id: context.id, namespace: namespace, start_date: start_date, end_date: end_date)
-        end
-
-        new_subcontexts + existing.select{|sub| [sub.start_date, sub.end_date].in? contained_pairs}
+      def self.instantiate(parent, namespace, id, options = {})
+        start_date, end_date = id
+        ESA::Contexts::DateContext.new(chart_id: parent.chart_id, parent_id: parent.id, namespace: namespace, start_date: start_date, end_date: end_date)
       end
     end
   end
