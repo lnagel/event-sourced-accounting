@@ -43,6 +43,10 @@ module ESA
       stateful.reject{|s| [s[:nature].to_s, s[:time].to_i].in? recorded}
     end
 
+    def is_adjustment_event_needed?(accountable)
+      flags_needing_adjustment(accountable).count > 0
+    end
+
     # flags
 
     def event_flags(event)
@@ -57,6 +61,22 @@ module ESA
           :state => state,
           :event => event,
         }
+      end
+    end
+
+    def flags_needing_adjustment(accountable)
+      natures = accountable.esa_flags.pluck(:nature).uniq.map{|nature| nature.to_sym}
+      most_recent_flags = natures.map{|nature| accountable.esa_flags.most_recent(nature)}
+
+      most_recent_flags.reject do |flag|
+        attributes = flag_transactions_as_attributes(flag)
+
+        flag.transactions.map do |tx|
+          tx_attrs = attributes.find{|a| a[:description] == tx.description}
+          tx_attrs_amounts = (tx_attrs[:credits] + tx_attrs[:debits]).map{|a| [a[:account], a[:amount]]}
+          tx_amounts = tx.amounts.map{|a| [a.account, a.amount]}
+          (tx_attrs_amounts - tx_amounts).empty?
+        end.all?
       end
     end
 
@@ -77,8 +97,31 @@ module ESA
       end
     end
 
+    def flag_transactions_when_adjusted(flag)
+      flag.transactions.map do |tx|
+        if tx.valid?
+          [
+            {
+              :time => flag.time,
+              :description => tx.description,
+              :credits => tx.amounts.credits.map{|a| {:account => a.account, :amount => a.amount}},
+              :debits => tx.amounts.debits.map{|a| {:account => a.account, :amount => a.amount}},
+            },
+            {
+              :time => flag.adjustment_time,
+              :description => tx.description + " / adjusted",
+              :debits => tx.amounts.credits.map{|a| {:account => a.account, :amount => a.amount}}, # swap
+              :credits => tx.amounts.debits.map{|a| {:account => a.account, :amount => a.amount}}, # swap
+            }
+          ]
+        end
+      end.compact.flatten
+    end
+
     def flag_transactions_as_attributes(flag)
-      if flag.became_set?
+      if flag.adjusted?
+        transactions = self.flag_transactions_when_adjusted(flag)
+      elsif flag.became_set? or (flag.is_set? and flag.event.present? and flag.event.nature.adjustment?)
         transactions = self.flag_transactions_when_set(flag)
       elsif flag.became_unset?
         transactions = self.flag_transactions_when_unset(flag)

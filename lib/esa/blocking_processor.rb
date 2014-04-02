@@ -46,7 +46,15 @@ module ESA
       flags_created = create_flags(event)
 
       if flags_created
-        unprocessed_flags = event.flags.
+        unprocessed_flags = []
+
+        if event.nature.adjustment?
+          unprocessed_flags += event.accountable.esa_flags.
+              where(adjusted: true, processed: false).
+              order('time ASC, created_at ASC')
+        end
+
+        unprocessed_flags += event.flags.
             where(processed: false).
             order('time ASC, created_at ASC')
 
@@ -74,15 +82,36 @@ module ESA
     def self.produce_flags(event)
       flags = event.flags.all
       if event.ruleset.present?
-        required_flags = event.ruleset.event_flags_as_attributes(event)
-        required_flags.map do |attrs|
-          existing = flags.find{|f| f.nature == attrs[:nature].to_s and f.state == attrs[:state]}
-          if existing.present?
-            existing
-          else
-            flag = event.accountable.esa_flags.new(attrs)
-            event.flags << flag
-            flag
+        if event.nature.adjustment?
+          adjusted_flags = event.ruleset.flags_needing_adjustment(event.accountable)
+          adjusted_flags.map do |flag|
+            flag.processed = false
+            flag.adjusted = true
+            flag.adjustment_time = event.time
+
+            attrs = {
+              :accountable => event.accountable,
+              :nature => flag.nature,
+              :state => flag.state,
+              :event => event,
+            }
+
+            adjustment = event.accountable.esa_flags.new(attrs)
+            event.flags << adjustment
+
+            [flag, adjustment]
+          end.flatten
+        else
+          required_flags = event.ruleset.event_flags_as_attributes(event)
+          required_flags.map do |attrs|
+            existing = flags.find{|f| f.nature == attrs[:nature].to_s and f.state == attrs[:state]}
+            if existing.present?
+              existing
+            else
+              flag = event.accountable.esa_flags.new(attrs)
+              event.flags << flag
+              flag
+            end
           end
         end
       else
@@ -91,7 +120,7 @@ module ESA
     end
 
     def self.process_flag(flag)
-      flag.transition = flag.accountable.esa_flags.transition_for(flag)
+      flag.transition ||= flag.accountable.esa_flags.transition_for(flag)
       create_transactions(flag)
     end
 

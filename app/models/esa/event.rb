@@ -12,7 +12,7 @@ module ESA
     has_many   :transactions, :through => :flags
     has_many   :amounts, :through => :transactions, :extend => Associations::AmountsExtension
 
-    enumerize :nature, in: [:unknown]
+    enumerize :nature, in: [:unknown, :adjustment]
 
     after_initialize :default_values
     validates_presence_of :time, :nature, :accountable, :ruleset

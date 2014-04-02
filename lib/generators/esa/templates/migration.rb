@@ -44,6 +44,7 @@ class CreateEsaTables < ActiveRecord::Migration
       t.integer    :transition, :limit => 1
       t.boolean    :processed
       t.boolean    :adjusted
+      t.datetime   :adjustment_time
       t.references :accountable, :polymorphic => true
       t.references :event
       t.references :ruleset
