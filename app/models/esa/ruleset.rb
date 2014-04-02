@@ -68,7 +68,7 @@ module ESA
       natures = accountable.esa_flags.pluck(:nature).uniq.map{|nature| nature.to_sym}
 
       most_recent_flags = natures.map do |nature|
-        accountable.esa_flags.joins(:event).
+        accountable.esa_flags.joins(:event).readonly(false).
             where("esa_events.nature = 'adjustment' OR esa_flags.transition != 0").
             where(nature: nature).
             order('time DESC, created_at DESC').
