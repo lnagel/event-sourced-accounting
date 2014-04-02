@@ -18,6 +18,7 @@ module ESA
     validates_presence_of :nature, :event, :time, :accountable, :ruleset
     validates_inclusion_of :state, :in => [true, false]
     validates_inclusion_of :processed, :in => [true, false]
+    validates_inclusion_of :adjusted, :in => [true, false]
     validate :validate_transition
 
     def is_set?
@@ -42,6 +43,9 @@ module ESA
       if self.processed and not self.transition.in? [-1, 0, 1]
         errors[:processed] = "The transition must be in? [-1, 0, 1] before processed can be set to true"
       end
+      if self.adjusted and not self.transition.in? [-1, 0, 1]
+        errors[:adjusted] = "The transition must be in? [-1, 0, 1] before adjusted can be set to true"
+      end
     end
 
     def default_values
@@ -52,6 +56,7 @@ module ESA
       end
 
       self.processed ||= false
+      self.adjusted ||= false
     end
   end
 end
