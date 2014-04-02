@@ -1,7 +1,7 @@
 module ESA
   module Associations
     module FlagsExtension
-      def is_set?(nature, time=Time.zone.now, exclude=nil)
+      def most_recent(nature, time=Time.zone.now, exclude=nil)
         query = where(nature: nature).
               where('time <= ?', time)
 
@@ -9,9 +9,11 @@ module ESA
           query = query.where('esa_flags.id not in (?)', exclude)
         end
 
-        most_recent = query.
-              order('time DESC, created_at DESC').first
+        query.order('time DESC, created_at DESC').first
+      end
 
+      def is_set?(nature, time=Time.zone.now, exclude=nil)
+        most_recent = most_recent(nature, time, exclude)
         if most_recent.present?
           most_recent.is_set? # return the set bit of this flag
         else
