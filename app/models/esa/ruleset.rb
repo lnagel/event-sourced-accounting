@@ -70,7 +70,7 @@ module ESA
       most_recent_flags = natures.map do |nature|
         accountable.esa_flags.joins(:event).
             where("esa_events.nature = 'adjustment' OR esa_flags.transition != 0").
-            where(nature: :use).
+            where(nature: nature).
             order('time DESC, created_at DESC').
             first
       end.compact
