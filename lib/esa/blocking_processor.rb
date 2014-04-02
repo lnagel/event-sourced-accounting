@@ -30,8 +30,10 @@ module ESA
     def self.produce_events(accountable)
       ruleset = Ruleset.extension_instance(accountable)
       if ruleset.present?
+        last_event_time = accountable.esa_events.maximum(:time)
         unrecorded_events = ruleset.unrecorded_events_as_attributes(accountable)
-        accountable.esa_events.new(unrecorded_events)
+        valid_events = unrecorded_events.select{|e| last_event_time.nil? or e[:time] >= last_event_time}
+        accountable.esa_events.new(valid_events)
       else
         []
       end

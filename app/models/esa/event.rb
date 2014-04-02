@@ -17,16 +17,6 @@ module ESA
     after_initialize :default_values
     validates_presence_of :time, :nature, :accountable, :ruleset
     validates_inclusion_of :processed, :in => [true, false]
-    validate :validate_time
-
-    def validate_time
-      if self.new_record? and self.accountable.present?
-        last_event_time = self.accountable.esa_events.maximum(:time)
-        if last_event_time.present? and self.time < last_event_time
-          errors[:time] = "Events can only be appended with a later time"
-        end
-      end
-    end
 
     private
 
