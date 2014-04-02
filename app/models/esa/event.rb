@@ -30,33 +30,6 @@ module ESA
       end
     end
 
-    def produce_flags
-      flags = self.flags.all
-      if self.ruleset.present?
-        required_flags = self.ruleset.event_flags_as_attributes(self)
-        required_flags.map do |attrs|
-          existing = flags.find{|f| f.nature == attrs[:nature].to_s and f.state == attrs[:state]}
-          if existing.present?
-            existing
-          else
-            flag = self.accountable.esa_flags.new(attrs)
-            self.flags << flag
-            flag
-          end
-        end
-      else
-        flags
-      end
-    end
-
-    def create_flags
-      if not self.processed and not self.processed_was
-        self.produce_flags.map(&:save).all?
-      else
-        true
-      end
-    end
-
     def enqueue_accountable
       Config.processor.enqueue(self.accountable)
     end
