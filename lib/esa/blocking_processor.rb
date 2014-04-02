@@ -17,6 +17,9 @@ module ESA
         unprocessed_events.each do |event|
           event.processed = process_event(event)
           event.save if event.changed?
+
+          # do not process later events if one fails
+          return false if not event.processed
         end
       else
         false
