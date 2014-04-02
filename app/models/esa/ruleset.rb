@@ -66,7 +66,10 @@ module ESA
 
     def flags_needing_adjustment(accountable)
       natures = accountable.esa_flags.pluck(:nature).uniq.map{|nature| nature.to_sym}
-      most_recent_flags = natures.map{|nature| accountable.esa_flags.most_recent(nature)}
+
+      most_recent_flags = natures.map do |nature|
+        accountable.esa_flags.where('esa_flags.transition != 0').most_recent(nature)
+      end.compact
 
       most_recent_flags.select(&:is_set?).reject do |flag|
         attributes = flag_transactions_as_attributes(flag)
