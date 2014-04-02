@@ -36,35 +36,6 @@ module ESA
       self.transition == -1
     end
 
-    def produce_transactions
-      transactions = self.transactions.all
-      if self.ruleset.present? and self.transition.present?
-        required_transactions = self.ruleset.flag_transactions_as_attributes(self)
-        required_transactions.map do |attrs|
-          existing = transactions.find{|f| f.description == attrs[:description]}
-          if existing.present?
-            existing
-          else
-            self.accountable.esa_transactions.new(attrs)
-          end
-        end
-      else
-        transactions
-      end
-    end
-
-    def create_transactions
-      if not self.processed and not self.processed_was
-        if self.transition.present?
-          self.produce_transactions.map(&:save).all?
-        else
-          false
-        end
-      else
-        true
-      end
-    end
-
     private
 
     def validate_transition

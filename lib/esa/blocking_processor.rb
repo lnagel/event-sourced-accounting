@@ -67,7 +67,38 @@ module ESA
 
     def self.process_flag(flag)
       flag.transition = flag.accountable.esa_flags.transition_for(flag)
-      flag.create_transactions
+      create_transactions(flag)
+    end
+
+    def self.create_transactions(flag)
+      if not flag.processed and not flag.processed_was
+        if flag.transition.present? and flag.transition.in? [-1, 0, 1]
+          produce_transactions(flag).map(&:save).all?
+        else
+          false
+        end
+      else
+        true
+      end
+    end
+
+    def self.produce_transactions(flag)
+      transactions = flag.transactions.all
+      if flag.ruleset.present? and flag.transition.present? and flag.transition.in? [-1, 0, 1]
+        required_transactions = flag.ruleset.flag_transactions_as_attributes(flag)
+        required_transactions.map do |attrs|
+          existing = transactions.find{|f| f.description == attrs[:description]}
+          if existing.present?
+            existing
+          else
+            transaction = flag.accountable.esa_transactions.new(attrs)
+            flag.transactions << transaction
+            transaction
+          end
+        end
+      else
+        transactions
+      end
     end
   end
 end
