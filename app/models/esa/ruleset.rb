@@ -68,7 +68,7 @@ module ESA
       natures = accountable.esa_flags.pluck(:nature).uniq.map{|nature| nature.to_sym}
       most_recent_flags = natures.map{|nature| accountable.esa_flags.most_recent(nature)}
 
-      most_recent_flags.reject do |flag|
+      most_recent_flags.select(&:is_set?).reject do |flag|
         attributes = flag_transactions_as_attributes(flag)
 
         flag.transactions.map do |tx|
