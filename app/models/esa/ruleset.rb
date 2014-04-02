@@ -12,9 +12,13 @@ module ESA
     after_initialize :default_values
     validates_presence_of :type, :chart
 
+    # accountable
+
     def accountables_updated_at(timespec)
       []
     end
+
+    # events
 
     def stateful_events(accountable)
       []
@@ -51,6 +55,8 @@ module ESA
       produce_unrecorded_events(accountable).map(&:save!).all?
     end
 
+    # flags
+
     def event_flags(event)
       {}
     end
@@ -65,6 +71,8 @@ module ESA
         }
       end
     end
+
+    # transactions
 
     def flag_transactions_when_set(flag)
       []
