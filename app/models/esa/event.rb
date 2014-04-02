@@ -19,8 +19,6 @@ module ESA
     validates_inclusion_of :processed, :in => [true, false]
     validate :validate_time
 
-    after_create :enqueue_accountable
-
     def validate_time
       if self.new_record? and self.accountable.present?
         last_event_time = self.accountable.esa_events.maximum(:time)
@@ -28,10 +26,6 @@ module ESA
           errors[:time] = "Events can only be appended with a later time"
         end
       end
-    end
-
-    def enqueue_accountable
-      Config.processor.enqueue(self.accountable)
     end
 
     private

@@ -15,14 +15,6 @@ module ESA
         def esa_chart
           self.esa_ruleset.chart
         end
-
-        def create_esa_events
-          self.esa_ruleset.create_unrecorded_events(self)
-        end
-
-        def create_esa_events!
-          self.esa_ruleset.create_unrecorded_events!(self)
-        end
       end
     end
   end

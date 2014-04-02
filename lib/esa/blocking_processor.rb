@@ -7,13 +7,33 @@ module ESA
     end
 
     def self.process_accountable(accountable)
-      unprocessed_events = accountable.esa_events.
-          where(processed: false).
-          order('time ASC, created_at ASC')
+      events_created = create_events(accountable)
 
-      unprocessed_events.each do |event|
-        event.processed = process_event(event)
-        event.save if event.changed?
+      if events_created
+        unprocessed_events = accountable.esa_events.
+            where(processed: false).
+            order('time ASC, created_at ASC')
+
+        unprocessed_events.each do |event|
+          event.processed = process_event(event)
+          event.save if event.changed?
+        end
+      else
+        false
+      end
+    end
+
+    def self.create_events(accountable)
+      produce_events(accountable).map(&:save).all?
+    end
+
+    def self.produce_events(accountable)
+      ruleset = Ruleset.extension_instance(accountable)
+      if ruleset.present?
+        unrecorded_events = ruleset.unrecorded_events_as_attributes(accountable)
+        accountable.esa_events.new(unrecorded_events)
+      else
+        []
       end
     end
 

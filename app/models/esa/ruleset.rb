@@ -34,25 +34,13 @@ module ESA
         end
     end
 
-    def unrecorded_events(accountable)
+    def unrecorded_events_as_attributes(accountable)
       stateful = stateful_events_as_attributes(accountable)
 
       recorded = accountable.esa_events.pluck([:nature, :time]).
             map{|nature,time| [nature, time.to_i]}
 
       stateful.reject{|s| [s[:nature].to_s, s[:time].to_i].in? recorded}
-    end
-
-    def produce_unrecorded_events(accountable)
-      accountable.esa_events.new(unrecorded_events(accountable))
-    end
-
-    def create_unrecorded_events(accountable)
-      produce_unrecorded_events(accountable).map(&:save).all?
-    end
-
-    def create_unrecorded_events!(accountable)
-      produce_unrecorded_events(accountable).map(&:save!).all?
     end
 
     # flags
