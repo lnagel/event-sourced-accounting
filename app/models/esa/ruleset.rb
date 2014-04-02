@@ -90,6 +90,16 @@ module ESA
         tx[:time] ||= flag.time
         tx[:accountable] ||= flag.accountable
         tx[:flag] ||= flag
+
+        amounts = (tx[:debits] + tx[:credits]).map{|a| a[:amount]}
+
+        if amounts.map{|a| a <= BigDecimal(0)}.all?
+          debits = tx[:credits].map{|a| a[:amount] = BigDecimal(0) - a[:amount]; a } # swap
+          credits = tx[:debits].map{|a| a[:amount] = BigDecimal(0) - a[:amount]; a } # swap
+          tx[:debits] = debits
+          tx[:credits] = credits
+        end
+
         tx
       end
     end
