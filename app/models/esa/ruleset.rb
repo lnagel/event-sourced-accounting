@@ -166,6 +166,7 @@ module ESA
 
     def default_values
       self.chart ||= Chart.extension_instance(self) if self.chart_id.nil?
+      self.name ||= "#{self.chart.name} #{self.class.name.demodulize}" if self.name.nil? and self.chart_id.present?
     end
   end
 end
