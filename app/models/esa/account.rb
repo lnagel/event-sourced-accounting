@@ -32,7 +32,8 @@ module ESA
   class Account < ActiveRecord::Base
     extend ::Enumerize
 
-    attr_accessible :chart, :type, :name, :contra
+    attr_accessible :chart, :type, :code, :name, :contra
+    attr_accessible :chart, :type, :code, :name, :contra, :as => :admin
     attr_readonly   :chart
 
     belongs_to :chart
@@ -45,6 +46,7 @@ module ESA
 
     before_validation :update_normal_balance
     validates_presence_of :type, :name, :chart, :normal_balance
+    validates_uniqueness_of :code, :scope => :chart_id
     validates_uniqueness_of :name, :scope => :chart_id
 
     # The balance of the account.

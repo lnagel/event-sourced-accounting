@@ -8,6 +8,7 @@ class CreateEsaTables < ActiveRecord::Migration
     add_index :esa_charts, [:name]
 
     create_table :esa_accounts do |t|
+      t.string     :code
       t.string     :name
       t.string     :type
       t.boolean    :contra
