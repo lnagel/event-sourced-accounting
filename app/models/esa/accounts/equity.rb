@@ -7,7 +7,7 @@ module ESA
     #
     # @see http://en.wikipedia.org/wiki/Equity_(finance) Equity
     #
-    # @author Michael Bulat
+    # @author Lenno Nagel
     class Equity < ESA::Account
       # The normal balance for the account. Must be overridden in implementations.
       def update_normal_balance

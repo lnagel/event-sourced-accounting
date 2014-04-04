@@ -5,7 +5,7 @@ module ESA
     # @example
     #     credit_amount = ESA::Amounts::Credit.new(:account => revenue, :amount => 1000)
     #
-    # @author Michael Bulat
+    # @author Lenno Nagel
     class Credit < ESA::Amount
     end
   end

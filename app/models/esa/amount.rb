@@ -4,7 +4,7 @@ module ESA
   # @abstract
   #   An amount must be a subclass as either a debit or a credit to be saved to the database. 
   #
-  # @author Michael Bulat
+  # @author Lenno Nagel, Michael Bulat
   class Amount < ActiveRecord::Base
     attr_accessible :type, :account, :amount, :transaction
 

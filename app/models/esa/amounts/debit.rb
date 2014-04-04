@@ -5,7 +5,7 @@ module ESA
     # @example
     #     debit_amount = ESA::Amounts::Debit.new(:account => cash, :amount => 1000)
     #
-    # @author Michael Bulat
+    # @author Lenno Nagel
     class Debit < ESA::Amount
     end
   end

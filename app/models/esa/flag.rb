@@ -1,4 +1,12 @@
 module ESA
+  # The Flag class represents a change of known state of an Accountable
+  # and it is used record differences of state caused by Events.
+  # 
+  # A Flag with an UP transition creates normal Transactions according to
+  # the rules specified in a Ruleset. Flags with a DOWN transition revert
+  # Transactions created earlier by the corresponding UP transition.
+  #
+  # @author Lenno Nagel
   class Flag < ActiveRecord::Base
     include Traits::Extendable
     extend ::Enumerize

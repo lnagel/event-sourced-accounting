@@ -1,4 +1,8 @@
 module ESA
+  # The Event class represents an event of significance to accounting,
+  # which triggers the creation of Flags, which in turn create Transactions.
+  #
+  # @author Lenno Nagel
   class Event < ActiveRecord::Base
     include Traits::Extendable
     extend ::Enumerize

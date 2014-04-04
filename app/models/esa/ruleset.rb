@@ -1,4 +1,7 @@
 module ESA
+  # The Ruleset class contains the business logic and rules of accounting.
+  #
+  # @author Lenno Nagel
   class Ruleset < ActiveRecord::Base
     include Traits::Extendable
 

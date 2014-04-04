@@ -1,4 +1,7 @@
 module ESA
+  # The Context provides a persisted filtered view on the objects related to a Chart.
+  #
+  # @author Lenno Nagel
   class Context < ActiveRecord::Base
     attr_accessible :chart, :chart_id, :parent, :parent_id, :type, :name, :namespace, :position
     attr_accessible :chart, :chart_id, :parent, :parent_id, :type, :name, :namespace, :position, :start_date, :end_date, :as => :admin

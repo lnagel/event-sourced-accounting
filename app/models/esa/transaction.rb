@@ -2,25 +2,9 @@ module ESA
   # Transactions are the recording of debits and credits to various accounts.
   # This table can be thought of as a traditional accounting Journal.
   #
-  # Posting to a Ledger can be considered to happen automatically, since
-  # Accounts have the reverse 'has_many' relationship to either it's credit or
-  # debit transactions
+  # Transactions are created from transitions in the corresponding Flag.
   #
-  # @example
-  #   cash = ESA::Asset.find_by_name('Cash')
-  #   accounts_receivable = ESA::Asset.find_by_name('Accounts Receivable')
-  #
-  #   debit_amount = ESA::Amounts::Debit.new(:account => cash, :amount => 1000)
-  #   credit_amount = ESA::Amounts::Credit.new(:account => accounts_receivable, :amount => 1000)
-  #
-  #   transaction = ESA::Transaction.new(:description => "Receiving payment on an invoice")
-  #   transaction.debit_amounts << debit_amount
-  #   transaction.credit_amounts << credit_amount
-  #   transaction.save
-  #
-  # @see http://en.wikipedia.org/wiki/Journal_entry Journal Entry
-  #
-  # @author Michael Bulat
+  # @author Lenno Nagel, Michael Bulat
   class Transaction < ActiveRecord::Base
     include Traits::Extendable
 

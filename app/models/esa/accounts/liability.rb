@@ -7,7 +7,7 @@ module ESA
     #
     # @see http://en.wikipedia.org/wiki/Liability_(financial_accounting) Liability
     #
-    # @author Michael Bulat
+    # @author Lenno Nagel
     class Liability < ESA::Account
       # The normal balance for the account. Must be overridden in implementations.
       def update_normal_balance

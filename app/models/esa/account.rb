@@ -28,7 +28,7 @@ module ESA
   # @see http://en.wikipedia.org/wiki/Accounting_equation Accounting Equation
   # @see http://en.wikipedia.org/wiki/Debits_and_credits Debits, Credits, and Contra Accounts
   #
-  # @author Michael Bulat
+  # @author Lenno Nagel, Michael Bulat
   class Account < ActiveRecord::Base
     extend ::Enumerize
 
