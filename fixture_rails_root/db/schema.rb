@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20120514173712) do
   add_index "esa_charts", [:name], :name => "index_esa_charts_on_name"
 
   create_table "esa_accounts", :force => true do |t|
+    t.string   "code"
     t.string   "name"
     t.string   "type"
     t.boolean  "contra"
