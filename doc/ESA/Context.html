@@ -101,7 +101,35 @@
 </dl>
 <div class="clear"></div>
 
-<div id="subclasses">
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>The Context provides a persisted filtered view on the objects related to a
+Chart.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Author:</p>
+<ul class="author">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'>
+<p>Lenno Nagel</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
   <p class="children"><span class='object_link'><a href="Contexts/AccountContext.html" title="ESA::Contexts::AccountContext (class)">ESA::Contexts::AccountContext</a></span>, <span class='object_link'><a href="Contexts/AccountableContext.html" title="ESA::Contexts::AccountableContext (class)">ESA::Contexts::AccountableContext</a></span>, <span class='object_link'><a href="Contexts/AccountableTypeContext.html" title="ESA::Contexts::AccountableTypeContext (class)">ESA::Contexts::AccountableTypeContext</a></span>, <span class='object_link'><a href="Contexts/CreatedAtContext.html" title="ESA::Contexts::CreatedAtContext (class)">ESA::Contexts::CreatedAtContext</a></span>, <span class='object_link'><a href="Contexts/DateContext.html" title="ESA::Contexts::DateContext (class)">ESA::Contexts::DateContext</a></span>, <span class='object_link'><a href="Contexts/EmptyContext.html" title="ESA::Contexts::EmptyContext (class)">ESA::Contexts::EmptyContext</a></span>, <span class='object_link'><a href="Contexts/FilterContext.html" title="ESA::Contexts::FilterContext (class)">ESA::Contexts::FilterContext</a></span></p>
 </div>
@@ -585,12 +613,12 @@
       <pre class="lines">
 
 
-48
-49
-50</pre>
+51
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_amounts'>amounts</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_apply'>apply</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_unscoped_amounts'>unscoped_amounts</span><span class='rparen'>)</span>
@@ -615,14 +643,14 @@
       <pre class="lines">
 
 
-52
-53
-54
 55
-56</pre>
+56
+57
+58
+59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 55</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_apply'>apply</span><span class='lparen'>(</span><span class='id identifier rubyid_relation'>relation</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_effective_contexts'>effective_contexts</span><span class='period'>.</span><span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='id identifier rubyid_relation'>relation</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_r'>r</span><span class='comma'>,</span><span class='id identifier rubyid_context'>context</span><span class='op'>|</span>
@@ -671,12 +699,12 @@
       <pre class="lines">
 
 
-150
-151
-152</pre>
+153
+154
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 150</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 153</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_can_be_persisted?'>can_be_persisted?</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
@@ -701,16 +729,16 @@
       <pre class="lines">
 
 
-142
-143
-144
 145
 146
 147
-148</pre>
+148
+149
+150
+151</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 142</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 145</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_change_total'>change_total</span>
   <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_debits_total'>debits_total</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='kw'>and</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_credits_total'>credits_total</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
@@ -739,9 +767,6 @@
       <pre class="lines">
 
 
-66
-67
-68
 69
 70
 71
@@ -751,10 +776,13 @@
 75
 76
 77
-78</pre>
+78
+79
+80
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 66</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 69</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_check_freshness'>check_freshness</span><span class='lparen'>(</span><span class='id identifier rubyid_depth'>depth</span><span class='op'>=</span><span class='int'>0</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_is_update_needed?'>is_update_needed?</span>
@@ -789,16 +817,16 @@
       <pre class="lines">
 
 
-134
-135
-136
 137
 138
 139
-140</pre>
+140
+141
+142
+143</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 137</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_closing_context'>closing_context</span>
   <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_effective_end_date'>effective_end_date</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
@@ -827,12 +855,12 @@
       <pre class="lines">
 
 
-109
-110
-111</pre>
+112
+113
+114</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 109</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 112</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_effective_contexts'>effective_contexts</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parents_and_self'>parents_and_self</span>
@@ -857,12 +885,12 @@
       <pre class="lines">
 
 
-121
-122
-123</pre>
+124
+125
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 121</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 124</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_effective_end_date'>effective_end_date</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_effective_contexts'>effective_contexts</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:end_date</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_min'>min</span>
@@ -887,12 +915,12 @@
       <pre class="lines">
 
 
-113
-114
-115</pre>
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 116</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_effective_path'>effective_path</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_effective_contexts'>effective_contexts</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_ctx'>ctx</span><span class='op'>|</span> <span class='id identifier rubyid_ctx'>ctx</span><span class='period'>.</span><span class='id identifier rubyid_namespace'>namespace</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>
@@ -917,12 +945,12 @@
       <pre class="lines">
 
 
-117
-118
-119</pre>
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 117</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 120</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_effective_start_date'>effective_start_date</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_effective_contexts'>effective_contexts</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:start_date</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_max'>max</span>
@@ -947,12 +975,12 @@
       <pre class="lines">
 
 
-36
-37
-38</pre>
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_events'>events</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_apply'>apply</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_unscoped_events'>unscoped_events</span><span class='rparen'>)</span>
@@ -977,12 +1005,12 @@
       <pre class="lines">
 
 
-40
-41
-42</pre>
+43
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 43</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_flags'>flags</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_apply'>apply</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_unscoped_flags'>unscoped_flags</span><span class='rparen'>)</span>
@@ -1029,12 +1057,12 @@
       <pre class="lines">
 
 
-28
-29
-30</pre>
+31
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 31</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_root?'>is_root?</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1081,12 +1109,12 @@
       <pre class="lines">
 
 
-32
-33
-34</pre>
+35
+36
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 35</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_subcontext?'>is_subcontext?</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parent_id'>parent_id</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
@@ -1133,9 +1161,6 @@
       <pre class="lines">
 
 
-80
-81
-82
 83
 84
 85
@@ -1143,10 +1168,13 @@
 87
 88
 89
-90</pre>
+90
+91
+92
+93</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 83</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_update_needed?'>is_update_needed?</span>
   <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_freshness'>freshness</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
@@ -1179,16 +1207,16 @@
       <pre class="lines">
 
 
-58
-59
-60
 61
 62
 63
-64</pre>
+64
+65
+66
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 61</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_last_transaction_time'>last_transaction_time</span>
   <span class='kw'>if</span> <span class='kw'>defined?</span> <span class='ivar'>@last_transaction_time</span>
@@ -1217,17 +1245,17 @@
       <pre class="lines">
 
 
-125
-126
-127
 128
 129
 130
 131
-132</pre>
+132
+133
+134
+135</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 125</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 128</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_opening_context'>opening_context</span>
   <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_effective_start_date'>effective_start_date</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
@@ -1257,12 +1285,12 @@
       <pre class="lines">
 
 
-105
-106
-107</pre>
+108
+109
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 105</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 108</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_subcontext_namespaces'>subcontext_namespaces</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_subcontexts'>subcontexts</span><span class='period'>.</span><span class='id identifier rubyid_pluck'>pluck</span><span class='lparen'>(</span><span class='symbol'>:namespace</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_uniq'>uniq</span>
@@ -1287,12 +1315,12 @@
       <pre class="lines">
 
 
-44
-45
-46</pre>
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_transactions'>transactions</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_apply'>apply</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_unscoped_transactions'>unscoped_transactions</span><span class='rparen'>)</span>
@@ -1317,9 +1345,6 @@
       <pre class="lines">
 
 
-92
-93
-94
 95
 96
 97
@@ -1328,10 +1353,13 @@
 100
 101
 102
-103</pre>
+103
+104
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 92</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/context.rb', line 95</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update!'>update!</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_freshness'>freshness</span> <span class='op'>=</span> <span class='const'>Time</span><span class='period'>.</span><span class='id identifier rubyid_zone'>zone</span><span class='period'>.</span><span class='id identifier rubyid_now'>now</span>
@@ -1355,7 +1383,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Apr  4 15:31:37 2014 by
+  Generated on Fri Apr  4 16:03:26 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.0.0).
 </div>

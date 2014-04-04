@@ -111,39 +111,13 @@
 <p>Transactions are the recording of debits and credits to various accounts.
 This table can be thought of as a traditional accounting Journal.</p>
 
-<p>Posting to a Ledger can be considered to happen automatically, since
-Accounts have the reverse &#39;has_many&#39; relationship to either
-it&#39;s credit or debit transactions</p>
+<p>Transactions are created from transitions in the corresponding Flag.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
-  <div class="examples">
-    <p class="tag_title">Examples:</p>
-    
-      
-      <pre class="example code"><code><span class='id identifier rubyid_cash'>cash</span> <span class='op'>=</span> <span class='const'>ESA</span><span class='op'>::</span><span class='const'>Asset</span><span class='period'>.</span><span class='id identifier rubyid_find_by_name'>find_by_name</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Cash</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-<span class='id identifier rubyid_accounts_receivable'>accounts_receivable</span> <span class='op'>=</span> <span class='const'>ESA</span><span class='op'>::</span><span class='const'>Asset</span><span class='period'>.</span><span class='id identifier rubyid_find_by_name'>find_by_name</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Accounts Receivable</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
-
-<span class='id identifier rubyid_debit_amount'>debit_amount</span> <span class='op'>=</span> <span class='const'>ESA</span><span class='op'>::</span><span class='const'>Amounts</span><span class='op'>::</span><span class='const'>Debit</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:account</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_cash'>cash</span><span class='comma'>,</span> <span class='symbol'>:amount</span> <span class='op'>=&gt;</span> <span class='int'>1000</span><span class='rparen'>)</span>
-<span class='id identifier rubyid_credit_amount'>credit_amount</span> <span class='op'>=</span> <span class='const'>ESA</span><span class='op'>::</span><span class='const'>Amounts</span><span class='op'>::</span><span class='const'>Credit</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:account</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_accounts_receivable'>accounts_receivable</span><span class='comma'>,</span> <span class='symbol'>:amount</span> <span class='op'>=&gt;</span> <span class='int'>1000</span><span class='rparen'>)</span>
-
-<span class='id identifier rubyid_transaction'>transaction</span> <span class='op'>=</span> <span class='const'>ESA</span><span class='op'>::</span><span class='const'>Transaction</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='symbol'>:description</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Receiving payment on an invoice</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-<span class='id identifier rubyid_transaction'>transaction</span><span class='period'>.</span><span class='id identifier rubyid_debit_amounts'>debit_amounts</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_debit_amount'>debit_amount</span>
-<span class='id identifier rubyid_transaction'>transaction</span><span class='period'>.</span><span class='id identifier rubyid_credit_amounts'>credit_amounts</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_credit_amount'>credit_amount</span>
-<span class='id identifier rubyid_transaction'>transaction</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span></code></pre>
-    
-  </div>
-
-
-  <p class="tag_title">See Also:</p>
-  <ul class="see">
-    
-      <li><a href="http://en.wikipedia.org/wiki/Journal_entry" target="_parent" title="Journal Entry">Journal Entry</a></li>
-    
-  </ul>
 <p class="tag_title">Author:</p>
 <ul class="author">
   
@@ -154,7 +128,7 @@ it&#39;s credit or debit transactions</p>
       
         
         <div class='inline'>
-<p>Michael Bulat</p>
+<p>Lenno Nagel, Michael Bulat</p>
 </div>
       
     </li>
@@ -252,15 +226,15 @@ it&#39;s credit or debit transactions</p>
       <pre class="lines">
 
 
-45
-46
-47
-48
-49
-50</pre>
+29
+30
+31
+32
+33
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/transaction.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/transaction.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_credits='>credits=</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_attributes'>attributes</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_attributes'>attributes</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_attrs'>attrs</span><span class='op'>|</span>
@@ -288,15 +262,15 @@ it&#39;s credit or debit transactions</p>
       <pre class="lines">
 
 
-52
-53
-54
-55
-56
-57</pre>
+36
+37
+38
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/transaction.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/transaction.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_debits='>debits=</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_attributes'>attributes</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_attributes'>attributes</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_attrs'>attrs</span><span class='op'>|</span>
@@ -314,7 +288,7 @@ it&#39;s credit or debit transactions</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Apr  4 15:31:37 2014 by
+  Generated on Fri Apr  4 16:03:26 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.0.0).
 </div>

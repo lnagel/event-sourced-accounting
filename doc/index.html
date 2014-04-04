@@ -63,16 +63,25 @@
 
     <div id="content"><div id='filecontents'><h1>Event-Sourced Accounting</h1>
 
-<p>The Event-Sourced Accounting plugin provides an event-sourced double entry accounting system for use in any Ruby on Rails application.</p>
+<p>The Event-Sourced Accounting plugin provides an event-sourced double entry accounting system.
+It uses the data models of a Rails application as a data source and automatically 
+generates accounting transactions based on defined accounting rules.</p>
 
-<p>This project was forked from</p>
+<p>This plugin began life as a fork of the <a href="https://github.com/mbulat/plutus">Plutus</a> plugin with
+many added features and refactored compontents. As the aims of the ESA plug-in have completely
+changed compared to the original project, it warrants a release under its own name.</p>
+
+<p>The API is not yet declared frozen and may change, as some refactoring is still due.
+The documentation and test coverage is expected to be completed within April-May 2014. </p>
 
 <h1>Installation</h1>
 
 <ul>
-<li><p>Add the gem to your Gemfile <code>gem &quot;event-sourced-accounting&quot;</code></p></li>
-<li><p>generate migration files <code>rails g esa</code></p></li>
+<li><p>Add <code>gem &quot;event-sourced-accounting&quot;</code> to your Gemfile</p></li>
+<li><p>generate migration files with <code>rails g esa</code></p></li>
 <li><p>run migrations <code>rake db:migrate</code></p></li>
+<li><p>add <code>include ESA::Traits::Accountable</code> to relevant models</p></li>
+<li><p>implement the corresponding Event, Flag, Ruleset and Transaction classes for relevant models</p></li>
 </ul>
 
 <h1>Development</h1>
@@ -86,7 +95,7 @@
 </div></div>
 
     <div id="footer">
-  Generated on Fri Apr  4 15:31:37 2014 by
+  Generated on Fri Apr  4 16:03:25 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.0.0).
 </div>

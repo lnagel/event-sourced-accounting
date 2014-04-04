@@ -64,7 +64,7 @@
     <iframe id="search_frame"></iframe>
 
     <div id="content"><h1>Class: ESA::Account
-  <span class="abstract note title">Abstract</span>
+  
   
   
 </h1>
@@ -107,15 +107,7 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <div class="note abstract">
-  <strong>This class is abstract.</strong>
-  <div class='inline'>
-<p>An account must be a subclass to be saved to the database. The Account
-class has a singleton method trial_balance to calculate the balance on
-all Accounts.</p>
-</div>
-</div>
-
+    
 <p>The Account class represents accounts in the system. Each account must be
 subclassed as one of the following types:</p>
 
@@ -134,28 +126,11 @@ will have it&#39;s normal balance swapped. For example, to remove equity, a
 <pre class="code ruby"><code class="ruby"><span class='const'>ESA</span><span class='op'>::</span><span class='const'>Equity</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Drawing</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_contra'>contra</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rparen'>)</span>
 </code></pre>
 
-<p>At all times the balance of all accounts should conform to the “accounting
-equation”</p>
-
-<pre class="code ruby"><code class="ruby">ESA::Assets = Liabilties + Owner&#39;s Equity</code></pre>
-
-<p>Each sublclass account acts as it&#39;s own ledger. See the individual
-subclasses for a description.</p>
-
 
   </div>
 </div>
 <div class="tags">
   
-
-  <p class="tag_title">See Also:</p>
-  <ul class="see">
-    
-      <li><a href="http://en.wikipedia.org/wiki/Accounting_equation" target="_parent" title="Accounting Equation">Accounting Equation</a></li>
-    
-      <li><a href="http://en.wikipedia.org/wiki/Debits_and_credits" target="_parent" title="Debits, Credits, and Contra Accounts">Debits, Credits, and Contra Accounts</a></li>
-    
-  </ul>
 <p class="tag_title">Author:</p>
 <ul class="author">
   
@@ -166,7 +141,7 @@ subclasses for a description.</p>
       
         
         <div class='inline'>
-<p>Michael Bulat</p>
+<p>Lenno Nagel, Michael Bulat</p>
 </div>
       
     </li>
@@ -295,16 +270,16 @@ subclasses for a description.</p>
       <pre class="lines">
 
 
-73
-74
-75
-76
-77
-78
-79</pre>
+60
+61
+62
+63
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/account.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/account.rb', line 60</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_namespaced_type'>namespaced_type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_valid_type?'>valid_type?</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
@@ -355,12 +330,12 @@ subclasses for a description.</p>
       <pre class="lines">
 
 
-69
-70
-71</pre>
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/account.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/account.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_valid_type?'>valid_type?</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_in?'>in?</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Asset</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Liability</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Equity</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Revenue</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Expense</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
@@ -429,18 +404,18 @@ subclasses for a description.</p>
       <pre class="lines">
 
 
-59
-60
-61
-62
-63
-64
-65
-66
-67</pre>
+46
+47
+48
+49
+50
+51
+52
+53
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/account.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/account.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_balance'>balance</span>
   <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_normal_balance'>normal_balance</span><span class='period'>.</span><span class='id identifier rubyid_debit?'>debit?</span>
@@ -461,7 +436,7 @@ subclasses for a description.</p>
 </div>
 
     <div id="footer">
-  Generated on Fri Apr  4 15:31:37 2014 by
+  Generated on Fri Apr  4 16:03:26 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.0.0).
 </div>

@@ -109,7 +109,39 @@
 </dl>
 <div class="clear"></div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>The Flag class represents a change of known state of an Accountable and it
+is used record differences of state caused by Events.</p>
 
+<p>A Flag with an UP transition creates normal Transactions according to the
+rules specified in a Ruleset. Flags with a DOWN transition revert
+Transactions created earlier by the corresponding UP transition.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Author:</p>
+<ul class="author">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'>
+<p>Lenno Nagel</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
 
 
 
@@ -267,12 +299,12 @@
       <pre class="lines">
 
 
-32
-33
-34</pre>
+40
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/flag.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/flag.rb', line 40</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_became_set?'>became_set?</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_transition'>transition</span> <span class='op'>==</span> <span class='int'>1</span>
@@ -319,12 +351,12 @@
       <pre class="lines">
 
 
-36
-37
-38</pre>
+44
+45
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/flag.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/flag.rb', line 44</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_became_unset?'>became_unset?</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_transition'>transition</span> <span class='op'>==</span> <span class='op'>-</span><span class='int'>1</span>
@@ -371,12 +403,12 @@
       <pre class="lines">
 
 
-24
-25
-26</pre>
+32
+33
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/flag.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/flag.rb', line 32</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_set?'>is_set?</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_state'>state</span> <span class='op'>==</span> <span class='kw'>true</span>
@@ -423,12 +455,12 @@
       <pre class="lines">
 
 
-28
-29
-30</pre>
+36
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/flag.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/flag.rb', line 36</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_unset?'>is_unset?</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_state'>state</span> <span class='op'>==</span> <span class='kw'>false</span>
@@ -443,7 +475,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Apr  4 15:31:37 2014 by
+  Generated on Fri Apr  4 16:03:26 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.0.0).
 </div>

@@ -105,7 +105,34 @@
 </dl>
 <div class="clear"></div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>The Ruleset class contains the business logic and rules of accounting.</p>
 
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Author:</p>
+<ul class="author">
+  
+    <li>
+      
+      
+      
+      
+        
+        <div class='inline'>
+<p>Lenno Nagel</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div>
 
 
 
@@ -457,12 +484,12 @@
       <pre class="lines">
 
 
-17
-18
-19</pre>
+20
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 20</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_accountables_updated_at'>accountables_updated_at</span><span class='lparen'>(</span><span class='id identifier rubyid_timespec'>timespec</span><span class='rparen'>)</span>
   <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -498,12 +525,12 @@
       <pre class="lines">
 
 
-52
-53
-54</pre>
+55
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 52</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 55</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_event_flags'>event_flags</span><span class='lparen'>(</span><span class='id identifier rubyid_event'>event</span><span class='rparen'>)</span>
   <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -528,19 +555,19 @@
       <pre class="lines">
 
 
-56
-57
-58
 59
 60
 61
 62
 63
 64
-65</pre>
+65
+66
+67
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 59</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_event_flags_as_attributes'>event_flags_as_attributes</span><span class='lparen'>(</span><span class='id identifier rubyid_event'>event</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_event_flags'>event_flags</span><span class='lparen'>(</span><span class='id identifier rubyid_event'>event</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_nature'>nature</span><span class='comma'>,</span><span class='id identifier rubyid_state'>state</span><span class='op'>|</span>
@@ -572,16 +599,16 @@
       <pre class="lines">
 
 
-157
-158
-159
 160
 161
 162
-163</pre>
+163
+164
+165
+166</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 157</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 160</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_find_account'>find_account</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span> <span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_chart'>chart</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='kw'>and</span> <span class='const'>Account</span><span class='period'>.</span><span class='id identifier rubyid_valid_type?'>valid_type?</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
@@ -610,9 +637,6 @@
       <pre class="lines">
 
 
-128
-129
-130
 131
 132
 133
@@ -637,10 +661,13 @@
 152
 153
 154
-155</pre>
+155
+156
+157
+158</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 128</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 131</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_flag_transactions_as_attributes'>flag_transactions_as_attributes</span><span class='lparen'>(</span><span class='id identifier rubyid_flag'>flag</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_flag'>flag</span><span class='period'>.</span><span class='id identifier rubyid_adjusted?'>adjusted?</span>
@@ -690,9 +717,6 @@
       <pre class="lines">
 
 
-107
-108
-109
 110
 111
 112
@@ -709,10 +733,13 @@
 123
 124
 125
-126</pre>
+126
+127
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 107</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 110</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_flag_transactions_when_adjusted'>flag_transactions_when_adjusted</span><span class='lparen'>(</span><span class='id identifier rubyid_flag'>flag</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_flag'>flag</span><span class='period'>.</span><span class='id identifier rubyid_transactions'>transactions</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_tx'>tx</span><span class='op'>|</span>
@@ -765,12 +792,12 @@
       <pre class="lines">
 
 
-92
-93
-94</pre>
+95
+96
+97</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 92</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 95</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_flag_transactions_when_set'>flag_transactions_when_set</span><span class='lparen'>(</span><span class='id identifier rubyid_flag'>flag</span><span class='rparen'>)</span>
   <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -795,19 +822,19 @@
       <pre class="lines">
 
 
-96
-97
-98
 99
 100
 101
 102
 103
 104
-105</pre>
+105
+106
+107
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 99</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_flag_transactions_when_unset'>flag_transactions_when_unset</span><span class='lparen'>(</span><span class='id identifier rubyid_flag'>flag</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_flag_transactions_when_set'>flag_transactions_when_set</span><span class='lparen'>(</span><span class='id identifier rubyid_flag'>flag</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_tx'>tx</span><span class='op'>|</span>
@@ -839,9 +866,6 @@
       <pre class="lines">
 
 
-67
-68
-69
 70
 71
 72
@@ -860,10 +884,13 @@
 85
 86
 87
-88</pre>
+88
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 67</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 70</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_flags_needing_adjustment'>flags_needing_adjustment</span><span class='lparen'>(</span><span class='id identifier rubyid_accountable'>accountable</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_natures'>natures</span> <span class='op'>=</span> <span class='id identifier rubyid_accountable'>accountable</span><span class='period'>.</span><span class='id identifier rubyid_esa_flags'>esa_flags</span><span class='period'>.</span><span class='id identifier rubyid_pluck'>pluck</span><span class='lparen'>(</span><span class='symbol'>:nature</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uniq'>uniq</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_nature'>nature</span><span class='op'>|</span> <span class='id identifier rubyid_nature'>nature</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rbrace'>}</span>
@@ -929,12 +956,12 @@
       <pre class="lines">
 
 
-46
-47
-48</pre>
+49
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_adjustment_event_needed?'>is_adjustment_event_needed?</span><span class='lparen'>(</span><span class='id identifier rubyid_accountable'>accountable</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_flags_needing_adjustment'>flags_needing_adjustment</span><span class='lparen'>(</span><span class='id identifier rubyid_accountable'>accountable</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span> <span class='op'>&gt;</span> <span class='int'>0</span>
@@ -970,12 +997,12 @@
       <pre class="lines">
 
 
-23
-24
-25</pre>
+26
+27
+28</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 26</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stateful_events'>stateful_events</span><span class='lparen'>(</span><span class='id identifier rubyid_accountable'>accountable</span><span class='rparen'>)</span>
   <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -1000,18 +1027,18 @@
       <pre class="lines">
 
 
-27
-28
-29
 30
 31
 32
 33
 34
-35</pre>
+35
+36
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 30</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_stateful_events_as_attributes'>stateful_events_as_attributes</span><span class='lparen'>(</span><span class='id identifier rubyid_accountable'>accountable</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_stateful_events'>stateful_events</span><span class='lparen'>(</span><span class='id identifier rubyid_accountable'>accountable</span><span class='rparen'>)</span><span class='period'>.</span>
@@ -1042,17 +1069,17 @@
       <pre class="lines">
 
 
-37
-38
-39
 40
 41
 42
 43
-44</pre>
+44
+45
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/ruleset.rb', line 40</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_unrecorded_events_as_attributes'>unrecorded_events_as_attributes</span><span class='lparen'>(</span><span class='id identifier rubyid_accountable'>accountable</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_stateful'>stateful</span> <span class='op'>=</span> <span class='id identifier rubyid_stateful_events_as_attributes'>stateful_events_as_attributes</span><span class='lparen'>(</span><span class='id identifier rubyid_accountable'>accountable</span><span class='rparen'>)</span>
@@ -1072,7 +1099,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Apr  4 15:31:37 2014 by
+  Generated on Fri Apr  4 16:03:26 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-2.0.0).
 </div>
