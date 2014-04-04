@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    esa (0.8.1)
+    esa (0.1.0)
       enumerize
       multipluck (~> 0.0.4)
       rails (~> 3.1)
@@ -58,7 +58,7 @@ GEM
     multi_json (1.8.4)
     multipluck (0.0.4)
       rails (>= 3.2.0)
-    polyglot (0.3.3)
+    polyglot (0.3.4)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
