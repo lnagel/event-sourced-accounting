@@ -6,18 +6,18 @@
 <title>
   Class: ESA::Account
   
-    &mdash; Documentation by YARD 0.8.1
+    &mdash; Documentation by YARD 0.8.7.4
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
   relpath = '../';
-  framesUrl = "../frames.html#!" + escape(window.location.href);
+  framesUrl = "../frames.html#!ESA/Account.html";
 </script>
 
 
@@ -90,13 +90,17 @@
   
   
     
+      <dt class="r2">Extended by:</dt>
+      <dd class="r2">Enumerize</dd>
+      
+    
   
     
   
   
   
-    <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">app/models/esa/account.rb</dd>
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">app/models/esa/account.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -107,7 +111,7 @@
   <strong>This class is abstract.</strong>
   <div class='inline'>
 <p>An account must be a subclass to be saved to the database. The Account
-class has a singleton method <span class='object_link'><a href="#trial_balance-class_method" title="ESA::Account.trial_balance (method)">Account.trial_balance</a></span> to calculate the balance on
+class has a singleton method trial_balance to calculate the balance on
 all Accounts.</p>
 </div>
 </div>
@@ -115,7 +119,7 @@ all Accounts.</p>
 <p>The Account class represents accounts in the system. Each account must be
 subclassed as one of the following types:</p>
 
-<pre class="code ruby"><code>TYPE        | NORMAL BALANCE    | DESCRIPTION
+<pre class="code ruby"><code class="ruby">TYPE        | NORMAL BALANCE    | DESCRIPTION
 --------------------------------------------------------------------------
 Asset       | Debit             | Resources owned by the Business Entity
 Liability   | Credit            | Debts owed to outsiders
@@ -123,19 +127,19 @@ Equity      | Credit            | Owners rights to the Assets
 Revenue     | Credit            | Increases in owners equity
 Expense     | Debit             | Assets or services consumed in the generation of revenue</code></pre>
 
-<p>Each account can also be marked as a "Contra Account". A contra account
-will have it's normal balance swapped. For example, to remove equity, a
-"Drawing" account may be created as a contra equity account as follows:</p>
+<p>Each account can also be marked as a “Contra Account”. A contra account
+will have it&#39;s normal balance swapped. For example, to remove equity, a
+“Drawing” account may be created as a contra equity account as follows:</p>
 
-<pre class="ruby"><span class="ruby-constant">ESA</span><span class="ruby-operator">::</span><span class="ruby-constant">Equity</span>.<span class="ruby-identifier">create</span>(:<span class="ruby-identifier">name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Drawing&quot;</span>, <span class="ruby-identifier">contra</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
-</pre>
+<pre class="code ruby"><code class="ruby"><span class='const'>ESA</span><span class='op'>::</span><span class='const'>Equity</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Drawing</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_contra'>contra</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rparen'>)</span>
+</code></pre>
 
-<p>At all times the balance of all accounts should conform to the "accounting
-equation"</p>
+<p>At all times the balance of all accounts should conform to the “accounting
+equation”</p>
 
-<pre class="code ruby"><code>ESA::Assets = Liabilties + Owner's Equity</code></pre>
+<pre class="code ruby"><code class="ruby">ESA::Assets = Liabilties + Owner&#39;s Equity</code></pre>
 
-<p>Each sublclass account acts as it's own ledger. See the individual
+<p>Each sublclass account acts as it&#39;s own ledger. See the individual
 subclasses for a description.</p>
 
 
@@ -171,7 +175,7 @@ subclasses for a description.</p>
 
 </div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="Asset.html" title="ESA::Asset (class)">Asset</a></span>, <span class='object_link'><a href="Equity.html" title="ESA::Equity (class)">Equity</a></span>, <span class='object_link'><a href="Expense.html" title="ESA::Expense (class)">Expense</a></span>, <span class='object_link'><a href="Liability.html" title="ESA::Liability (class)">Liability</a></span>, <span class='object_link'><a href="Revenue.html" title="ESA::Revenue (class)">Revenue</a></span></p>
+  <p class="children"><span class='object_link'><a href="Accounts/Asset.html" title="ESA::Accounts::Asset (class)">ESA::Accounts::Asset</a></span>, <span class='object_link'><a href="Accounts/Equity.html" title="ESA::Accounts::Equity (class)">ESA::Accounts::Equity</a></span>, <span class='object_link'><a href="Accounts/Expense.html" title="ESA::Accounts::Expense (class)">ESA::Accounts::Expense</a></span>, <span class='object_link'><a href="Accounts/Liability.html" title="ESA::Accounts::Liability (class)">ESA::Accounts::Liability</a></span>, <span class='object_link'><a href="Accounts/Revenue.html" title="ESA::Accounts::Revenue (class)">ESA::Accounts::Revenue</a></span></p>
 </div>
 
 
@@ -191,7 +195,60 @@ subclasses for a description.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#trial_balance-class_method" title="trial_balance (class method)">+ (BigDecimal) <strong>trial_balance</strong> </a>
+      <a href="#namespaced_type-class_method" title="namespaced_type (class method)">+ (Object) <strong>namespaced_type</strong>(type) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#valid_type%3F-class_method" title="valid_type? (class method)">+ (Boolean) <strong>valid_type?</strong>(type) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#balance-instance_method" title="#balance (instance method)">- (BigDecimal) <strong>balance</strong> </a>
     
 
     
@@ -206,7 +263,7 @@ subclasses for a description.</p>
 
   
     <span class="summary_desc"><div class='inline'>
-<p>The trial balance of all accounts in the system.</p>
+<p>The balance of the account.</p>
 </div></span>
   
 </li>
@@ -217,15 +274,54 @@ subclasses for a description.</p>
 
 
   
+  
 
   <div id="class_method_details" class="method_details_list">
     <h2>Class Method Details</h2>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="trial_balance-class_method">
+  <h3 class="signature first" id="namespaced_type-class_method">
   
-    + (<tt>BigDecimal</tt>) <strong>trial_balance</strong> 
+    + (<tt>Object</tt>) <strong>namespaced_type</strong>(type) 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+73
+74
+75
+76
+77
+78
+79</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/esa/account.rb', line 73</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_namespaced_type'>namespaced_type</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_valid_type?'>valid_type?</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ESA::Accounts::</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_type'>type</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_type'>type</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="valid_type?-class_method">
+  
+    + (<tt>Boolean</tt>) <strong>valid_type?</strong>(type) 
   
 
   
@@ -234,8 +330,65 @@ subclasses for a description.</p>
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>The trial balance of all accounts in the system. This should always equal
-zero, otherwise there is an error in the system.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+69
+70
+71</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/esa/account.rb', line 69</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_valid_type?'>valid_type?</span><span class='lparen'>(</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_type'>type</span><span class='period'>.</span><span class='id identifier rubyid_in?'>in?</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Asset</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Liability</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Equity</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Revenue</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Expense</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="balance-instance_method">
+  
+    - (<tt>BigDecimal</tt>) <strong>balance</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The balance of the account.</p>
 
 
   </div>
@@ -246,8 +399,8 @@ zero, otherwise there is an error in the system.</p>
     <p class="tag_title">Examples:</p>
     
       
-      <pre class="example code">&gt;&gt; Account.trial_balance.to_i
-=&gt; 0</pre>
+      <pre class="example code"><code>&gt;&gt; account.balance
+=&gt; #&lt;BigDecimal:103259bb8,&#39;0.2E4&#39;,4(12)&gt;</code></pre>
     
   </div>
 
@@ -263,7 +416,7 @@ zero, otherwise there is an error in the system.</p>
       
         &mdash;
         <div class='inline'>
-<p>The decimal value balance of all accounts</p>
+<p>The decimal value balance</p>
 </div>
       
     </li>
@@ -276,22 +429,26 @@ zero, otherwise there is an error in the system.</p>
       <pre class="lines">
 
 
-49
-50
-51
-52
-53
-54
-55</pre>
+59
+60
+61
+62
+63
+64
+65
+66
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/esa/account.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'app/models/esa/account.rb', line 59</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_trial_balance'>trial_balance</span>
-  <span class='kw'>unless</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>==</span> <span class='const'>Account</span>
-    <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'>NoMethodError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>undefined method 'trial_balance'</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_balance'>balance</span>
+  <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_normal_balance'>normal_balance</span><span class='period'>.</span><span class='id identifier rubyid_debit?'>debit?</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_amounts'>amounts</span><span class='period'>.</span><span class='id identifier rubyid_balance'>balance</span>
+  <span class='kw'>elsif</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_normal_balance'>normal_balance</span><span class='period'>.</span><span class='id identifier rubyid_credit?'>credit?</span>
+    <span class='op'>-</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_amounts'>amounts</span><span class='period'>.</span><span class='id identifier rubyid_balance'>balance</span>
   <span class='kw'>else</span>
-    <span class='const'>Asset</span><span class='period'>.</span><span class='id identifier rubyid_balance'>balance</span> <span class='op'>-</span> <span class='lparen'>(</span><span class='const'>Liability</span><span class='period'>.</span><span class='id identifier rubyid_balance'>balance</span> <span class='op'>+</span> <span class='const'>Equity</span><span class='period'>.</span><span class='id identifier rubyid_balance'>balance</span> <span class='op'>+</span> <span class='const'>Revenue</span><span class='period'>.</span><span class='id identifier rubyid_balance'>balance</span> <span class='op'>-</span> <span class='const'>Expense</span><span class='period'>.</span><span class='id identifier rubyid_balance'>balance</span><span class='rparen'>)</span>
+    <span class='kw'>nil</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -304,9 +461,9 @@ zero, otherwise there is an error in the system.</p>
 </div>
 
     <div id="footer">
-  Generated on Tue May 15 12:38:14 2012 by
+  Generated on Fri Apr  4 15:31:37 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.1 (ruby-1.9.3).
+  0.8.7.4 (ruby-2.0.0).
 </div>
 
   </body>
