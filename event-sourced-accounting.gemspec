@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.version = ESA::VERSION
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Lenno Nagel", "Michael Bulat"]
+  s.authors = ["Lenno Nagel"]
   s.date = Date.today
   s.description = %q{The Event-Sourced Accounting plugin provides an event-sourced double entry accounting system for use in any Ruby on Rails application.}
   s.email = %q{lenno@nagel.ee}
