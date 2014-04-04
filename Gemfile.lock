@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    esa (0.1.0)
+    event-sourced-accounting (0.1.0)
       enumerize
       multipluck (~> 0.0.4)
       rails (~> 3.2)
@@ -119,7 +119,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  esa!
+  event-sourced-accounting!
   factory_girl
   factory_girl_rails (~> 1.1)
   redcarpet
