@@ -161,7 +161,7 @@ module ESA
 
     def default_values
       self.chart ||= self.parent.chart if self.chart_id.nil? and not self.parent_id.nil?
-      self.namespace ||= self.class.name.demodulize.underscore.gsub(/_context$/, '')
+      self.namespace ||= (self.type || self.class.name).demodulize.underscore.gsub(/_context$/, '')
     end
 
     def update_name
