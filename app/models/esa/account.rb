@@ -15,19 +15,6 @@ module ESA
   #
   #   ESA::Equity.create(:name => "Drawing", contra => true)
   #
-  # At all times the balance of all accounts should conform to the "accounting equation"
-  #   ESA::Assets = Liabilties + Owner's Equity
-  #
-  # Each sublclass account acts as it's own ledger. See the individual subclasses for a
-  # description.
-  #
-  # @abstract
-  #   An account must be a subclass to be saved to the database. The Account class
-  #   has a singleton method {trial_balance} to calculate the balance on all Accounts.
-  #
-  # @see http://en.wikipedia.org/wiki/Accounting_equation Accounting Equation
-  # @see http://en.wikipedia.org/wiki/Debits_and_credits Debits, Credits, and Contra Accounts
-  #
   # @author Lenno Nagel, Michael Bulat
   class Account < ActiveRecord::Base
     extend ::Enumerize
