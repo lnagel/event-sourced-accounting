@@ -14,6 +14,10 @@ module ESA
         self.account.name unless self.account.nil?
       end
 
+      def create_position
+        self.account.code.gsub(/[^0-9]/, '').to_i unless self.account.nil? or self.account.code.nil?
+      end
+
       def initialize_filters
         @filters = [lambda { |relation| relation.with_account(self.account_id) }]
       end

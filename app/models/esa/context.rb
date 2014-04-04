@@ -1,7 +1,7 @@
 module ESA
   class Context < ActiveRecord::Base
-    attr_accessible :chart, :chart_id, :parent, :parent_id, :type, :name, :namespace
-    attr_accessible :chart, :chart_id, :parent, :parent_id, :type, :name, :namespace, :start_date, :end_date, :as => :admin
+    attr_accessible :chart, :chart_id, :parent, :parent_id, :type, :name, :namespace, :position
+    attr_accessible :chart, :chart_id, :parent, :parent_id, :type, :name, :namespace, :position, :start_date, :end_date, :as => :admin
     attr_readonly   :chart, :parent
 
     belongs_to :chart
@@ -17,7 +17,7 @@ module ESA
     has_many :subcontexts, :class_name => "Context", :foreign_key => "parent_id", :dependent => :destroy
 
     after_initialize :default_values, :initialize_filters
-    before_validation :update_name
+    before_validation :update_name, :update_position
     validates_presence_of :chart, :name
     validate :validate_parent
     before_save :enforce_persistence_rule
@@ -174,6 +174,14 @@ module ESA
       else
         "#{self.type.demodulize} \##{self.id}"
       end
+    end
+
+    def update_position
+      self.position = self.create_position
+    end
+
+    def create_position
+      nil
     end
 
     def initialize_filters

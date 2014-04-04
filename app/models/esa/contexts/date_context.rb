@@ -47,6 +47,14 @@ module ESA
         end
       end
 
+      def create_position
+        if self.start_date.present?
+          self.start_date.to_time.to_i
+        elsif self.end_date.present?
+          self.end_date.to_time.to_i
+        end
+      end
+
       def initialize_filters
         @filters = []
 

@@ -103,6 +103,7 @@ class CreateEsaTables < ActiveRecord::Migration
       t.references :account
       t.references :accountable, :polymorphic => true
       t.string     :namespace
+      t.integer    :position
       t.date       :start_date
       t.date       :end_date
 
