@@ -7,7 +7,7 @@ require "esa/version"
 require "date"
 
 Gem::Specification.new do |s|
-  s.name = %q{event-sourced-accounting}
+  s.name = %q{event_sourced_accounting}
   s.version = ESA::VERSION
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
