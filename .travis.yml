@@ -3,3 +3,7 @@ rvm:
   - 2.1.0
   - 2.0.0
   - 1.9.3
+addons:
+  code_climate:
+    repo_token:
+      secure: "T/ed9UsO4PC2xSkcUeGouNbXgudO3ZsWRut3kL0Pcwci9S8yP8RxVD4I70xBeQhxM1jp4YF+1Mmyp49qM+0RClp1Zt5Q7JvYErhaCZQ69lpB4+EWkrGMbzPCK38hAlCdD8EZu5kbIKyXcvvpsVx8R8jMk/AhoJh9eLaOBdd/Wd8="
