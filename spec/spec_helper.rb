@@ -1,3 +1,6 @@
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start
+
 require 'factory_girl'
 
 ENV["RAILS_ENV"] ||= 'test'
