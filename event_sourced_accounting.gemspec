@@ -29,7 +29,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency("factory_girl_rails")
   s.add_development_dependency("yard")
   s.add_development_dependency("redcarpet")
-  s.add_development_dependency("coveralls")
   s.files = Dir["{app,config,db,lib}/**/*"] + ["LICENSE", "Rakefile", "README.markdown"]
   s.homepage = %q{https://github.com/lnagel/event-sourced-accounting}
   s.require_paths = ["lib"]
