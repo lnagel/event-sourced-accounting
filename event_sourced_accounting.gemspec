@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("codeclimate-test-reporter")
   s.files = Dir["{app,config,db,lib}/**/*"] + ["LICENSE", "Rakefile", "README.markdown"]
   s.homepage = %q{https://github.com/lnagel/event-sourced-accounting}
-  s.require_paths = ["lib"]
+  s.require_paths = ["lib", "app/models"]
   s.required_rubygems_version = ">= 1.3.6"
   s.summary = %q{A Plugin providing a Event-Sourced Accounting Engine for Rails}
   s.test_files = Dir["{spec}/**/*"]

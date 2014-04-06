@@ -1,7 +1,3 @@
-require 'esa/blocking_processor'
-require 'esa/balance_checker'
-require 'esa/subcontext_checker'
-
 module ESA
   module Config
     mattr_accessor :processor
