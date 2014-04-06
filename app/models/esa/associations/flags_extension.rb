@@ -3,13 +3,13 @@ module ESA
     module FlagsExtension
       def most_recent(nature, time=Time.zone.now, exclude=nil)
         query = where(nature: nature).
-              where('time <= ?', time)
+              where('esa_flags.time <= ?', time)
 
         if exclude.present?
           query = query.where('esa_flags.id not in (?)', exclude)
         end
 
-        query.order('time DESC, created_at DESC').first
+        query.order('esa_flags.time DESC, esa_flags.created_at DESC').first
       end
 
       def is_set?(nature, time=Time.zone.now, exclude=nil)
