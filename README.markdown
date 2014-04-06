@@ -1,3 +1,5 @@
+[![Gem Version](https://badge.fury.io/rb/event_sourced_accounting.svg)](http://badge.fury.io/rb/event_sourced_accounting)
+
 Event-Sourced Accounting
 =================
 
