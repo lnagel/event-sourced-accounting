@@ -23,6 +23,8 @@ module ESA
     has_many   :transactions
     has_many   :amounts, :through => :transactions, :extend => ESA::Associations::AmountsExtension
 
+    scope :transitioning, lambda { joins(:event).where("esa_events.nature = 'adjustment' OR esa_flags.transition != 0").readonly(false) }
+
     enumerize :nature, in: [:unknown]
 
     after_initialize :default_values
