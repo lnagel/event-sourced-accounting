@@ -1,5 +1,6 @@
-[![Gem Version](https://badge.fury.io/rb/event_sourced_accounting.png)](http://badge.fury.io/rb/event_sourced_accounting)
-[![Dependency Status](https://gemnasium.com/lnagel/event-sourced-accounting.png)](https://gemnasium.com/lnagel/event-sourced-accounting)
+[![Gem Version](https://badge.fury.io/rb/event_sourced_accounting.svg)](http://badge.fury.io/rb/event_sourced_accounting)
+[![Dependency Status](https://gemnasium.com/lnagel/event-sourced-accounting.svg)](https://gemnasium.com/lnagel/event-sourced-accounting)
+[![Build Status](https://api.travis-ci.org/lnagel/event-sourced-accounting.svg)](https://travis-ci.org/lnagel/event-sourced-accounting)
 
 Event-Sourced Accounting
 =================
