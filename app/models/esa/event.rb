@@ -1,10 +1,13 @@
+require 'esa/associations/amounts_extension'
+require 'esa/traits/extendable'
+
 module ESA
   # The Event class represents an event of significance to accounting,
   # which triggers the creation of Flags, which in turn create Transactions.
   #
   # @author Lenno Nagel
   class Event < ActiveRecord::Base
-    include Traits::Extendable
+    include ESA::Traits::Extendable
     extend ::Enumerize
 
     attr_accessible :time, :nature, :accountable, :ruleset
@@ -14,7 +17,7 @@ module ESA
     belongs_to :ruleset
     has_many   :flags
     has_many   :transactions, :through => :flags
-    has_many   :amounts, :through => :transactions, :extend => Associations::AmountsExtension
+    has_many   :amounts, :through => :transactions, :extend => ESA::Associations::AmountsExtension
 
     enumerize :nature, in: [:unknown, :adjustment]
 

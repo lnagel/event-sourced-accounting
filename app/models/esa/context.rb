@@ -1,3 +1,5 @@
+require 'esa/associations/amounts_extension'
+
 module ESA
   # The Context provides a persisted filtered view on the objects related to a Chart.
   #
@@ -14,7 +16,7 @@ module ESA
     has_many :unscoped_events, :through => :rulesets, :source => :events, :uniq => true
     has_many :unscoped_flags, :through => :rulesets, :source => :flags, :uniq => true
     has_many :unscoped_transactions, :through => :accounts, :source => :transactions, :uniq => true
-    has_many :unscoped_amounts, :through => :accounts, :source => :amounts, :uniq => true, :extend => Associations::AmountsExtension
+    has_many :unscoped_amounts, :through => :accounts, :source => :amounts, :uniq => true, :extend => ESA::Associations::AmountsExtension
 
     belongs_to :parent, :class_name => "Context"
     has_many :subcontexts, :class_name => "Context", :foreign_key => "parent_id", :dependent => :destroy

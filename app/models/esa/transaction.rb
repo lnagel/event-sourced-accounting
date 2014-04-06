@@ -1,3 +1,6 @@
+require 'esa/associations/amounts_extension'
+require 'esa/traits/extendable'
+
 module ESA
   # Transactions are the recording of debits and credits to various accounts.
   # This table can be thought of as a traditional accounting Journal.
@@ -6,14 +9,14 @@ module ESA
   #
   # @author Lenno Nagel, Michael Bulat
   class Transaction < ActiveRecord::Base
-    include Traits::Extendable
+    include ESA::Traits::Extendable
 
     attr_accessible :description, :accountable, :flag, :time
     attr_readonly   :description, :accountable, :flag, :time
 
     belongs_to :accountable, :polymorphic => true
     belongs_to :flag
-    has_many :amounts, :extend => Associations::AmountsExtension
+    has_many :amounts, :extend => ESA::Associations::AmountsExtension
     has_many :accounts, :through => :amounts, :source => :account, :uniq => true
 
     after_initialize :default_values
@@ -29,14 +32,14 @@ module ESA
     def credits=(*attributes)
       attributes.flatten.each do |attrs|
         attrs[:transaction] = self
-        self.amounts << Amounts::Credit.new(attrs)
+        self.amounts << ESA::Amounts::Credit.new(attrs)
       end
     end
 
     def debits=(*attributes)
       attributes.flatten.each do |attrs|
         attrs[:transaction] = self
-        self.amounts << Amounts::Debit.new(attrs)
+        self.amounts << ESA::Amounts::Debit.new(attrs)
       end
     end
 

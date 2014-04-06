@@ -1,3 +1,6 @@
+require 'esa/associations/amounts_extension'
+require 'esa/traits/extendable'
+
 module ESA
   # The Flag class represents a change of known state of an Accountable
   # and it is used record differences of state caused by Events.
@@ -8,7 +11,7 @@ module ESA
   #
   # @author Lenno Nagel
   class Flag < ActiveRecord::Base
-    include Traits::Extendable
+    include ESA::Traits::Extendable
     extend ::Enumerize
 
     attr_accessible :nature, :state, :event, :time, :accountable, :type, :ruleset
@@ -18,7 +21,7 @@ module ESA
     belongs_to :event
     belongs_to :ruleset
     has_many   :transactions
-    has_many   :amounts, :through => :transactions, :extend => Associations::AmountsExtension
+    has_many   :amounts, :through => :transactions, :extend => ESA::Associations::AmountsExtension
 
     enumerize :nature, in: [:unknown]
 

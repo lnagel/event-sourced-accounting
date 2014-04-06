@@ -1,9 +1,12 @@
+require 'esa/associations/amounts_extension'
+require 'esa/traits/extendable'
+
 module ESA
   # The Chart class represents an organized set of accounts in the system.
   #
   # @author Lenno Nagel
   class Chart < ActiveRecord::Base
-    include Traits::Extendable
+    include ESA::Traits::Extendable
 
     attr_accessible :name
 
@@ -13,7 +16,7 @@ module ESA
     has_many :events, :through => :rulesets, :uniq => true
     has_many :flags, :through => :rulesets, :uniq => true
     has_many :transactions, :through => :accounts, :uniq => true
-    has_many :amounts, :through => :accounts, :uniq => true, :extend => Associations::AmountsExtension
+    has_many :amounts, :through => :accounts, :uniq => true, :extend => ESA::Associations::AmountsExtension
 
     after_initialize :default_values
 

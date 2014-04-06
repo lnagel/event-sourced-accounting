@@ -1,3 +1,5 @@
+require 'esa/associations/amounts_extension'
+
 module ESA
   # The Account class represents accounts in the system. Each account must be subclassed as one of the following types:
   #
@@ -24,7 +26,7 @@ module ESA
     attr_readonly   :chart
 
     belongs_to :chart
-    has_many :amounts, :extend => Associations::AmountsExtension
+    has_many :amounts, :extend => ESA::Associations::AmountsExtension
     has_many :transactions, :through => :amounts, :source => :transaction
 
     enumerize :normal_balance, in: [:none, :debit, :credit]
