@@ -1,5 +1,8 @@
 test.sqlite3
 spec/debug.log
+.bundle/
+coverage/
 .DS_Store
 .yardoc/
 pkg/
+*.gem
