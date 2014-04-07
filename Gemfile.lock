@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    event_sourced_accounting (0.1.0)
+    event_sourced_accounting (0.1.1)
       enumerize
       multipluck (~> 0.0.4)
       rails (~> 3.2)
