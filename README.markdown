@@ -2,6 +2,7 @@
 [![Dependency Status](https://gemnasium.com/lnagel/event-sourced-accounting.svg)](https://gemnasium.com/lnagel/event-sourced-accounting)
 [![Build Status](https://api.travis-ci.org/lnagel/event-sourced-accounting.svg)](https://travis-ci.org/lnagel/event-sourced-accounting)
 [![Code Climate](https://codeclimate.com/github/lnagel/event-sourced-accounting.png)](https://codeclimate.com/github/lnagel/event-sourced-accounting)
+[![Code Climate](https://codeclimate.com/github/lnagel/event-sourced-accounting/coverage.png)](https://codeclimate.com/github/lnagel/event-sourced-accounting)
 
 Event-Sourced Accounting
 =================
