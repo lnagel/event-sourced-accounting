@@ -128,6 +128,18 @@ class CreateEsaTables < ActiveRecord::Migration
     add_index :esa_contexts, :start_date
     add_index :esa_contexts, :end_date
     add_index :esa_contexts, :freshness
+
+    add_foreign_key :esa_accounts, :esa_charts, column: 'chart_id'
+    add_foreign_key :esa_events, :esa_rulesets, column: 'ruleset_id'
+    add_foreign_key :esa_flags, :esa_events, column: 'event_id'
+    add_foreign_key :esa_flags, :esa_rulesets, column: 'ruleset_id'
+    add_foreign_key :esa_transactions, :esa_flags, column: 'flag_id'
+    add_foreign_key :esa_rulesets, :esa_charts, column: 'chart_id'
+    add_foreign_key :esa_amounts, :esa_accounts, column: 'account_id'
+    add_foreign_key :esa_amounts, :esa_transactions, column: 'transaction_id'
+    add_foreign_key :esa_contexts, :esa_charts, column: 'chart_id'
+    add_foreign_key :esa_contexts, :esa_contexts, column: 'parent_id'
+    add_foreign_key :esa_contexts, :esa_accounts, column: 'account_id'
   end
 
   def self.down

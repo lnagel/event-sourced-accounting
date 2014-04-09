@@ -24,7 +24,8 @@ ActiveRecord::Schema.define(:version => 20140404075330) do
     t.datetime "updated_at",     :null => false
   end
 
-  add_index "esa_accounts", ["name", "type", "chart_id"], :name => "index_esa_accounts_on_name_and_type_and_chart_id"
+  add_index "esa_accounts", ["chart_id", "name", "type"], :name => "index_esa_accounts_on_chart_id_and_name_and_type"
+  add_index "esa_accounts", ["chart_id", "name"], :name => "index_esa_accounts_on_chart_id_and_name", :unique => true
   add_index "esa_accounts", ["normal_balance"], :name => "index_esa_accounts_on_normal_balance"
 
   create_table "esa_amounts", :force => true do |t|
@@ -47,7 +48,7 @@ ActiveRecord::Schema.define(:version => 20140404075330) do
     t.datetime "updated_at", :null => false
   end
 
-  add_index "esa_charts", ["name"], :name => "index_esa_charts_on_name"
+  add_index "esa_charts", ["name"], :name => "index_esa_charts_on_name", :unique => true
 
   create_table "esa_contexts", :force => true do |t|
     t.string   "type"
