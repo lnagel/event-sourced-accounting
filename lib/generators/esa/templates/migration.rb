@@ -5,7 +5,7 @@ class CreateEsaTables < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :esa_charts, [:name]
+    add_index :esa_charts, :name, :unique => true
 
     create_table :esa_accounts do |t|
       t.string     :code
@@ -17,7 +17,8 @@ class CreateEsaTables < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :esa_accounts, [:name, :type, :chart_id]
+    add_index :esa_accounts, [:chart_id, :name], :unique => true
+    add_index :esa_accounts, [:chart_id, :name, :type]
     add_index :esa_accounts, :normal_balance
 
     create_table :esa_events, :force => true do |t|
