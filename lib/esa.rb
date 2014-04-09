@@ -50,6 +50,7 @@ require 'esa/filters/accountable_type_filter'
 require 'esa/filters/chart_filter'
 require 'esa/filters/context_filter'
 require 'esa/filters/date_time_filter'
+require 'esa/filters/timestamp_filter'
 
 require 'esa/config'
 

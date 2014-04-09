@@ -59,7 +59,7 @@ module ESA
         @filters = []
 
         if self.start_date.present? and self.end_date.present?
-          @filters << lambda { |relation| relation.between_dates(self.start_date, self.end_date) }
+          @filters << lambda { |relation| relation.with_date_range(self.start_date..self.end_date) }
         elsif self.start_date.present?
           @filters << lambda { |relation| relation.with_date_gte(self.start_date) }
         elsif self.end_date.present?
