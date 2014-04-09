@@ -76,15 +76,11 @@ module ESA
         accountable.esa_flags.transitioning.most_recent(nature)
       end.compact
 
-      most_recent_flags.select(&:is_set?).reject do |flag|
-        attributes = flag_transactions_as_attributes(flag)
+      set_flags = most_recent_flags.select(&:is_set?)
 
-        flag.transactions.map do |tx|
-          tx_attrs = attributes.find{|a| a[:description] == tx.description}
-          tx_attrs_amounts = (tx_attrs[:credits] + tx_attrs[:debits]).map{|a| [a[:account], a[:amount]]}
-          tx_amounts = tx.amounts.map{|a| [a.account, a.amount]}
-          (tx_attrs_amounts - tx_amounts).empty?
-        end.all?
+      set_flags.reject do |flag|
+        spec = flag_transactions_as_attributes(flag)
+        flag.matches_transaction_spec?(spec)
       end
     end
 

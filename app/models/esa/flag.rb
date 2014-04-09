@@ -50,6 +50,17 @@ module ESA
       self.transition == -1
     end
 
+    def matches_transaction_spec?(spec)
+      if self.transactions.count == spec.count
+        self.transactions.map do |tx|
+          tx_spec = spec.find{|a| a[:description] == tx.description} || {}
+          tx.matches_spec?(tx_spec)
+        end.all?
+      else
+        false
+      end
+    end
+
     private
 
     def validate_transition

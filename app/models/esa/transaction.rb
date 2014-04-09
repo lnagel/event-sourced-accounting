@@ -43,6 +43,19 @@ module ESA
       end
     end
 
+    def matches_spec?(spec)
+      to_check = [
+            [self.amounts.credits.all, spec[:credits]],
+            [self.amounts.debits.all, spec[:debits]]
+          ]
+
+      to_check.map do |amounts,amount_spec|
+        a = amounts.map{|a| [a.account, a.amount]}
+        s = amount_spec.map{|a| [a[:account], a[:amount]]}
+        (a - s).empty? and (s - a).empty?
+      end.all?
+    end
+
     private
 
     def default_values
