@@ -104,19 +104,17 @@ module ESA
     def flag_transactions_when_adjusted(flag)
       flag.transactions.map do |tx|
         if tx.valid?
+          spec = tx.spec
           [
-            {
-              :time => flag.time,
-              :description => tx.description,
-              :credits => tx.amounts.credits.map{|a| {:account => a.account, :amount => a.amount}},
-              :debits => tx.amounts.debits.map{|a| {:account => a.account, :amount => a.amount}},
-            },
-            {
+            # original transaction, which must be kept
+            spec,
+            # adjustment transaction, which must be added
+            spec.merge({
               :time => flag.adjustment_time,
-              :description => tx.description + " / adjusted",
-              :debits => tx.amounts.credits.map{|a| {:account => a.account, :amount => a.amount}}, # swap
-              :credits => tx.amounts.debits.map{|a| {:account => a.account, :amount => a.amount}}, # swap
-            }
+              :description => "#{tx.description} / adjusted",
+              :debits => spec[:credits], # swap
+              :credits => spec[:debits], # swap
+            })
           ]
         end
       end.compact.flatten

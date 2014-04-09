@@ -43,6 +43,15 @@ module ESA
       end
     end
 
+    def spec
+      {
+        :time => self.time,
+        :description => self.description,
+        :credits => self.amounts.credits.map{|a| {:account => a.account, :amount => a.amount}},
+        :debits => self.amounts.debits.map{|a| {:account => a.account, :amount => a.amount}},
+      }
+    end
+
     def matches_spec?(spec)
       to_check = [
             [self.amounts.credits.all, spec[:credits]],
