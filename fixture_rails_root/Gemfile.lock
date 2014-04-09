@@ -1,3 +1,11 @@
+PATH
+  remote: ../
+  specs:
+    event_sourced_accounting (0.1.1)
+      enumerize
+      multipluck (~> 0.0.4)
+      rails (~> 3.2)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -93,6 +101,7 @@ PLATFORMS
 
 DEPENDENCIES
   enumerize
+  event_sourced_accounting!
   multipluck
   rails (~> 3.2.17)
   sqlite3
