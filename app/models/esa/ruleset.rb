@@ -135,16 +135,16 @@ module ESA
         tx[:flag] ||= flag
 
         amounts = (tx[:debits] + tx[:credits]).map{|a| a[:amount]}
-
         if amounts.map{|a| a <= BigDecimal(0)}.all?
-          debits = tx[:credits].map{|a| a[:amount] = BigDecimal(0) - a[:amount]; a } # swap
-          credits = tx[:debits].map{|a| a[:amount] = BigDecimal(0) - a[:amount]; a } # swap
-          tx[:debits] = debits
-          tx[:credits] = credits
+          tx[:debits], tx[:credits] = inverted(tx[:credits]), inverted(tx[:debits]) # invert & swap
         end
 
         tx
       end
+    end
+
+    def inverted(amounts)
+      amounts.map{|a| a.dup.merge({amount: BigDecimal(0) - a[:amount]}) }
     end
 
     def find_account(type, name)
