@@ -150,21 +150,22 @@ module ESA
     end
 
     def self.produce_transactions(flag)
-      transactions = flag.transactions.all
       if flag.ruleset.present? and flag.transition.present? and flag.transition.in? [-1, 0, 1]
+        existing_transactions = flag.transactions.all
         required_transactions = flag.ruleset.flag_transactions_as_attributes(flag)
+
         required_transactions.map do |attrs|
-          existing = transactions.find{|f| f.description == attrs[:description]}
-          if existing.present?
-            existing
-          else
+          transaction = existing_transactions.find{|f| f.description == attrs[:description]}
+
+          if transaction.nil?
             transaction = flag.accountable.esa_transactions.new(attrs)
             flag.transactions << transaction
-            transaction
           end
+
+          transaction
         end
       else
-        transactions
+        []
       end
     end
   end
