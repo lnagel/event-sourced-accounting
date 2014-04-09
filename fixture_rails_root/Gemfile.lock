@@ -3,6 +3,7 @@ PATH
   specs:
     event_sourced_accounting (0.1.1)
       enumerize
+      foreigner
       multipluck (~> 0.0.4)
       rails (~> 3.2)
 
@@ -42,6 +43,8 @@ GEM
     enumerize (0.8.0)
       activesupport (>= 3.2)
     erubis (2.7.0)
+    foreigner (1.6.1)
+      activerecord (>= 3.0.0)
     hike (1.2.3)
     i18n (0.6.9)
     journey (1.0.4)
@@ -102,6 +105,7 @@ PLATFORMS
 DEPENDENCIES
   enumerize
   event_sourced_accounting!
+  foreigner
   multipluck
   rails (~> 3.2.17)
   sqlite3

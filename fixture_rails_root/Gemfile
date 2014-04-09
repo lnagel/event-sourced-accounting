@@ -19,6 +19,7 @@ end
 gem "event_sourced_accounting", :path => "../"
 gem 'multipluck'
 gem 'enumerize'
+gem 'foreigner'
 
 # Use unicorn as the web server
 # gem 'unicorn'

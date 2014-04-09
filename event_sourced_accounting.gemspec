@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency("rails", "~> 3.2")
   s.add_dependency("enumerize")
   s.add_dependency("multipluck", "~> 0.0.4")
+  s.add_dependency("foreigner")
   s.add_development_dependency("sqlite3")
   s.add_development_dependency("rspec")
   s.add_development_dependency("rspec-rails")
