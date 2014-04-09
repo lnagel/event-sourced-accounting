@@ -53,6 +53,10 @@ module ESA
     end
 
     def matches_spec?(spec)
+      self.description == spec[:description] and self.amounts_match_spec?(spec)
+    end
+
+    def amounts_match_spec?(spec)
       to_check = [
             [self.amounts.credits.all, spec[:credits]],
             [self.amounts.debits.all, spec[:debits]]

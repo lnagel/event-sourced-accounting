@@ -50,10 +50,15 @@ module ESA
       self.transition == -1
     end
 
-    def matches_transaction_spec?(spec)
-      if self.transactions.count == spec.count
+    def matches_spec?(spec)
+      self.nature == spec[:nature].to_s and
+      self.state == spec[:state]
+    end
+
+    def transactions_match_specs?(specs)
+      if self.transactions.count == specs.count
         self.transactions.map do |tx|
-          tx_spec = spec.find{|a| a[:description] == tx.description} || {}
+          tx_spec = specs.find{|a| a[:description] == tx.description} || {}
           tx.matches_spec?(tx_spec)
         end.all?
       else

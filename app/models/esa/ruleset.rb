@@ -79,8 +79,8 @@ module ESA
       set_flags = most_recent_flags.select(&:is_set?)
 
       set_flags.reject do |flag|
-        spec = flag_transactions_as_attributes(flag)
-        flag.matches_transaction_spec?(spec)
+        specs = flag_transactions_as_attributes(flag)
+        flag.transactions_match_specs?(specs)
       end
     end
 

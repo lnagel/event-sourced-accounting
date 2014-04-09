@@ -125,7 +125,7 @@ module ESA
         required_flags = event.ruleset.event_flags_as_attributes(event)
 
         required_flags.map do |attrs|
-          flag = existing_flags.find{|f| f.nature == attrs[:nature].to_s and f.state == attrs[:state]}
+          flag = existing_flags.find{|flag| flag.matches_spec?(attrs)}
 
           if flag.nil?
             flag = event.accountable.esa_flags.new(attrs)
@@ -162,7 +162,7 @@ module ESA
         required_transactions = flag.ruleset.flag_transactions_as_attributes(flag)
 
         required_transactions.map do |attrs|
-          transaction = existing_transactions.find{|f| f.description == attrs[:description]}
+          transaction = existing_transactions.find{|tx| tx.matches_spec?(attrs)}
 
           if transaction.nil?
             transaction = flag.accountable.esa_transactions.new(attrs)
