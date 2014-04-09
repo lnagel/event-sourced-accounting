@@ -12,7 +12,7 @@ module ESA
       if events_created
         unprocessed_events = accountable.esa_events.
             where(processed: false).
-            order('time ASC, created_at ASC')
+            order(:time, :created_at, :id)
 
         unprocessed_events.each do |event|
           event.processed = process_event(event)
@@ -51,12 +51,12 @@ module ESA
         if event.nature.adjustment?
           unprocessed_flags += event.accountable.esa_flags.
               where(adjusted: true, processed: false).
-              order('time ASC, created_at ASC')
+              order(:time, :created_at, :id)
         end
 
         unprocessed_flags += event.flags.
             where(processed: false).
-            order('time ASC, created_at ASC')
+            order(:time, :created_at, :id)
 
         unprocessed_flags.map do |flag|
           flag.processed = process_flag(flag)
