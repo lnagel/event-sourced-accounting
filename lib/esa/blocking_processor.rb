@@ -10,11 +10,7 @@ module ESA
       events_created = create_events(accountable)
 
       if events_created
-        unprocessed_events = accountable.esa_events.
-            where(processed: false).
-            order(:time, :created_at, :id)
-
-        unprocessed_events.each do |event|
+        unprocessed_events(accountable).each do |event|
           event.processed = process_event(event)
           event.save if event.changed?
 
@@ -24,6 +20,12 @@ module ESA
       else
         false
       end
+    end
+
+    def self.unprocessed_events(accountable)
+      accountable.esa_events.
+          where(processed: false).
+          order(:time, :created_at, :id)
     end
 
     def self.create_events(accountable)
@@ -46,20 +48,9 @@ module ESA
       flags_created = create_flags(event)
 
       if flags_created
-        unprocessed_flags = []
-
-        if event.nature.adjustment?
-          unprocessed_flags += event.accountable.esa_flags.
-              where(adjusted: true, processed: false).
-              order(:time, :created_at, :id)
-        end
-
-        unprocessed_flags += event.flags.
-            where(processed: false).
-            order(:time, :created_at, :id)
-
-        unprocessed_flags.map do |flag|
+        unprocessed_flags(event).map do |flag|
           flag.processed = process_flag(flag)
+
           if flag.changed?
             flag.save and flag.processed
           else
@@ -69,6 +60,22 @@ module ESA
       else
         false
       end
+    end
+
+    def self.unprocessed_flags(event)
+      flags = []
+
+      if event.nature.adjustment?
+        flags += event.accountable.esa_flags.
+            where(adjusted: true, processed: false).
+            order(:time, :created_at, :id)
+      end
+
+      flags += event.flags.
+          where(processed: false).
+          order(:time, :created_at, :id)
+
+      flags
     end
 
     def self.create_flags(event)
