@@ -122,18 +122,20 @@ module ESA
       end.compact.flatten
     end
 
-    def flag_transactions_as_attributes(flag)
+    def flag_transactions(flag)
       if flag.adjusted?
-        transactions = self.flag_transactions_when_adjusted(flag)
-      elsif flag.became_set? or (flag.is_set? and flag.event.present? and flag.event.nature.adjustment?)
-        transactions = self.flag_transactions_when_set(flag)
+        flag_transactions_when_adjusted(flag)
+      elsif flag.is_set? and (flag.became_set? or (flag.event.present? and flag.event.nature.adjustment?))
+        flag_transactions_when_set(flag)
       elsif flag.became_unset?
-        transactions = self.flag_transactions_when_unset(flag)
+        flag_transactions_when_unset(flag)
       else
-        transactions = []
+        []
       end
+    end
 
-      transactions.map do |tx|
+    def flag_transactions_as_attributes(flag)
+      flag_transactions(flag).map do |tx|
         tx[:time] ||= flag.time
         tx[:accountable] ||= flag.accountable
         tx[:flag] ||= flag
