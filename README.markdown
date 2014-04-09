@@ -24,7 +24,7 @@ Installation
 
 - Add `gem "event-sourced-accounting"` to your Gemfile
 
-- generate migration files with `rails g esa`
+- generate migration files with `rails g event_sourced_accounting`
 
 - run migrations `rake db:migrate`
 

@@ -2,7 +2,7 @@
 require 'rails/generators'
 require 'rails/generators/migration'
 
-class ESAGenerator < Rails::Generators::Base
+class EventSourcedAccountingGenerator < Rails::Generators::Base
  include Rails::Generators::Migration
 
  def self.source_root
