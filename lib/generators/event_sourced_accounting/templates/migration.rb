@@ -143,6 +143,18 @@ class CreateEsaTables < ActiveRecord::Migration
   end
 
   def self.down
+    remove_foreign_key :esa_accounts, name: "esa_accounts_chart_id_fk"
+    remove_foreign_key :esa_amounts, name: "esa_amounts_account_id_fk"
+    remove_foreign_key :esa_amounts, name: "esa_amounts_transaction_id_fk"
+    remove_foreign_key :esa_contexts, name: "esa_contexts_account_id_fk"
+    remove_foreign_key :esa_contexts, name: "esa_contexts_chart_id_fk"
+    remove_foreign_key :esa_contexts, name: "esa_contexts_parent_id_fk"
+    remove_foreign_key :esa_events, name: "esa_events_ruleset_id_fk"
+    remove_foreign_key :esa_flags, name: "esa_flags_event_id_fk"
+    remove_foreign_key :esa_flags, name: "esa_flags_ruleset_id_fk"
+    remove_foreign_key :esa_rulesets, name: "esa_rulesets_chart_id_fk"
+    remove_foreign_key :esa_transactions, name: "esa_transactions_flag_id_fk"
+
     drop_table :esa_charts
     drop_table :esa_accounts
     drop_table :esa_events
