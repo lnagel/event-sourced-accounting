@@ -22,7 +22,7 @@ The documentation and test coverage is expected to be completed within April-May
 Installation
 ============
 
-- Add `gem "event-sourced-accounting"` to your Gemfile
+- Add `gem "event_sourced_accounting"` to your Gemfile
 
 - generate migration files with `rails g event_sourced_accounting`
 
