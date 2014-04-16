@@ -71,6 +71,8 @@ module ESA
     def check_freshness(depth=0)
       if self.is_update_needed?
         self.update!
+      else
+        self.update_freshness_timestamp!
       end
 
       if depth > 0 and self.last_transaction_time.present?
@@ -104,6 +106,11 @@ module ESA
       end
 
       self.update_name
+      self.save if self.can_be_persisted?
+    end
+
+    def update_freshness_timestamp!
+      self.freshness = Time.zone.now
       self.save if self.can_be_persisted?
     end
 
