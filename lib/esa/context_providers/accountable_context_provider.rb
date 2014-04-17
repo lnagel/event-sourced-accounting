@@ -10,7 +10,7 @@ module ESA
       end
 
       def self.contained_ids(context, options = {})
-        context.transactions.pluck([:accountable_id, :accountable_type]).uniq
+        context.transactions.uniq.pluck([:accountable_id, :accountable_type])
       end
 
       def self.instantiate(parent, namespace, id, options = {})

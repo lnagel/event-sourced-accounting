@@ -10,7 +10,7 @@ module ESA
       end
 
       def self.contained_ids(context, options = {})
-        dates = context.transactions.pluck("date(esa_transactions.time)").uniq.sort
+        dates = context.transactions.uniq.pluck("date(esa_transactions.time)").sort
 
         if options[:period].present? and options[:period] == :month
           dates.group_by{|d| [d.year, d.month]}.keys.

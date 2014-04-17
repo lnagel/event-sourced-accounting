@@ -10,7 +10,7 @@ module ESA
       end
 
       def self.contained_ids(context, options = {})
-        context.amounts.pluck(:account_id).uniq
+        context.amounts.uniq.pluck(:account_id)
       end
 
       def self.instantiate(parent, namespace, id, options = {})
