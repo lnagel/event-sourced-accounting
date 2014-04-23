@@ -30,6 +30,9 @@ module ESA
     scope :roots, lambda { where(parent_id: nil) }
     scope :subs,  lambda { where("esa_contexts.parent_id is not null") }
 
+    scope :fresh, lambda { where("`esa_contexts`.`freshness` > ?", ESA::Config.context_freshness_threshold.ago) }
+    scope :stale, lambda { where("`esa_contexts`.`freshness` IS NULL OR `esa_contexts`.`freshness` <= ?", ESA::Config.context_freshness_threshold.ago) }
+
     def is_root?
       self.parent_id.nil?
     end
