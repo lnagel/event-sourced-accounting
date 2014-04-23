@@ -68,6 +68,10 @@ module ESA
       end
     end
 
+    def is_fresh?(time=Time.zone.now)
+      self.freshness.present? and (self.freshness + ESA::Config.context_freshness_threshold) > time
+    end
+
     def check_freshness(depth=0)
       if self.is_update_needed?
         self.update!

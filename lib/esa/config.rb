@@ -8,6 +8,9 @@ module ESA
     self.context_checkers << ESA::BalanceChecker
     self.context_checkers << ESA::SubcontextChecker
 
+    mattr_accessor :context_freshness_threshold
+    self.context_freshness_threshold = 15.minutes
+
     mattr_accessor :context_providers
     self.context_providers = {
       'account'          => ESA::ContextProviders::AccountContextProvider,
