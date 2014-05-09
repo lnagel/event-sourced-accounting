@@ -52,7 +52,7 @@ require 'esa/filters/context_filter'
 require 'esa/filters/date_time_filter'
 require 'esa/filters/timestamp_filter'
 
-require 'esa/config'
+require 'esa/configuration'
 
 module ESA
   class Engine < Rails::Engine
