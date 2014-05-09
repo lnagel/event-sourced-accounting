@@ -106,7 +106,7 @@ module ESA
     def update!
       self.freshness = Time.zone.now
 
-      Config.context_checkers.each do |checker|
+      ESA.configuration.context_checkers.each do |checker|
         if checker.respond_to? :check
           checker.check(self)
         end
