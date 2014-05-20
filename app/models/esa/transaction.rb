@@ -19,7 +19,7 @@ module ESA
     has_many :amounts, :extend => ESA::Associations::AmountsExtension
     has_many :accounts, :through => :amounts, :source => :account, :uniq => true
 
-    after_initialize :default_values
+    after_initialize :initialize_defaults
 
     validates_presence_of :time, :description
     validate :has_credit_amounts?
@@ -71,7 +71,7 @@ module ESA
 
     private
 
-    def default_values
+    def initialize_defaults
       self.time ||= Time.zone.now
     end
 

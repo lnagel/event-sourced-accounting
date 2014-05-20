@@ -18,7 +18,7 @@ module ESA
     has_many :transactions, :through => :accounts, :uniq => true
     has_many :amounts, :through => :accounts, :uniq => true, :extend => ESA::Associations::AmountsExtension
 
-    after_initialize :default_values
+    after_initialize :initialize_defaults
 
     validates_presence_of :name
     validates_uniqueness_of :name
@@ -37,7 +37,7 @@ module ESA
 
     private
 
-    def default_values
+    def initialize_defaults
       self.name ||= "Chart of Accounts"
     end
   end

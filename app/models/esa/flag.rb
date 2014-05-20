@@ -27,7 +27,7 @@ module ESA
 
     enumerize :nature, in: [:unknown]
 
-    after_initialize :default_values
+    after_initialize :initialize_defaults
     validates_presence_of :nature, :event, :time, :accountable, :ruleset
     validates_inclusion_of :state, :in => [true, false]
     validates_inclusion_of :processed, :in => [true, false]
@@ -77,7 +77,7 @@ module ESA
       end
     end
 
-    def default_values
+    def initialize_defaults
       if not self.event_id.nil?
         self.time ||= self.event.time if self.time.nil?
         self.accountable ||= self.event.accountable if self.accountable_id.nil?

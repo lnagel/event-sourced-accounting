@@ -14,7 +14,7 @@ module ESA
     has_many   :events
     has_many   :flags
 
-    after_initialize :default_values
+    after_initialize :initialize_defaults
     validates_presence_of :type, :chart
 
     # accountable
@@ -157,7 +157,7 @@ module ESA
 
     private
 
-    def default_values
+    def initialize_defaults
       self.chart ||= Chart.extension_instance(self) if self.chart_id.nil?
       self.name ||= "#{self.chart.name} #{self.class.name.demodulize}" if self.name.nil? and self.chart_id.present?
     end

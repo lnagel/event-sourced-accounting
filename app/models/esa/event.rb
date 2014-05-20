@@ -21,13 +21,13 @@ module ESA
 
     enumerize :nature, in: [:unknown, :adjustment]
 
-    after_initialize :default_values
+    after_initialize :initialize_defaults
     validates_presence_of :time, :nature, :accountable, :ruleset
     validates_inclusion_of :processed, :in => [true, false]
 
     private
 
-    def default_values
+    def initialize_defaults
       self.time ||= Time.zone.now if self.time.nil?
       self.ruleset ||= Ruleset.extension_instance(self.accountable) if self.ruleset_id.nil? and not self.accountable_id.nil?
       self.processed ||= false

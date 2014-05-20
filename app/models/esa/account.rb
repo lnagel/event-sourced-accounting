@@ -31,7 +31,7 @@ module ESA
 
     enumerize :normal_balance, in: [:none, :debit, :credit]
 
-    after_initialize :default_values
+    after_initialize :initialize_defaults
 
     before_validation :update_normal_balance
     validates_presence_of :type, :name, :chart, :normal_balance
@@ -69,7 +69,7 @@ module ESA
 
     private
 
-    def default_values
+    def initialize_defaults
       self.chart ||= Chart.where(:name => 'Chart of Accounts').first_or_create if self.chart_id.nil?
       self.normal_balance ||= :none
     end

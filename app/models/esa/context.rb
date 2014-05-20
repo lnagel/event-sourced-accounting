@@ -21,7 +21,7 @@ module ESA
     belongs_to :parent, :class_name => "Context"
     has_many :subcontexts, :class_name => "Context", :foreign_key => "parent_id", :dependent => :destroy
 
-    after_initialize :default_values, :initialize_filters
+    after_initialize :initialize_defaults, :initialize_filters
     before_validation :update_name, :update_position
     validates_presence_of :chart, :name
     validate :validate_parent
@@ -178,7 +178,7 @@ module ESA
       end
     end
 
-    def default_values
+    def initialize_defaults
       self.chart ||= self.parent.chart if self.chart_id.nil? and not self.parent_id.nil?
       self.namespace ||= self.default_namespace
       self.position ||= self.default_position
