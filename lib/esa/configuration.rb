@@ -34,22 +34,32 @@ module ESA
         'account'          => ESA::ContextProviders::AccountContextProvider,
         'accountable'      => ESA::ContextProviders::AccountableContextProvider,
         'accountable_type' => ESA::ContextProviders::AccountableTypeContextProvider,
-        'monthly'          => [ESA::ContextProviders::DateContextProvider, {period: :month}],
-        'daily'            => [ESA::ContextProviders::DateContextProvider, {period: :day}],
+        'month'            => [ESA::ContextProviders::DateContextProvider, {period: :month}],
+        'date'             => [ESA::ContextProviders::DateContextProvider, {period: :date}],
       }
 
       @context_tree = {
         'account' => {
-          'monthly' => {
-            'daily' => {},
+          'month'   => {
+            'date' => {},
           },
         },
-        'monthly' => {
+        'period' => {
           'account' => {
-            'daily' => {},
+            'date' => {},
           },
         },
-        'daily' => {
+        'year' => {
+          'account' => {
+            'date' => {},
+          },
+        },
+        'month'   => {
+          'account' => {
+            'date' => {},
+          },
+        },
+        'date' => {
           'account' => {},
         },
       }
