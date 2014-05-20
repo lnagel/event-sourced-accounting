@@ -10,11 +10,11 @@ module ESA
 
       protected
 
-      def create_name
+      def default_name
         self.account.name unless self.account.nil?
       end
 
-      def create_position
+      def default_position
         self.account.code.gsub(/[^0-9]/, '').to_i unless self.account.nil? or self.account.code.nil?
       end
 

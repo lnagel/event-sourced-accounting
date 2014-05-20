@@ -7,7 +7,7 @@ module ESA
 
       protected
 
-      def create_name
+      def default_name
         "Empty"
       end
 

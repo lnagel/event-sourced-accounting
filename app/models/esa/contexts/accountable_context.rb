@@ -10,7 +10,7 @@ module ESA
 
       protected
 
-      def create_name
+      def default_name
         "#{self.accountable_type} #{self.accountable_id}" unless self.accountable_type.nil?
       end
 

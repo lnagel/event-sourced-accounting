@@ -33,7 +33,7 @@ module ESA
         end
       end
 
-      def create_name
+      def default_name
         if self.start_date.present? and self.end_date.present?
           if self.start_date == self.end_date
             "#{self.start_date.to_s}"
@@ -47,7 +47,7 @@ module ESA
         end
       end
 
-      def create_position
+      def default_position
         if self.start_date.present?
           self.start_date.to_time.to_i
         elsif self.end_date.present?

@@ -180,14 +180,19 @@ module ESA
 
     def default_values
       self.chart ||= self.parent.chart if self.chart_id.nil? and not self.parent_id.nil?
-      self.namespace ||= (self.type || self.class.name).demodulize.underscore.gsub(/_context$/, '')
+      self.namespace ||= self.default_namespace
+      self.position ||= self.default_position
+    end
+
+    def default_namespace
+      (self.type || self.class.name).demodulize.underscore.gsub(/_context$/, '')
     end
 
     def update_name
-      self.name = self.create_name
+      self.name = self.default_name
     end
 
-    def create_name
+    def default_name
       if self.type.nil?
         self.chart.name unless self.chart.nil?
       else
@@ -196,10 +201,10 @@ module ESA
     end
 
     def update_position
-      self.position = self.create_position
+      self.position = self.default_position
     end
 
-    def create_position
+    def default_position
       nil
     end
 
