@@ -33,6 +33,26 @@ module ESA
         end
       end
 
+      def default_namespace
+        if self.start_date.present? and self.end_date.present?
+          if self.start_date == self.end_date
+            "date"
+          elsif self.start_date == self.start_date.beginning_of_month and
+                self.end_date == self.end_date.end_of_month and
+                self.end_date == self.start_date.end_of_month then
+            "month"
+          elsif self.start_date == self.start_date.beginning_of_year and
+                self.end_date == self.end_date.end_of_year and
+                self.end_date == self.start_date.end_of_year then
+            "year"
+          else
+            "period"
+          end
+        else
+          "period"
+        end
+      end
+
       def default_name
         if self.start_date.present? and self.end_date.present?
           if self.start_date == self.end_date
