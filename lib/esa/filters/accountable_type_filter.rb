@@ -6,6 +6,7 @@ module ESA
 
         included do
           scope :with_accountable_type, lambda { |type| joins(:transaction).where(esa_transactions: {accountable_type: type}) }
+          scope :excl_accountable_type, lambda { |type| joins(:transaction).where(ESA::Transaction.arel_table[:accountable_type].not_eq(type)) }
         end
       end
 
@@ -14,6 +15,7 @@ module ESA
 
         included do
           scope :with_accountable_type, lambda { |type| where(accountable_type: type) }
+          scope :excl_accountable_type, lambda { |type| where(arel_table[:accountable_type].not_eq(type)) }
         end
       end
     end

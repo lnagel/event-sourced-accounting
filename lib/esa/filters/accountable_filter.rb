@@ -34,7 +34,12 @@ module ESA
           scope :with_accountable, lambda { |accountable,type|
             joins(:transaction).where(esa_transactions: {accountable_id: accountable, accountable_type: type})
           }
+          scope :excl_accountable, lambda { |accountable,type|
+            joins(:transaction).where(ESA::Transaction.arel_table[:accountable_id].not_eq(accountable), ESA::Transaction.arel_table[:accountable_type].not_eq(type))
+          }
+
           scope :with_accountable_def, lambda { |definitions| joins(:transaction).joins("INNER JOIN (#{ESA::Filters::AccountableFilter.make_union_query(definitions)}) `accountables-#{(hash ^ definitions.hash).to_s(36)}` ON `esa_transactions`.`accountable_id` = `accountables-#{(hash ^ definitions.hash).to_s(36)}`.`id` AND `esa_transactions`.`accountable_type` = `accountables-#{(hash ^ definitions.hash).to_s(36)}`.`type`") }
+          scope :excl_accountable_def, lambda { |definitions| joins(:transaction).joins("LEFT OUTER JOIN (#{ESA::Filters::AccountableFilter.make_union_query(definitions)}) `accountables-#{(hash ^ definitions.hash).to_s(36)}` ON `esa_transactions`.`accountable_id` = `accountables-#{(hash ^ definitions.hash).to_s(36)}`.`id` AND `esa_transactions`.`accountable_type` = `accountables-#{(hash ^ definitions.hash).to_s(36)}`.`type`").where("`accountables-#{(hash ^ definitions.hash).to_s(36)}`.`id` IS NULL") }
         end
       end
 
@@ -45,7 +50,12 @@ module ESA
           scope :with_accountable, lambda { |accountable,type|
             where(accountable_id: accountable, accountable_type: type)
           }
+          scope :excl_accountable, lambda { |accountable,type|
+            where(arel_table[:accountable_id].not_eq(accountable), arel_table[:accountable_type].not_eq(type))
+          }
+
           scope :with_accountable_def, lambda { |definitions| joins("INNER JOIN (#{ESA::Filters::AccountableFilter.make_union_query(definitions)}) `accountables-#{(hash ^ definitions.hash).to_s(36)}` ON `#{table_name}`.`accountable_id` = `accountables-#{(hash ^ definitions.hash).to_s(36)}`.`id` AND `#{table_name}`.`accountable_type` = `accountables-#{(hash ^ definitions.hash).to_s(36)}`.`type`") }
+          scope :excl_accountable_def, lambda { |definitions| joins("LEFT OUTER JOIN (#{ESA::Filters::AccountableFilter.make_union_query(definitions)}) `accountables-#{(hash ^ definitions.hash).to_s(36)}` ON `#{table_name}`.`accountable_id` = `accountables-#{(hash ^ definitions.hash).to_s(36)}`.`id` AND `#{table_name}`.`accountable_type` = `accountables-#{(hash ^ definitions.hash).to_s(36)}`.`type`").where("`accountables-#{(hash ^ definitions.hash).to_s(36)}`.`id` IS NULL") }
         end
       end
     end
