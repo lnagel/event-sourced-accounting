@@ -16,6 +16,7 @@ module ESA
     attr_accessor :context_freshness_threshold
     attr_accessor :context_providers
     attr_accessor :context_tree
+    attr_accessor :context_walk_ignore
 
     def initialize
       @base_classes = [ESA::Ruleset, ESA::Event, ESA::Flag, ESA::Transaction].freeze
@@ -63,6 +64,8 @@ module ESA
           'account' => {},
         },
       }
+
+      @context_walk_ignore = ['filter']
     end
 
     def register(accountable, short_name=nil)
@@ -93,7 +96,8 @@ module ESA
     end
 
     def context_providers_for_path(path=[])
-      @context_providers.slice(*self.walk_context_tree(path).keys)
+      clean_path = path - context_walk_ignore
+      @context_providers.slice(*self.walk_context_tree(clean_path).keys)
     end
   end
 end
