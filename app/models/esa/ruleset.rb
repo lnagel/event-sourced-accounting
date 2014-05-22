@@ -55,6 +55,10 @@ module ESA
     # flags
 
     def event_flags(event)
+      self.event_nature_flags[event.nature.to_sym] || {}
+    end
+
+    def event_nature_flags
       {}
     end
 
