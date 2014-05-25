@@ -72,16 +72,13 @@ module ESA
 
     # flags
 
-    def event_flags(event)
-      self.event_nature_flags[event.nature.to_sym] || {}
-    end
-
     def event_nature_flags
       {}
     end
 
     def event_flags_as_attributes(event)
-      event_flags(event).map do |nature,state|
+      flags = self.event_nature_flags[event.nature.to_sym] || {}
+      flags.map do |nature,state|
         {
           :accountable => event.accountable,
           :nature => nature,
