@@ -148,23 +148,34 @@ module ESA
     end
 
     def flag_transactions_as_attributes(flag)
+      defaults = {
+        time: flag.time,
+        accountable: flag.accountable,
+        flag: flag,
+      }
       flag_transactions(flag).map do |tx|
-        tx[:time] ||= flag.time
-        tx[:accountable] ||= flag.accountable
-        tx[:flag] ||= flag
-
-        amounts = (tx[:debits] + tx[:credits]).map{|a| a[:amount]}
-        if amounts.map{|a| a <= BigDecimal(0)}.all?
-          tx[:debits], tx[:credits] = inverted(tx[:credits]), inverted(tx[:debits]) # invert & swap
-        end
-
-        tx
+        attrs = defaults.merge(tx)
+        ensure_positive_amounts(attrs)
       end
     end
 
     def flag_transactions_match_specs?(flag)
       specs = flag_transactions_as_attributes(flag)
       flag.transactions_match_specs?(specs)
+    end
+
+    def ensure_positive_amounts(attrs)
+      amounts = attrs[:debits] + attrs[:credits]
+      nonpositives = amounts.map{|a| a[:amount] <= BigDecimal(0)}
+
+      if nonpositives.all?
+        attrs.merge({
+          debits: inverted(tx[:credits]),
+          credits: inverted(tx[:debits]),
+        })
+      else
+        attrs
+      end
     end
 
     def inverted(amounts)
