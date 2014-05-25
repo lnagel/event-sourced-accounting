@@ -36,8 +36,10 @@ module ESA
       ruleset = Ruleset.extension_instance(accountable)
       if ruleset.present?
         last_event_time = accountable.esa_events.maximum(:time)
-        unrecorded_events = ruleset.unrecorded_events_as_attributes(accountable)
-        valid_events = unrecorded_events.select{|e| last_event_time.nil? or e[:time] >= last_event_time}
+        valid_events = ruleset.unrecorded_events_as_attributes(accountable).
+          select{|e| last_event_time.nil? or e[:time] >= last_event_time}.
+          sort_by{|e| e[:time]}
+
         accountable.esa_events.new(valid_events)
       else
         []
