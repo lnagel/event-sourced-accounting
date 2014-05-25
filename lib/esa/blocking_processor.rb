@@ -41,20 +41,25 @@ module ESA
 
         if last_event_time.present?
           events = events.select{|e| e[:time] >= last_event_time}
-
-          if ruleset.is_adjustment_event_needed?(accountable)
-            events = events.unshift({
-              accountable: accountable,
-              ruleset: ruleset,
-              nature: :adjustment,
-              time: [events.map{|e| e[:time]}.first, Time.zone.now].compact.min,
-            })
-          end
+          events = event_attrs_with_adjustment(ruleset, accountable, events)
         end
 
         accountable.esa_events.new(events)
       else
         []
+      end
+    end
+
+    def self.event_attrs_with_adjustment(ruleset, accountable, events)
+      if ruleset.is_adjustment_event_needed?(accountable)
+        events.unshift({
+          accountable: accountable,
+          ruleset: ruleset,
+          nature: :adjustment,
+          time: [events.map{|e| e[:time]}.min, Time.zone.now].compact.min,
+        })
+      else
+        events
       end
     end
 
