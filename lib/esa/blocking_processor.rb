@@ -104,14 +104,7 @@ module ESA
           flag.adjusted = true
           flag.adjustment_time = event.time
 
-          attrs = {
-            :accountable => event.accountable,
-            :nature => flag.nature,
-            :state => flag.state,
-            :event => event,
-          }
-
-          adjustment = event.accountable.esa_flags.new(attrs)
+          adjustment = initialize_adjustment_flag(event, flag)
           event.flags << adjustment
 
           [flag, adjustment]
@@ -119,6 +112,17 @@ module ESA
       else
         []
       end
+    end
+
+    def self.initialize_adjustment_flag(event, flag)
+      attrs = {
+        :accountable => event.accountable,
+        :nature => flag.nature,
+        :state => flag.state,
+        :event => event,
+      }
+
+      event.accountable.esa_flags.new(attrs)
     end
 
     def self.produce_flags_for_regular(event)
