@@ -36,11 +36,23 @@ module ESA
       ruleset = Ruleset.extension_instance(accountable)
       if ruleset.present?
         last_event_time = accountable.esa_events.maximum(:time)
-        valid_events = ruleset.unrecorded_events_as_attributes(accountable).
-          select{|e| last_event_time.nil? or e[:time] >= last_event_time}.
+        events = ruleset.unrecorded_events_as_attributes(accountable).
           sort_by{|e| e[:time]}
 
-        accountable.esa_events.new(valid_events)
+        if last_event_time.present?
+          events = events.select{|e| e[:time] >= last_event_time}
+
+          if ruleset.is_adjustment_event_needed?(accountable)
+            events = events.unshift({
+              accountable: accountable,
+              ruleset: ruleset,
+              nature: :adjustment,
+              time: [events.map{|e| e[:time]}.first, Time.zone.now].compact.min,
+            })
+          end
+        end
+
+        accountable.esa_events.new(events)
       else
         []
       end
