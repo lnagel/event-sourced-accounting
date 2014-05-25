@@ -159,19 +159,18 @@ module ESA
     end
 
     def self.produce_transactions(flag)
+      txs = flag.accountable.esa_transactions.new(missing_transactions(flag))
+      flag.transactions += txs
+      txs
+    end
+
+    def self.missing_transactions(flag)
       if flag.ruleset.present? and flag.transition.present? and flag.transition.in? [-1, 0, 1]
-        existing_transactions = flag.transactions.all
-        required_transactions = flag.ruleset.flag_transactions_as_attributes(flag)
+        existing = flag.transactions.all
+        required = flag.ruleset.flag_transactions_as_attributes(flag)
 
-        required_transactions.map do |attrs|
-          transaction = existing_transactions.find{|tx| tx.matches_spec?(attrs)}
-
-          if transaction.nil?
-            transaction = flag.accountable.esa_transactions.new(attrs)
-            flag.transactions << transaction
-          end
-
-          transaction
+        required.reject do |attrs|
+          existing.find{|tx| tx.matches_spec?(attrs)}.present?
         end
       else
         []
