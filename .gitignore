@@ -1,9 +1,9 @@
-test.sqlite3
-spec/debug.log
 .bundle/
 coverage/
 .DS_Store
-.yardoc/
-pkg/
 *.gem
 .idea/
+pkg/
+spec/debug.log
+test.sqlite3
+.yardoc/
