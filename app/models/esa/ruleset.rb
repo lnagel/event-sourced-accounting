@@ -25,18 +25,36 @@ module ESA
 
     # events
 
+    def event_times(accountable)
+      {}
+    end
+
     def stateful_events(accountable)
-      []
+      self.event_times(accountable).map do |nature,times|
+        if times.present? and times.is_a? Time
+          {nature: nature, time: times}
+        elsif times.present? and times.respond_to? :each
+          times.map do |t|
+            if t.is_a? Time
+              {nature: nature, time: t}
+            else
+              nil
+            end
+          end.compact
+        else
+          nil
+        end
+      end.flatten.compact
     end
 
     def stateful_events_as_attributes(accountable)
-      stateful_events(accountable).
-        sort_by{|event| event[:time]}.
-        map do |event|
-          event[:accountable] ||= accountable
-          event[:ruleset] ||= self
-          event
-        end
+      defaults = {
+        accountable: accountable,
+        ruleset: self,
+      }
+      stateful_events(accountable).map do |event|
+        defaults.merge(event)
+      end
     end
 
     def unrecorded_events_as_attributes(accountable)
