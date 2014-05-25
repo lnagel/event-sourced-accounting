@@ -98,11 +98,8 @@ module ESA
         accountable.esa_flags.transitioning.most_recent(nature)
       end.compact
 
-      set_flags = most_recent_flags.select(&:is_set?)
-
-      set_flags.reject do |flag|
-        specs = flag_transactions_as_attributes(flag)
-        flag.transactions_match_specs?(specs)
+      most_recent_flags.select do |flag|
+        flag.is_set? and not flag_transactions_match_specs?(flag)
       end
     end
 
@@ -163,6 +160,11 @@ module ESA
 
         tx
       end
+    end
+
+    def flag_transactions_match_specs?(flag)
+      specs = flag_transactions_as_attributes(flag)
+      flag.transactions_match_specs?(specs)
     end
 
     def inverted(amounts)
