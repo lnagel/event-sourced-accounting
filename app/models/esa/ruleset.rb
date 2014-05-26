@@ -188,8 +188,8 @@ module ESA
 
       if nonpositives.all?
         attrs.merge({
-          debits: inverted(tx[:credits]),
-          credits: inverted(tx[:debits]),
+          debits: inverted(attrs[:credits]),
+          credits: inverted(attrs[:debits]),
         })
       else
         attrs
