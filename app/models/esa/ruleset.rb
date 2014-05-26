@@ -122,8 +122,11 @@ module ESA
 
     def flag_transactions_when_unset(flag)
       self.flag_transactions_when_set(flag).each do |tx|
-        tx[:description] = "#{tx[:description]} / reversed"
-        tx[:debits], tx[:credits] = tx[:credits], tx[:debits] # swap
+        tx.merge({
+          description: "#{tx[:description]} / reversed",
+          debits: tx[:credits],
+          credits: tx[:debits]
+        })
       end
     end
 
