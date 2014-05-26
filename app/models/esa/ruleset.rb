@@ -102,11 +102,11 @@ module ESA
 
     # transactions
 
-    def flag_transactions_when_set(flag)
-      function_name = "flag_#{flag.nature}_transactions"
+    def flag_transactions_spec(accountable, flag_nature)
+      function_name = "flag_#{flag_nature}_transactions"
 
       if self.respond_to? function_name
-        transactions = self.send(function_name, flag.accountable)
+        transactions = self.send(function_name, accountable)
 
         if transactions.is_a? Hash
           [transactions]
@@ -118,6 +118,10 @@ module ESA
       else
         []
       end
+    end
+
+    def flag_transactions_when_set(flag)
+      flag_transactions_spec(flag.accountable, flag.nature)
     end
 
     def flag_transactions_when_unset(flag)
