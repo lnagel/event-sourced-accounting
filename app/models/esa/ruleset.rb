@@ -103,7 +103,21 @@ module ESA
     # transactions
 
     def flag_transactions_when_set(flag)
-      []
+      function_name = "flag_#{flag.nature}_transactions"
+
+      if self.respond_to? function_name
+        transactions = self.send(function_name, flag.accountable)
+
+        if transactions.is_a? Hash
+          [transactions]
+        elsif transactions.is_a? Array
+          transactions
+        else
+          []
+        end
+      else
+        []
+      end
     end
 
     def flag_transactions_when_unset(flag)
