@@ -58,7 +58,7 @@ module Accounting
     class BankTransactionEvent < ESA::Event
       enumerize :nature, in: [
                         :adjustment, # mandatory
-                        :complete,   # example
+                        :confirm,    # example
                         :revoke,     # example
                       ]
     end
@@ -99,7 +99,7 @@ module Accounting
       # events that have happened according to the current state
       def event_times(bank_transaction)
         {
-          complete: bank_transaction.complete_time,
+          confirm: bank_transaction.confirm_time,
           revoke: bank_transaction.revoke_time,
         }
       end
@@ -107,7 +107,7 @@ module Accounting
       # flags to be changed when events occur
       def event_nature_flags
         {
-          complete: {complete: true},
+          confirm: {complete: true},
           revoke: {complete: false},
         }
       end
