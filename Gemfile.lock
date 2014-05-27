@@ -2,9 +2,9 @@ PATH
   remote: .
   specs:
     event_sourced_accounting (0.2.0)
-      enumerize
-      foreigner
-      multipluck (~> 0.0.4)
+      enumerize (~> 0)
+      foreigner (~> 1.6)
+      multipluck (~> 0)
       rails (~> 3.2)
 
 GEM
