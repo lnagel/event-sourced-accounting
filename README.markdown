@@ -31,9 +31,109 @@ Installation
 Integration
 ============
 
-- add `include ESA::Traits::Accountable` to relevant models
+First, configure the gem by creating `config/initializers/accounting.rb`.
+```
+require 'esa'
 
-- implement the corresponding Event, Flag, Ruleset and Transaction classes for relevant models
+ESA.configure do |config|
+  config.extension_namespace = 'Accounting'
+  config.register('BankTransaction')
+  ...
+end
+```
+
+Then add `include ESA::Traits::Accountable` to the registered models.
+```
+class BankTransaction < ActiveRecord::Base
+  include ESA::Traits::Accountable
+  ...
+end
+```
+
+Implement the corresponding Event, Flag, Ruleset and Transaction classes for the registered models.
+```
+# app/models/accounting/events/bank_transaction_event.rb
+module Accounting
+  module Events
+    class BankTransactionEvent < ESA::Event
+      enumerize :nature, in: [
+                        :adjustment, # mandatory
+                        :complete,   # example
+                        :revoke,     # example
+                      ]
+    end
+  end
+end
+```
+
+```
+# app/models/accounting/flags/bank_transaction_flag.rb
+module Accounting
+  module Flags
+    class BankTransactionFlag < ESA::Flag
+      enumerize :nature, in: [
+                        :complete, # example
+                     ]
+    end
+  end
+end
+```
+
+```
+# app/models/accounting/transactions/bank_transaction_transaction.rb
+module Accounting
+  module Transactions
+    class BankTransactionTransaction < ESA::Transaction
+      # this relation definition is optional
+      has_one :bank_transaction, :through => :flag, :source => :accountable, :source_type => "BankTransaction"
+    end
+  end
+end
+```
+
+```
+# app/models/accounting/rulesets/bank_transaction_ruleset.rb
+module Accounting
+  module Rulesets
+    class BankTransactionRuleset < ESA::Ruleset
+      # events that have happened according to the current state
+      def event_times(bank_transaction)
+        {
+          complete: bank_transaction.complete_time,
+          revoke: bank_transaction.revoke_time,
+        }
+      end
+      
+      # flags to be changed when events occur
+      def event_nature_flags
+        {
+          complete: {complete: true},
+          revoke: {complete: false},
+        }
+      end
+
+      # transaction for when the :complete flag is switched to true
+      def flag_complete_transactions(bank_transaction)
+        {
+          :description => 'BankTransaction completed',
+          :debits => [
+            {
+              :account => find_account('Asset', 'Bank'),
+              :amount => bank_transaction.transferred_amount
+            }
+          ],
+          :credits => [
+            {
+              :account => find_account('Asset', 'Bank Transit'),
+              :amount => bank_transaction.transferred_amount
+            }
+          ],
+        }
+      end
+    end
+  end
+end
+```
 
 
 Development
