@@ -1,5 +1,4 @@
 [![Gem Version](https://badge.fury.io/rb/event_sourced_accounting.svg)](http://badge.fury.io/rb/event_sourced_accounting)
-[![Dependency Status](https://gemnasium.com/lnagel/event-sourced-accounting.svg)](https://gemnasium.com/lnagel/event-sourced-accounting)
 [![Build Status](https://api.travis-ci.org/lnagel/event-sourced-accounting.svg)](https://travis-ci.org/lnagel/event-sourced-accounting)
 [![Code Climate](https://img.shields.io/codeclimate/github/lnagel/event-sourced-accounting.svg)](https://codeclimate.com/github/lnagel/event-sourced-accounting)
 [![Code Climate](https://img.shields.io/codeclimate/coverage/github/lnagel/event-sourced-accounting.svg)](https://codeclimate.com/github/lnagel/event-sourced-accounting)
@@ -27,6 +26,10 @@ Installation
 - generate migration files with `rails g event_sourced_accounting`
 
 - run migrations `rake db:migrate`
+
+
+Integration
+============
 
 - add `include ESA::Traits::Accountable` to relevant models
 
