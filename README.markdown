@@ -165,6 +165,50 @@ true
 1
 ```
 
+Reporting
+============
+
+There are many different reporting and filtering implementations available.
+For a simple example, let's look at a report that only involves the transaction.
+
+The following commands initialize the report and update the persisted values
+to the depth of 1, which includes the creation of sub-reports per each account
+involved in the transactions of that BankAccount.
+
+```
+>> report = ESA::Contexts::AccountableContext.create(chart: ESA::Chart.first, accountable: bank_transaction)
+>> report.check_freshness(1)
+```
+
+Complex reports can be constructed automatically using the context provider
+functionality. Reports, filters and context providers are available for:
+
+- account
+- accountable object (e.g. a single BankTransaction)
+- accountable type (e.g. all known BankTransactions)
+- date periods (year, month, date, custom)
+
+Please refer to the source code for examples.
+
+Subreport structure and context providers need to be configured:
+
+```
+ESA.configure do |config|
+  ...
+  config.context_providers['bank_account'] = Accounting::ContextProviders::BankAccountContextProvider
+  
+  config.context_tree = {
+    'month' => {
+      'account' => {
+        'bank_account' => {},
+        'date' => {},
+      },
+    },
+  }
+  ...
+end
+```
+
 Development
 ============
 
