@@ -36,7 +36,8 @@ First, configure the gem by creating `config/initializers/accounting.rb`.
 require 'esa'
 
 ESA.configure do |config|
-  config.extension_namespace = 'Accounting'
+  config.processor = ESA::BlockingProcessor # default
+  config.extension_namespace = 'Accounting' # default
   config.register('BankTransaction')
   ...
 end
@@ -135,6 +136,34 @@ module Accounting
 end
 ```
 
+Usage
+============
+
+In order to create events and transactions, the accountable objects
+have to pass through a processor, which will register the necessary
+Events, Flags & Transactions in the database.
+
+You can use the provided processor implementation, or inherit from
+the base implementation and provide your own class (e.g. to implement
+delayed or scheduled processing).
+
+```
+>> bank_transaction = BankTransaction.find(..)
+>> bank_transaction.confirm_time = Time.now
+>> bank_transaction.save
+true
+
+>> ESA.configuration.processor.enqueue(bank_transaction)
+
+>> bank_transaction.esa_events.count
+1
+
+>> bank_transaction.esa_flags.count
+1
+
+>> bank_transaction.esa_transactions.count
+1
+```
 
 Development
 ============
