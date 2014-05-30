@@ -1,7 +1,7 @@
 PATH
   remote: ../
   specs:
-    event_sourced_accounting (0.2.0)
+    event_sourced_accounting (0.2.1)
       enumerize (~> 0)
       foreigner (~> 1.6)
       multipluck (~> 0)
