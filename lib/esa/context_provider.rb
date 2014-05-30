@@ -38,7 +38,8 @@ module ESA
 
     def self.contained_subcontexts(context, namespace, existing, options = {})
       contained_ids = contained_ids(context, options)
-      existing_ids = existing.map{|sub| context_id(sub, options)}
+      existing_grouped = existing.group_by{|sub| context_id(sub, options)}
+      existing_ids = existing_grouped.keys
 
       new_ids = contained_ids - existing_ids
 
@@ -46,7 +47,11 @@ module ESA
         instantiate(context, namespace, id, options)
       end
 
-      new_subcontexts + existing.select{|sub| context_id(sub).in? contained_ids}
+      keep_subcontexts = existing_grouped.map do |id,group|
+        (id.in? contained_ids) ? group.first : nil
+      end.compact
+
+      new_subcontexts + keep_subcontexts
     end
   end
 end
