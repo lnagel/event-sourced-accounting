@@ -1,6 +1,6 @@
 module ESA
   class BalanceChecker
-    def self.check(context)
+    def self.check(context, options = {})
       if context.can_be_persisted? and not context.freshness.nil?
         #context.event_count = context.events.created_before(context.freshness).count
         #context.flag_count = context.flags.created_before(context.freshness).count

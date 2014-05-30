@@ -75,9 +75,13 @@ module ESA
       self.freshness.present? and (self.freshness + ESA.configuration.context_freshness_threshold) > time
     end
 
-    def check_freshness(depth=0)
-      if self.is_update_needed?
-        self.update!
+    def has_subcontext_namespaces?(*namespaces)
+      (namespaces.flatten.compact - subcontext_namespaces).none?
+    end
+
+    def check_freshness(depth=0, options = {})
+      if self.is_update_needed? or not has_subcontext_namespaces?(options[:namespace])
+        self.update!(options)
       else
         self.update_freshness_timestamp!
       end
@@ -103,12 +107,12 @@ module ESA
       end
     end
 
-    def update!
+    def update!(options = {})
       self.freshness = Time.zone.now
 
       ESA.configuration.context_checkers.each do |checker|
         if checker.respond_to? :check
-          checker.check(self)
+          checker.check(self, options)
         end
       end
 
