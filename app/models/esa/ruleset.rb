@@ -66,6 +66,19 @@ module ESA
       stateful.reject{|s| [s[:nature].to_s, s[:time].to_i].in? recorded}
     end
 
+    def addable_unrecorded_events_as_attributes(accountable)
+      flag_times_max = accountable.esa_flags.group(:nature).maximum(:time)
+
+      unrecorded_events_as_attributes(accountable).select do |event|
+        event_flags = event_nature_flags[event[:nature]] || {}
+        flag_times = flag_times_max.slice(*event_flags.keys.map(&:to_s))
+
+        # allow when the event flags have not been used before or
+        # when all the currently used flag times are before the new event
+        flag_times.values.none? || flag_times.values.max <= event[:time]
+      end
+    end
+
     def is_adjustment_event_needed?(accountable)
       flags_needing_adjustment(accountable).count > 0
     end

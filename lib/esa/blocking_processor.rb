@@ -34,16 +34,9 @@ module ESA
 
     def self.produce_events(accountable)
       ruleset = Ruleset.extension_instance(accountable)
+
       if ruleset.present?
-        last_event_time = accountable.esa_events.maximum(:time)
-        events = ruleset.unrecorded_events_as_attributes(accountable).
-          sort_by{|e| e[:time]}
-
-        if last_event_time.present?
-          events = events.select{|e| e[:time] >= last_event_time}
-          events = event_attrs_with_adjustment(ruleset, accountable, events)
-        end
-
+        events = ruleset.addable_unrecorded_events_as_attributes(accountable)
         accountable.esa_events.new(events)
       else
         []
