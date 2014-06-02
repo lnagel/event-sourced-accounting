@@ -125,7 +125,7 @@ module ESA
     end
 
     def flag_transactions_when_unset(flag)
-      self.flag_transactions_when_set(flag).each do |tx|
+      self.flag_transactions_when_set(flag).map do |tx|
         tx.merge({
           description: "#{tx[:description]} / reversed",
           debits: tx[:credits],
