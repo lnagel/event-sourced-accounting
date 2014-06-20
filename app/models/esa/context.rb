@@ -108,7 +108,7 @@ module ESA
     end
 
     def update!(options = {})
-      self.update_freshness_timestamp
+      self.freshness = self.next_freshness_timestamp
 
       ESA.configuration.context_checkers.each do |checker|
         if checker.respond_to? :check
@@ -121,15 +121,15 @@ module ESA
     end
 
     def update_freshness_timestamp!
-      self.update_freshness_timestamp
+      self.freshness = self.next_freshness_timestamp
       self.save if self.can_be_persisted?
     end
 
-    def update_freshness_timestamp
+    def next_freshness_timestamp
       if self.parent.present?
-        self.freshness = [self.freshness, self.parent.try(:freshness)].compact.max
+        [self.freshness, self.parent.try(:freshness)].compact.max
       else
-        self.freshness = Time.zone.now
+        Time.zone.now
       end
     end
 
