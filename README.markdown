@@ -14,9 +14,6 @@ This plugin began life as a fork of the [Plutus](https://github.com/mbulat/plutu
 many added features and refactored compontents. As the aims of the ESA plug-in have completely
 changed compared to the original project, it warrants a release under its own name.
 
-The API is not yet declared frozen and may change, as some refactoring is still due.
-The documentation and test coverage is expected to be completed within April-May 2014. 
-
 
 Installation
 ============
