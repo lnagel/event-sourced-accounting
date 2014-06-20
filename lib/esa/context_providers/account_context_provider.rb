@@ -10,7 +10,11 @@ module ESA
       end
 
       def self.contained_ids(context, options = {})
-        context.amounts.uniq.pluck(:account_id)
+        if options[:all].present? and options[:all] == true
+          context.accounts.pluck(:id)
+        else
+          context.amounts.uniq.pluck(:account_id)
+        end
       end
 
       def self.instantiate(parent, namespace, id, options = {})

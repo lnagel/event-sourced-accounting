@@ -35,8 +35,8 @@ module ESA
         'account'          => ESA::ContextProviders::AccountContextProvider,
         'accountable'      => ESA::ContextProviders::AccountableContextProvider,
         'accountable_type' => ESA::ContextProviders::AccountableTypeContextProvider,
-        'month'            => [ESA::ContextProviders::DateContextProvider, {period: :month}],
-        'date'             => [ESA::ContextProviders::DateContextProvider, {period: :date}],
+        'month'            => [ESA::ContextProviders::DateContextProvider, {all: true, period: :month}],
+        'date'             => [ESA::ContextProviders::DateContextProvider, {all: true, period: :date}],
       }
 
       @context_tree = {
