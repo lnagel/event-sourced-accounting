@@ -108,7 +108,7 @@ module ESA
     end
 
     def update!(options = {})
-      self.freshness = Time.zone.now
+      self.update_freshness_timestamp
 
       ESA.configuration.context_checkers.each do |checker|
         if checker.respond_to? :check
@@ -121,8 +121,16 @@ module ESA
     end
 
     def update_freshness_timestamp!
-      self.freshness = Time.zone.now
+      self.update_freshness_timestamp
       self.save if self.can_be_persisted?
+    end
+
+    def update_freshness_timestamp
+      if self.parent.present?
+        self.freshness = [self.freshness, self.parent.try(:freshness)].compact.max
+      else
+        self.freshness = Time.zone.now
+      end
     end
 
     def subcontext_namespaces
@@ -225,7 +233,7 @@ module ESA
 
     def parents_and_self
       contexts = [self]
-      while contexts.last.parent_id.present? and 
+      while contexts.last.parent_id.present? and
             not contexts.last.parent_id.in? contexts.map(&:id) and
             contexts.count < 16 do
         # found a valid parent
