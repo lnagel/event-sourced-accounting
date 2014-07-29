@@ -215,8 +215,8 @@ module ESA
 
     def find_account(type, name)
       if self.chart.present? and Account.valid_type?(type)
-        self.chart.accounts.
-          where(:type => Account.namespaced_type(type), :name => name).
+        Account.namespaced_type(type).constantize.
+          where(:chart_id => self.chart, :name => name).
           first_or_create
       end
     end
