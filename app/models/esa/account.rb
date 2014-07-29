@@ -35,7 +35,7 @@ module ESA
 
     before_validation :update_normal_balance
     validates_presence_of :type, :name, :chart, :normal_balance
-    validates_uniqueness_of :code, :scope => :chart_id
+    validates_uniqueness_of :code, :scope => :chart_id, :allow_nil => true
     validates_uniqueness_of :name, :scope => :chart_id
 
     # The balance of the account.
