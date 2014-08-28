@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    event_sourced_accounting (0.2.2)
+    event_sourced_accounting (0.2.3)
       enumerize (~> 0)
       foreigner (~> 1.6)
       multipluck (~> 0)
@@ -126,7 +126,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.39)
+    tzinfo (0.3.41)
     yard (0.8.7.4)
 
 PLATFORMS
