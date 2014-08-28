@@ -139,6 +139,19 @@ ActiveRecord::Schema.define(:version => 20140404075330) do
   add_index "esa_rulesets", ["chart_id"], :name => "index_esa_rulesets_on_chart_id"
   add_index "esa_rulesets", ["type"], :name => "index_esa_rulesets_on_type"
 
+  create_table "esa_states", :force => true do |t|
+    t.integer  "accountable_id"
+    t.string   "accountable_type"
+    t.datetime "processed_at"
+    t.integer  "unprocessed"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "esa_states", ["accountable_id", "accountable_type"], :name => "index_accountable_on_states"
+  add_index "esa_states", ["processed_at"], :name => "index_esa_states_on_processed_at"
+  add_index "esa_states", ["unprocessed"], :name => "index_esa_states_on_unprocessed"
+
   create_table "esa_transactions", :force => true do |t|
     t.string   "type"
     t.datetime "time"

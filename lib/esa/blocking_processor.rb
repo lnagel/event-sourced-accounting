@@ -7,6 +7,16 @@ module ESA
     end
 
     def self.process_accountable(accountable)
+      processed = create_and_process_events(accountable)
+
+      state = ESA::State.where(accountable_id: accountable.id, accountable_type: accountable.class).first_or_create
+      state.processed_at = Time.now
+      state.unprocessed = processed ? 0 : accountable.esa_events.where(processed: false).count
+
+      state.save
+    end
+
+    def self.create_and_process_events(accountable)
       events_created = create_events(accountable)
 
       if events_created
@@ -17,6 +27,8 @@ module ESA
           # do not process later events if one fails
           return false if not event.processed
         end
+
+        true
       else
         false
       end

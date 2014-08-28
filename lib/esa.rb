@@ -32,6 +32,7 @@ require 'esa/traits/accountable'
 require 'esa/traits/extendable'
 require 'esa/traits/or_scope'
 require 'esa/traits/union_scope'
+require 'esa/state'
 require 'esa/transaction'
 
 require 'esa/blocking_processor'

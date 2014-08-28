@@ -96,6 +96,17 @@ class CreateEsaTables < ActiveRecord::Migration
     add_index :esa_amounts, [:transaction_id, :account_id]
     add_index :esa_amounts, [:type, :account_id, :transaction_id, :amount], :unique => true, :name => "unique_contents_on_amounts"
 
+    create_table :esa_states do |t|
+      t.references :accountable, :polymorphic => true
+      t.datetime   :processed_at
+      t.integer    :unprocessed
+      t.timestamps
+    end
+
+    add_index :esa_states, [:accountable_id, :accountable_type], :name => "index_accountable_on_states"
+    add_index :esa_states, :processed_at
+    add_index :esa_states, :unprocessed
+
     create_table :esa_contexts do |t|
       t.string     :type
       t.string     :name
