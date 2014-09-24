@@ -49,7 +49,8 @@ module ESA
 
       if ruleset.present?
         events = ruleset.addable_unrecorded_events_as_attributes(accountable)
-        accountable.esa_events.new(events)
+        adjusted_events = event_attrs_with_adjustment(ruleset, accountable, events)
+        accountable.esa_events.new(adjusted_events)
       else
         []
       end
