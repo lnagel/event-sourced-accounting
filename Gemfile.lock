@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    event_sourced_accounting (0.2.4)
+    event_sourced_accounting (0.2.5)
       enumerize (~> 0)
       foreigner (~> 1.6)
       multipluck (~> 0)
@@ -46,10 +46,10 @@ GEM
     enumerize (0.8.0)
       activesupport (>= 3.2)
     erubis (2.7.0)
-    factory_girl (4.4.0)
+    factory_girl (4.5.0)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.4.1)
-      factory_girl (~> 4.4.0)
+    factory_girl_rails (4.5.0)
+      factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
     foreigner (1.6.1)
       activerecord (>= 3.0.0)
@@ -90,7 +90,7 @@ GEM
     rake (10.3.2)
     rdoc (3.12.2)
       json (~> 1.4)
-    redcarpet (3.1.2)
+    redcarpet (3.2.0)
     rspec (2.99.0)
       rspec-core (~> 2.99.0)
       rspec-expectations (~> 2.99.0)
@@ -126,8 +126,8 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.41)
-    yard (0.8.7.4)
+    tzinfo (0.3.42)
+    yard (0.8.7.6)
 
 PLATFORMS
   ruby
