@@ -35,6 +35,7 @@ module ESA
 
         def destroy_accountable
           if self.esa_transactions.blank?
+            self.esa_states.delete_all
             self.esa_flags.delete_all
             self.esa_events.delete_all
           else
